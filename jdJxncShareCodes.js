@@ -13,8 +13,8 @@
 // 每个账号 shareCdoe 是一个 json，示例如下
 // {"smp":"22bdadsfaadsfadse8a","active":"jdnc_1_btorange210113_2","joinnum":"1"}
 let JxncShareCodes = [
-'{\"smp\":\"2f9bd788cc1cea18d0b55c0584b93f59\",\"active\":\"jdnc_1_3yuanshousibang210601_2\",\"joinnum\":1}@{\"smp\":\"b9310b96493ee10b3f321402c8939c93\",\"active\":\"jdnc_1_3yuanshousibang210601_2\",\"joinnum\":1}',
-'{\"smp\":\"2f9bd788cc1cea18d0b55c0584b93f59\",\"active\":\"jdnc_1_3yuanshousibang210601_2\",\"joinnum\":1}@{\"smp\":\"b9310b96493ee10b3f321402c8939c93\",\"active\":\"jdnc_1_3yuanshousibang210601_2\",\"joinnum\":1}',
+'{\"smp\":\"2f9bd788cc1cea18d0b55c0584b93f59\",\"active\":\"jdnc_1_3yuanshousibang210601_2\",\"joinnum\":1}@{\"smp\":\"b9310b96493ee10b3f321402c8939c93\",\"active\":\"jdnc_1_dami210601_2\",\"joinnum\":1}',
+'{\"smp\":\"2f9bd788cc1cea18d0b55c0584b93f59\",\"active\":\"jdnc_1_3yuanshousibang210601_2\",\"joinnum\":1}@{\"smp\":\"b9310b96493ee10b3f321402c8939c93\",\"active\":\"jdnc_1_dami210601_2\",\"joinnum\":1}',
 ]
 // 判断github action里面是否有京喜农场助力码
 if (process.env.JXNC_SHARECODES) {
