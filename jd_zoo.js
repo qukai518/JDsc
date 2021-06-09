@@ -86,11 +86,11 @@ if ($.isNode()) {
     }
   }
   let res = [], res2 = [], res3 = [];
-  res3 = await getAuthorShareCode('http://cdn.boledao.com/eb6fdc36b281b7d5eabf33396c2683a2.json');
-  if (!res3) await getAuthorShareCode('http://cdn.boledao.com/eb6fdc36b281b7d5eabf33396c2683a2.json')
+  res3 = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/jd_zoo.json');
+  if (!res3) await getAuthorShareCode('http://cdn.boledao.com/shareCodes/jd_zoo.json')
   if (new Date().getHours()>= 9) {
     res = await getAuthorShareCode() || [];
-    res2 = await getAuthorShareCode('http://cdn.boledao.com/eb6fdc36b281b7d5eabf33396c2683a2.json') || [];
+    res2 = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/jd_zoo.json') || [];
   }
   // if (new Date().getHours() === 9 ||  (new Date().getHours() === 10 && new Date().getMinutes() < 20)) {
   // }
