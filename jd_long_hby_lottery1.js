@@ -4,10 +4,11 @@
 
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
+https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/long_hby_lottery.js
 
 [task_local]
 #主会场红包雨1
-10 20 1-18 6 * https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/long_hby_lottery.js, tag=618主会场红包雨1, enabled=true
+10 20 1-18 6 * https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/long_hby_lottery1.js, tag=618主会场红包雨1, enabled=true
 
  ================Loon==============
 [Script]
