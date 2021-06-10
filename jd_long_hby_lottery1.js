@@ -8,7 +8,7 @@ https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/long_hby_lottery
 
 [task_local]
 #主会场红包雨1
-10 20 1-18 6 * https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/long_hby_lottery1.js, tag=618主会场红包雨1, enabled=true
+10 20 1-18 6 * https://raw.githubusercontent.com/danteswx/fxxk/main/jd_long_hby_lottery1.js, tag=618主会场红包雨1, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
  */
 const $ = new Env('618主会场红包雨1');
 //Node.js用户请在jdCookie.js处填写京东ck;
