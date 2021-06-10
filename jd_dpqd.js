@@ -1,3 +1,8 @@
+/*
+[task_local]
+#店铺签到
+1 13 * * * https://raw.githubusercontent.com/danteswx/fxxk/main/jd_dpqd.js, tag=店铺签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+*/
 
 const $ = new Env('店铺签到');
 
