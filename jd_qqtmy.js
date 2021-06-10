@@ -2,7 +2,7 @@
 
 [task_local]
 #618惊奇探秘夜
-1 0 * * * http://nm66.top/jd_qqtmy.js, tag=柠檬618惊奇探秘夜, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+1 0 * * * http://nm66.top/jd_qqtmy.js, tag=618惊奇探秘夜, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 */
 
 
