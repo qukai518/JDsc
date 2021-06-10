@@ -11,7 +11,7 @@
   打开【❗️京喜农场❗️】，手动任意完成<工厂任务>、<签到任务>、<金牌厂长任务>一项，提示获取cookie成功即可，然后退出跑任务脚本
   
 [task_local]
-财富岛提现
+#财富岛提现
 0 0 * * * https://raw.githubusercontent.com/danteswx/fxxk/main/jx_cfdtx.js, tag=财富岛提现, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 **/
 
