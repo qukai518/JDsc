@@ -11,7 +11,7 @@
 ============Quantumultx===============
 [task_local]
 #京东极速版红包集成版
-13 0-23/2 * * * https://raw.githubusercontent.com/danteswx/fxxk/main/jd_speed_redpocke_all.js, tag=京东极速版红包集成版, enabled=true
+23 0-23/2 * * * https://raw.githubusercontent.com/danteswx/fxxk/main/jd_speed_redpocke_all.js, tag=京东极速版红包集成版, enabled=true
 */
 
 const $ = new Env("京东极速版红包集成版");
