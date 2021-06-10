@@ -20,11 +20,13 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message, allMessage = '';
+
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item]);
   });
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === "false") console.log = () => {};
+  if (JSON.stringify(process.env).indexOf('GITHUB') > -1) process.exit(0);
 } else {
   cookiesArr = [
     $.getdata("CookieJD"),
@@ -45,7 +47,7 @@ if ($.isNode()) {
       $.nickName = '';
       message = '';
       await TotalBean();
-      console.log(`\n******开始【京东账号${$.index}】${$.nickName.substring(0, 5).concat('***')}*********\n`);
+      console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
       if (!$.isLogin) {
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
 
@@ -58,19 +60,30 @@ if ($.isNode()) {
     }
   }
 })()
-    .catch((e) => {
-      $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-    })
-    .finally(() => {
-      $.done();
-    })
+  .catch((e) => {
+    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
+  })
+  .finally(() => {
+    $.done();
+  })
 async function main() {
   try {
-    await signInforOfJinTie();
+
+    await queryAvailableSubsidyAmount();
+    await userSignInfo();
+    await getProfitSum();
     await queryMission();
     await doTask();
     await queryMission(false);
     await queryAvailableSubsidyAmount();
+
+
+    /*
+    await getProfitSum();
+    await queryMission();
+    await doTask();
+    await queryMission(false);
+    await queryAvailableSubsidyAmount();*/
   } catch (e) {
     $.logErr(e)
   }
@@ -78,27 +91,15 @@ async function main() {
 function queryMission(info = true) {
   $.taskData = [];
   const body = JSON.stringify({
-    channel: "sqcs",
-    channelCode: "SUBSIDY2",
-    "riskDeviceParam": JSON.stringify({
-      appId: "jdapp",
-      appType: "3",
-      clientVersion: "9.4.6",
-      deviceType: "iPhone11,8",
-      "eid": cookie,
-      "fp": getFp(),
-      idfa: "",
-      imei: "",
-      ip: "",
-      macAddress: "",
-      networkType: "WIFI",
-      os: "iOS",
-      osVersion: "14.2",
-      token: "",
-      uuid: ""
-    })
+    "apiVersion": "1.0.0",
+    "channel": "default",
+    "channelLv": "scljticon",
+    "others": {
+      "taskCode": "JTPD-new"
+    },
+    "source": "JD_APP"
   })
-  const options = taskUrl('queryMission', body);
+  const options = taskUrl('queryCenterMissionList', body, 'jrm');
   return new Promise((resolve) => {
     $.get(options, async (err, resp, data) => {
       try {
@@ -106,22 +107,22 @@ function queryMission(info = true) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
+          //console.log(data)
           data = JSON.parse(data);
           if (data.resultCode === 0) {
-            if (data.resultData.code === '0000') {
+            if (data.resultData.code === '000') {
               if (info) {
                 console.log('互动任务获取成功')
-                $.taskData = data.resultData.data;
+                $.taskData = data.resultData.data.missionList;
                 $.willTask = $.taskData.filter(t => t.status === -1) || [];
-                // $.willTask = $.taskData.filter(t => t.status === 0) || [];//已领取任务，但未完成
+                $.willingTask = $.taskData.filter(t => t.status === 0) || [];//已领取任务，但未完成
                 $.recevieTask = $.taskData.filter(t => t.status === 1) || [];
                 const doneTask = $.taskData.filter(t => t.status === 2);
-                console.log(`\n剩余未接取任务：${$.willTask.length}`)
-                console.log(`已完成任务：${doneTask.length}\n`);
+                console.log(`\n总任务数：${$.taskData.length}，剩余未接取任务：${$.willTask.length}，未完成任务：${$.willingTask.length}，已完成任务：${doneTask.length}\n`);
               } else {
                 if ($.recevieTask && $.recevieTask.length) {
                   for (let task of $.recevieTask) {
-                    console.log('预计获得：', task.awards[0].awardName, task.awards[0].awardRealNum, task.awards[0].awardUnit)
+                    console.log('预计获得：', task.name, task.amount)
                     await awardMission(task['missionId'])
                   }
                 }
@@ -144,12 +145,16 @@ function queryMission(info = true) {
 //领取任务
 function receiveMission(missionId) {
   const body = JSON.stringify({
-    missionId,
-    "channelCode": "SUBSIDY2",
-    "timeStamp": new Date().toString(),
-    "env": "JDAPP"
+    "apiVersion": "1.0.0",
+    "channel": "default",
+    "channelLv": "scljticon",
+    "others": {
+      "taskCode": "JTPD-new",
+      missionId
+    },
+    "source": "JD_APP"
   });
-  const options = taskUrl('receiveMission', body);
+  const options = taskUrl('receiveCenterMission', body, 'jrm');
   return new Promise((resolve) => {
     $.get(options, (err, resp, data) => {
       try {
@@ -157,15 +162,48 @@ function receiveMission(missionId) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
+          // console.log(data)
           data = JSON.parse(data);
           if (data.resultCode === 0) {
-            if (data.resultData.code === '0000') {
+            if (data.resultData.code === '000') {
               console.log('任务接取成功')
             } else {
               console.log('任务接取失败', data.resultData.msg)
             }
           } else {
             console.log('任务接取失败', data.resultMsg)
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}
+function queryMissionReceiveAfterStatus(missionId) {
+  const body = JSON.stringify({
+    "missionId": `${missionId}`,
+  });
+  const options = taskUrl('queryMissionReceiveAfterStatus', body);
+  return new Promise((resolve) => {
+    $.get(options, (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          // console.log(data)
+          data = JSON.parse(data);
+          if (data.resultCode === 0) {
+            if (data.resultData.success) {
+              console.log('查询任务接取成功')
+            } else {
+              console.log('查询任务接取失败', data.resultData.msg)
+            }
+          } else {
+            console.log('查询任务接取失败', data.resultMsg)
           }
         }
       } catch (e) {
@@ -187,9 +225,10 @@ function finishReadMission(missionId, readTime) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
+          // console.log(data)
           data = JSON.parse(data);
           if (data.resultCode === 0) {
-            if (data.resultData.code === '0000') {
+            if (data.resultData.success) {
               console.log('完成任务 成功')
             } else {
               console.log('完成任务失败', data.resultData.msg)
@@ -209,12 +248,16 @@ function finishReadMission(missionId, readTime) {
 //领取金贴奖励
 function awardMission(missionId) {
   const body = JSON.stringify({
-    missionId,
-    "channelCode": "SUBSIDY2",
-    "timeStamp": new Date().toString(),
-    "env": "JDAPP"
+    "apiVersion": "1.0.0",
+    "channel": "default",
+    "channelLv": "scljticon",
+    "others": {
+      "taskCode": "JTPD-new",
+      missionId
+    },
+    "source": "JD_APP"
   });
-  const options = taskUrl('awardMission', body);
+  const options = taskUrl('awardCenterMission', body, 'jrm');
   return new Promise((resolve) => {
     $.get(options, (err, resp, data) => {
       try {
@@ -224,7 +267,7 @@ function awardMission(missionId) {
         } else {
           data = JSON.parse(data);
           if (data.resultCode === 0) {
-            if (data.resultData.code === '0000') {
+            if (data.resultData.code === '000') {
               console.log('奖励领取成功')
             } else {
               console.log('奖励领取失败', data.resultData.msg)
@@ -242,28 +285,20 @@ function awardMission(missionId) {
   })
 }
 //获取签到状态
-function signInforOfJinTie() {
+function userSignInfo() {
   const body = JSON.stringify({
-    channel: "sqcs",
+    "apiVersion": "1.0.0",
+    "channel": "default",
+    "channelLv": "scljticon",
+    "source": "JD_APP",
     "riskDeviceParam": JSON.stringify({
-      appId: "jdapp",
-      appType: "3",
-      clientVersion: "9.4.6",
-      deviceType: "iPhone11,8",
-      "eid": cookie,
-      "fp": getFp(),
-      idfa: "",
-      imei: "",
-      ip: "",
-      macAddress: "",
-      networkType: "WIFI",
-      os: "iOS",
-      osVersion: "14.2",
-      token: "",
-      uuid: ""
-    })
+
+    }),
+    "others": {
+      "shareId":"",
+    }
   })
-  const options = taskUrl('signInforOfJinTie', body, 'jrm');
+  const options = taskUrl('userSignInfo', body, 'jrm');
   return new Promise((resolve) => {
     $.get(options, async (err, resp, data) => {
       try {
@@ -274,9 +309,11 @@ function signInforOfJinTie() {
           data = JSON.parse(data);
           if (data.resultCode === 0) {
             if (data.resultData.code === '000') {
-              let state = data.resultData.data.sign
-              console.log('获取签到状态成功', state ? '今日已签到' : '今日未签到', '连续签到', data.resultData.data.signContinuity, '天\n')
-              if (!state) await signOfJinTie()
+              console.log('邀请码位：', data.resultData.data.shareId)
+              let dayId = data.resultData.data.dayId;
+              let state = data.resultData.data.signDetail[dayId-1].signed;
+              console.log('获取签到状态成功', state ? '今日已签到' : '今日未签到')
+              if (!state) await signInSubsidy()
             } else {
               console.log('获取签到状态失败', data.resultData.msg)
             }
@@ -293,28 +330,20 @@ function signInforOfJinTie() {
   })
 }
 //签到
-function signOfJinTie() {
+function signInSubsidy() {
   const body = JSON.stringify({
-    channel: "sqcs",
+    "apiVersion": "1.0.0",
+    "channel": "default",
+    "channelLv": "scljticon",
+    "source": "JD_APP",
     "riskDeviceParam": JSON.stringify({
-      appId: "jdapp",
-      appType: "3",
-      clientVersion: "9.4.6",
-      deviceType: "iPhone11,8",
-      "eid": cookie,
-      "fp": getFp(),
-      idfa: "",
-      imei: "",
-      ip: "",
-      macAddress: "",
-      networkType: "WIFI",
-      os: "iOS",
-      osVersion: "14.2",
-      token: "",
-      uuid: ""
-    })
+
+    }),
+    "others": {
+      "shareId":"",
+    }
   })
-  const options = taskUrl('signOfJinTie', body, 'jrm');
+  const options = taskUrl('signInSubsidy', body, 'jrm');
   return new Promise((resolve) => {
     $.get(options, async (err, resp, data) => {
       try {
@@ -325,7 +354,7 @@ function signOfJinTie() {
           data = JSON.parse(data);
           if (data.resultCode === 0) {
             if (data.resultData.code === '000') {
-              console.log('签到成功', data.resultData.data.amount)
+              console.log('签到成功, 获得', data.resultData.data.rewardAmount/100, '金贴')
             } else {
               console.log('签到失败', data.resultData.msg)
             }
@@ -341,9 +370,48 @@ function signOfJinTie() {
     })
   })
 }
-function queryAvailableSubsidyAmount() {
+//
+function getProfitSum() {
+  const body = JSON.stringify({
+    "apiVersion": "1.0.0",
+    "channel": "default",
+    "channelLv": "scljticon",
+    "source": "JD_APP"
+  })
+  const options = taskUrl('profitSum', body, 'uc');
+  return new Promise((resolve) => {
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          data = JSON.parse(data);
+          if (data.resultCode === 0) {
+            if (data.resultData.success) {
+              if (data.resultData.data.unObtainAmount !== 0) {
+                await jupiterWithdraw();
+              }
+            } else {
+              console.log('getProfitSum', data.resultData.msg)
+            }
+          } else {
+            console.log('getProfitSum', data.resultMsg)
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}
+//单单返
+function jupiterWithdraw() {
   const body = JSON.stringify({
     channel: "sqcs",
+    source: "jd",
     "riskDeviceParam": JSON.stringify({
       appId: "jdapp",
       appType: "3",
@@ -362,7 +430,44 @@ function queryAvailableSubsidyAmount() {
       uuid: ""
     })
   })
-  const options = taskUrl('queryAvailableSubsidyAmount', body, 'jrm');
+  const options = taskUrl('jupiterWithdraw', body, 'jrm');
+  return new Promise((resolve) => {
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          data = JSON.parse(data);
+          if (data.resultCode === 0) {
+            if (data.resultData.success) {
+              console.log('获取单单返', data.resultData.data.obtainAmount/100)
+            } else {
+              console.log('单单返失败', data.resultData.msg)
+            }
+          } else {
+            console.log('单单返失败', data.resultMsg)
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}
+function queryAvailableSubsidyAmount() {
+  const body = JSON.stringify({
+    "apiVersion": "1.0.0",
+    "channel": "default",
+    "channelLv": "scljticon",
+    "source": "JD_APP",
+    "riskDeviceParam": JSON.stringify({
+
+    })
+  })
+  const options = taskUrl('userAvailableSubsidyInfo', body, 'jrm');
   return new Promise((resolve) => {
     $.get(options, async (err, resp, data) => {
       try {
@@ -373,7 +478,7 @@ function queryAvailableSubsidyAmount() {
           data = JSON.parse(data);
           if (data.resultCode === 0) {
             if (data.resultData.code === '000') {
-              console.log(`获取当前总金贴成功\n\n京东账号${$.index} ${$.nickName.substring(0, 5).concat('***')} 当前总金贴：${data.resultData.data}元`)
+              console.log(`当前总金贴：${JSON.stringify(data.resultData.data)}`)
             } else {
               console.log('获取当前总金贴失败', data.resultData.msg)
             }
@@ -390,20 +495,62 @@ function queryAvailableSubsidyAmount() {
   })
 }
 async function doTask() {
-  for (let task of $.willTask) {
-    console.log(`\n开始领取 【${task['name']}】任务`);
-    await receiveMission(task['missionId']);
-    await $.wait(100)
+  for (let task of [...$.willTask, ...$.willingTask]) {
     if (task.doLink.indexOf('readTime=') !== -1) {
+      console.log(`\n开始领取 【${task['name']}】任务`);
+      await receiveMission(task['missionId']);
+      await $.wait(100)
+      await queryMissionReceiveAfterStatus(task['missionId']);
       const readTime = parseInt(task.doLink.substr(task.doLink.indexOf('readTime=') + 9));
+      await $.wait(1000 * readTime)
       await finishReadMission(task['missionId'], readTime);
       await $.wait(200);
-    } else if (task.detail.indexOf('京东到家') !== -1) {
-
-    } else if ((task.detail.indexOf('关注') !== -1 || task.detail.indexOf('收藏')) && task.doLink.indexOf('shopId') !== -1) {
-      const shopId = task.doLink.substr(task.doLink.indexOf('shopId=') + 7);
+      console.log('预计获得：', task.name, task.amount)
+      await awardMission(task['missionId'])
+    } else if (task.doLink.indexOf('juid=') !== -1) {
+      console.log(`\n开始领取 【${task['name']}】任务`);
+      await receiveMission(task['missionId']);
+      const juid = task.doLink.match(/juid=(.*)/)[1];
+      await getJumpInfo(juid);
+      await $.wait(1000);
+      console.log('预计获得：', task.name, task.amount)
+      await awardMission(task['missionId'])
     }
   }
+  /*for (let task of $.willingTask) {
+
+  }*/
+}
+function getJumpInfo(juid) {
+  const body = JSON.stringify({
+    juid
+  });
+  const options = taskUrl('getJumpInfo', body);
+  return new Promise((resolve) => {
+    $.get(options, (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          data = JSON.parse(data);
+          if (data.resultCode === 0) {
+            if (data.resultData.code === '0000') {
+              console.log(data.resultData.msg)
+            } else {
+              console.log(data.resultData.msg)
+            }
+          } else {
+            console.log(data.resultMsg)
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve(data);
+      }
+    })
+  })
 }
 function taskUrl(function_id, body, type = 'mission') {
   return {
@@ -417,7 +564,7 @@ function taskUrl(function_id, body, type = 'mission') {
       'Host' : `ms.jr.jd.com`,
       'Connection' : `keep-alive`,
       "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
-      'Referer' : `https://u.jr.jd.com/`,
+      'Referer' : `https://u.jr.jd.com/uc-fe-growing/jintiepindao/`,
       'Accept-Language' : `zh-cn`
     }
   }
@@ -453,10 +600,8 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return;
             }
-             if (data['retcode'] === 0) {
-              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
-            } else {
-              $.nickName = $.UserName
+            if (data['retcode'] === "0" && data.data && data.data.hasOwnProperty("userInfo")) {
+              $.nickName = data.data.userInfo.baseInfo.nickname;
             }
           } else {
             $.log('京东服务器返回空数据');
