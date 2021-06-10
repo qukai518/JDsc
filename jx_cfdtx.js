@@ -12,7 +12,7 @@
   
 [task_local]
 财富岛提现
-0 0 * * * https://github.com/danteswx/fxxk/raw/main/jx_cfdtx.js, tag=财富岛提现, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+0 0 * * * https://raw.githubusercontent.com/danteswx/fxxk/main/jx_cfdtx.js, tag=财富岛提现, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 **/
 
 const $ = new Env("京喜财富岛提现");
