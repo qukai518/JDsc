@@ -2,9 +2,10 @@
 tgchannel：https://t.me/Ariszy_Script
 github：https://github.com/Ariszy/script
 boxjs：https://raw.githubusercontent.com/Ariszy/Private-Script/master/Ariszy.boxjs.json
+https://raw.githubusercontent.com/Ariszy/Private-Script/master/Scripts/zy_618jc.js
 [task_local]
 #618竞猜
-23 0,19 * 6 * https://raw.githubusercontent.com/Ariszy/Private-Script/master/Scripts/zy_618jc.js, tag=618竞猜, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+23 0,19 * 6 * https://raw.githubusercontent.com/danteswx/fxxk/main/jd_618jc.js, tag=618竞猜, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 ==============Loon==============
 [Script]
 cron "23 0,19 * 6 *" script-path=https://raw.githubusercontent.com/Ariszy/Private-Script/master/Scripts/zy_618jc.js,tag=618竞猜
