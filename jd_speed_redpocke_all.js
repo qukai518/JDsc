@@ -221,7 +221,7 @@ async function springRewardQuery() {
                 console.log(
                   `\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.markedPin}\n`
                 );
-                addShareCode($.UserName, data.data.markedPin, shareCodeType);
+                //addShareCode($.UserName, data.data.markedPin, shareCodeType);
               } else {
                 console.log(data.errMsg);
               }
@@ -458,7 +458,7 @@ function shareCodesFormat() {
 
     if (readShareCodeRes && readShareCodeRes.code === 1) {
       newShareCodes = [
-        ...new Set([...newShareCodes, ...(readShareCodeRes.data || [])]),
+        ...new Set([...newShareCodes]),
       ];
     }
     console.log(
