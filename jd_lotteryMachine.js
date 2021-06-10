@@ -7,7 +7,7 @@ github： https://github.com/yangtingxiao
 修改自用 By xxx
 更新时间：2021-05-25 8:50
 [task_local]
-京东抽奖机
+#京东抽奖机
 25 0 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_lotteryMachine.js, tag=京东抽奖机, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
  */
 const $ = new Env('京东抽奖机&内部互助');
