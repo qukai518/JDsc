@@ -11,17 +11,7 @@
 ============Quantumultx===============
 [task_local]
 #京东极速版红包集成版
-13 0-23/2 * * * https://raw.githubusercontent.com/cantain/JdScript/main/jd_speed_redpocke.js, tag=京东极速版红包集成版, enabled=true
-
-================Loon==============
-[Script]
-cron "13 0-23/2 * * *" script-path=https://raw.githubusercontent.com/cantain/JdScript/main/jd_speed_redpocke.js,tag=京东极速版红包集成版
-
-===============Surge=================
-京东极速版红包 = type=cron,cronexp="13 0-23/2 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/cantain/JdScript/main/jd_speed_redpocke.js
-
-============小火箭=========
-京东极速版红包 = type=cron,script-path=https://raw.githubusercontent.com/cantain/JdScript/main/jd_speed_redpocke.js, cronexpr="13 0-23/2 * * *", timeout=3600, enable=true
+13 0-23/2 * * * https://raw.githubusercontent.com/danteswx/fxxk/main/jd_speed_redpocke_all.js, tag=京东极速版红包集成版, enabled=true
 */
 
 const $ = new Env("京东极速版红包集成版");
