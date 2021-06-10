@@ -7,7 +7,7 @@
 
 [task_local]
 #主会场红包雨
-10 20 1-18 6 * https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/long_hby_lottery.js, tag=618主会场红包雨, enabled=true
+10 20 1-18 6 * https://raw.githubusercontent.com/danteswx/fxxk/main/jd_long_hby_lottery.js, tag=618主会场红包雨, enabled=true
 */
 const $ = new Env('618主会场红包雨');
 //Node.js用户请在jdCookie.js处填写京东ck;
