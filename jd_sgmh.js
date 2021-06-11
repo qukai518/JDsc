@@ -28,14 +28,8 @@ const $ = new Env('闪购盲盒');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let appId = '1EFRXxg' , homeDataFunPrefix = 'interact_template', collectScoreFunPrefix = 'harmony', message = ''
 let lotteryResultFunPrefix = homeDataFunPrefix, browseTime = 6
-const inviteCodes = [
-  'T0225KkcR0pI9lDVdRnznKYKJwCjVQmoaT5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVQmoaT5kRrbA@T015v_t2QBkY_VDVT0cCjVQmoaT5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVQmoaT5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVQmoaT5kRrbA',
-  'T0225KkcR0pI9lDVdRnznKYKJwCjVQmoaT5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVQmoaT5kRrbA@T015v_t2QBkY_VDVT0cCjVQmoaT5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVQmoaT5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVQmoaT5kRrbA',
-  'T0225KkcR0pI9lDVdRnznKYKJwCjVQmoaT5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVQmoaT5kRrbA@T015v_t2QBkY_VDVT0cCjVQmoaT5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVQmoaT5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVQmoaT5kRrbA',
-  'T0225KkcR0pI9lDVdRnznKYKJwCjVQmoaT5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVQmoaT5kRrbA@T015v_t2QBkY_VDVT0cCjVQmoaT5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVQmoaT5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVQmoaT5kRrbA',
-  'T0225KkcR0pI9lDVdRnznKYKJwCjVQmoaT5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVQmoaT5kRrbA@T015v_t2QBkY_VDVT0cCjVQmoaT5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVQmoaT5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVQmoaT5kRrbA'
-];
-const randomCount = $.isNode() ? 20 : 5;
+const inviteCodes = [];
+const randomCount = $.isNode() ? 2 : 2;
 const notify = $.isNode() ? require('./sendNotify') : '';
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
@@ -299,9 +293,10 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
+      $.newShareCodes = [...inviteCodes, "T0225KkcR0pI9lDVdRnznKYKJwCjVQmoaT5kRrbA","T0225KkcRRsY8lLfch-hwvIJIgCjVQmoaT5kRrbA"];
     }
-    const readShareCodeRes = await readShareCode();
+    //const readShareCodeRes = await readShareCode();
+    const readShareCodeRes = null;
     // console.log(readShareCodeRes)
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];

@@ -30,12 +30,8 @@ let cookiesArr = [], cookie = '', jdFruitShareArr = [], isBox = false, notify, n
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
 let shareCodes = [ // 这个列表填入你要助力的好友的shareCode
    //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '50cd283249db46528b6858e0e71ce179@6cdc57f446874f019dc16e2b7a78ea41@d3a4456ca8bb4eecad39f8d527b615b3@13a085ae30a34ee9b946e07901edc6fa@beaecc3e07b94311b9270799205a7551',
+  '50cd283249db46528b6858e0e71ce179@6cdc57f446874f019dc16e2b7a78ea41',
   //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '50cd283249db46528b6858e0e71ce179@6cdc57f446874f019dc16e2b7a78ea41@d3a4456ca8bb4eecad39f8d527b615b3@13a085ae30a34ee9b946e07901edc6fa@beaecc3e07b94311b9270799205a7551',
-  '50cd283249db46528b6858e0e71ce179@6cdc57f446874f019dc16e2b7a78ea41@d3a4456ca8bb4eecad39f8d527b615b3@13a085ae30a34ee9b946e07901edc6fa@beaecc3e07b94311b9270799205a7551',
-  '50cd283249db46528b6858e0e71ce179@6cdc57f446874f019dc16e2b7a78ea41@d3a4456ca8bb4eecad39f8d527b615b3@13a085ae30a34ee9b946e07901edc6fa@beaecc3e07b94311b9270799205a7551',
-  '50cd283249db46528b6858e0e71ce179@6cdc57f446874f019dc16e2b7a78ea41@d3a4456ca8bb4eecad39f8d527b615b3@13a085ae30a34ee9b946e07901edc6fa@beaecc3e07b94311b9270799205a7551'
 ]
 let message = '', subTitle = '', option = {}, isFruitFinished = false;
 const retainWater = 100;//保留水滴大于多少g,默认100g;
@@ -626,7 +622,7 @@ async function masterHelpShare() {
   let salveHelpAddWater = 0;
   let remainTimes = 3;//今日剩余助力次数,默认3次（京东农场每人每天3次助力机会）。
   let helpSuccessPeoples = '';//成功助力好友
-  console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
+  console.log(`格式化后的助力码:${JSON.stringify(newShareCodes)}\n`);
 
   for (let code of newShareCodes) {
     console.log(`开始助力京东账号${$.index} - ${$.nickName}的好友: ${code}`);
@@ -1285,9 +1281,10 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
-      newShareCodes = shareCodes[tempIndex].split('@');
+  newShareCodes = [...shareCodes, "50cd283249db46528b6858e0e71ce179","6cdc57f446874f019dc16e2b7a78ea41"];
     }
-    const readShareCodeRes = await readShareCode();
+    //const readShareCodeRes = await readShareCode();
+    const readShareCodeRes = null;
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       // newShareCodes = newShareCodes.concat(readShareCodeRes.data || []);
       newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];

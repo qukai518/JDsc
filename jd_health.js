@@ -25,13 +25,7 @@ const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
 let cookiesArr = [],
   cookie = "",
   message;
-const inviteCodes = [
-  `T0225KkcR0pI9lDVdRnznKYKJwCjVfnoaW5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVfnoaW5kRrbA@T015v_t2QBkY_VDVT0cCjVfnoaW5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVfnoaW5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVfnoaW5kRrbA`,
-  `T0225KkcR0pI9lDVdRnznKYKJwCjVfnoaW5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVfnoaW5kRrbA@T015v_t2QBkY_VDVT0cCjVfnoaW5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVfnoaW5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVfnoaW5kRrbA`,
-  `T0225KkcR0pI9lDVdRnznKYKJwCjVfnoaW5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVfnoaW5kRrbA@T015v_t2QBkY_VDVT0cCjVfnoaW5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVfnoaW5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVfnoaW5kRrbA`,
-  `T0225KkcR0pI9lDVdRnznKYKJwCjVfnoaW5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVfnoaW5kRrbA@T015v_t2QBkY_VDVT0cCjVfnoaW5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVfnoaW5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVfnoaW5kRrbA`,
-  `T0225KkcR0pI9lDVdRnznKYKJwCjVfnoaW5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVfnoaW5kRrbA@T015v_t2QBkY_VDVT0cCjVfnoaW5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVfnoaW5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVfnoaW5kRrbA`
-]
+const inviteCodes = []
 const randomCount = $.isNode() ? 20 : 5;
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -294,9 +288,10 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
+      $.newShareCodes = [...inviteCodes ,"T0225KkcR0pI9lDVdRnznKYKJwCjVfnoaW5kRrbA","T0225KkcRRsY8lLfch-hwvIJIgCjVfnoaW5kRrbA"];
     }
-    const readShareCodeRes = await readShareCode();
+    //const readShareCodeRes = await readShareCode();
+    const readShareCodeRes = null;
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
     }

@@ -49,7 +49,7 @@ if ($.isNode()) {
 }
 let wantProduct = ``;//心仪商品名称
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-const inviteCodes = ["T0225KkcR0pI9lDVdRnznKYKJwCjVWnYaS5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVWnYaS5kRrbA@T015v_t2QBkY_VDVT0cCjVWnYaS5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVWnYaS5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVWnY&T0225KkcR0pI9lDVdRnznKYKJwCjVWnYaS5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVWnYaS5kRrbA@T015v_t2QBkY_VDVT0cCjVWnYaS5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVWnYaS5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVWnY&T0225KkcR0pI9lDVdRnznKYKJwCjVWnYaS5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVWnYaS5kRrbA@T015v_t2QBkY_VDVT0cCjVWnYaS5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVWnYaS5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVWnY&T0225KkcR0pI9lDVdRnznKYKJwCjVWnYaS5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVWnYaS5kRrbA@T015v_t2QBkY_VDVT0cCjVWnYaS5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVWnYaS5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVWnY&T0225KkcR0pI9lDVdRnznKYKJwCjVWnYaS5kRrbA@T0225KkcRRsY8lLfch-hwvIJIgCjVWnYaS5kRrbA@T015v_t2QBkY_VDVT0cCjVWnYaS5kRrbA@T0225KkcRBxL8lLUJRr8xf9bdACjVWnYaS5kRrbA@T0205KkcOVRcqwOXfWCU14B0CjVWnY"];
+const inviteCodes = [];
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -653,9 +653,10 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
+      $.newShareCodes = [...inviteCodes, "T0225KkcR0pI9lDVdRnznKYKJwCjVWnYaS5kRrbA","T0225KkcRRsY8lLfch-hwvIJIgCjVWnYaS5kRrbA"];
     }
-    const readShareCodeRes = await readShareCode();
+    //const readShareCodeRes = await readShareCode();
+    const readShareCodeRes = null;
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
     }

@@ -31,13 +31,8 @@ let cookiesArr = [], cookie = '', jdPetShareArr = [], isBox = false, notify, new
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
 let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode
    //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'MTE1NDQ5OTUwMDAwMDAwNDYzODc1NDM=@MTEyNDI1MTYxMDAwMDAwMDQ3MzkyNDM5@MTE0MDkyMjIwMDAwMDAwNDgyNjAwNjk=@MTEyNjE4NjQ2MDAwMDAwMDQ4MjAxMDI3@MTE0MDkyMjEwMDAwMDAwNDgyMDM2NzU=',
   //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'MTE1NDQ5OTUwMDAwMDAwNDYzODc1NDM=@MTEyNDI1MTYxMDAwMDAwMDQ3MzkyNDM5@MTE0MDkyMjIwMDAwMDAwNDgyNjAwNjk=@MTEyNjE4NjQ2MDAwMDAwMDQ4MjAxMDI3@MTE0MDkyMjEwMDAwMDAwNDgyMDM2NzU=',
-  'MTE1NDQ5OTUwMDAwMDAwNDYzODc1NDM=@MTEyNDI1MTYxMDAwMDAwMDQ3MzkyNDM5@MTE0MDkyMjIwMDAwMDAwNDgyNjAwNjk=@MTEyNjE4NjQ2MDAwMDAwMDQ4MjAxMDI3@MTE0MDkyMjEwMDAwMDAwNDgyMDM2NzU=',
-  'MTE1NDQ5OTUwMDAwMDAwNDYzODc1NDM=@MTEyNDI1MTYxMDAwMDAwMDQ3MzkyNDM5@MTE0MDkyMjIwMDAwMDAwNDgyNjAwNjk=@MTEyNjE4NjQ2MDAwMDAwMDQ4MjAxMDI3@MTE0MDkyMjEwMDAwMDAwNDgyMDM2NzU=',
-  'MTE1NDQ5OTUwMDAwMDAwNDYzODc1NDM=@MTEyNDI1MTYxMDAwMDAwMDQ3MzkyNDM5@MTE0MDkyMjIwMDAwMDAwNDgyNjAwNjk=@MTEyNjE4NjQ2MDAwMDAwMDQ4MjAxMDI3@MTE0MDkyMjEwMDAwMDAwNDgyMDM2NzU='
-]
+] 
 let message = '', subTitle = '', option = {};
 let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
@@ -485,11 +480,11 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
-      newShareCodes = shareCodes[tempIndex].split('@');
+      newShareCodes = [...shareCodes, "MTE1NDQ5OTUwMDAwMDAwNDYzODc1NDM=","MTEyNDI1MTYxMDAwMDAwMDQ3MzkyNDM5"];
     }
     //因好友助力功能下线。故暂时屏蔽
-    const readShareCodeRes = await readShareCode();
-    //const readShareCodeRes = null;
+    //const readShareCodeRes = await readShareCode();
+    const readShareCodeRes = null;
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];
     }

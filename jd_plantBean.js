@@ -35,19 +35,15 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
 let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode
                    //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '4npkonnsy7xi2ouj27jjt2ojrnpxtfou4dwquba@mlrdw3aw26j3xynofsgbd276hgnu5dt3kdie5hq@3ov2ynviom3aoeqwncbjlp2pmu@e7lhibzb3zek3rv3hoi3tmdis23k3ao5axcrkxy@qmnmamd3ukiwrfag6acw3wnuh6kqmrdyqij7ccq',
+  '4npkonnsy7xi2ouj27jjt2ojrnpxtfou4dwquba@mlrdw3aw26j3xynofsgbd276hgnu5dt3kdie5hq',
   //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '4npkonnsy7xi2ouj27jjt2ojrnpxtfou4dwquba@mlrdw3aw26j3xynofsgbd276hgnu5dt3kdie5hq@3ov2ynviom3aoeqwncbjlp2pmu@e7lhibzb3zek3rv3hoi3tmdis23k3ao5axcrkxy@qmnmamd3ukiwrfag6acw3wnuh6kqmrdyqij7ccq',
-  '4npkonnsy7xi2ouj27jjt2ojrnpxtfou4dwquba@mlrdw3aw26j3xynofsgbd276hgnu5dt3kdie5hq@3ov2ynviom3aoeqwncbjlp2pmu@e7lhibzb3zek3rv3hoi3tmdis23k3ao5axcrkxy@qmnmamd3ukiwrfag6acw3wnuh6kqmrdyqij7ccq',
-  '4npkonnsy7xi2ouj27jjt2ojrnpxtfou4dwquba@mlrdw3aw26j3xynofsgbd276hgnu5dt3kdie5hq@3ov2ynviom3aoeqwncbjlp2pmu@e7lhibzb3zek3rv3hoi3tmdis23k3ao5axcrkxy@qmnmamd3ukiwrfag6acw3wnuh6kqmrdyqij7ccq',
-  '4npkonnsy7xi2ouj27jjt2ojrnpxtfou4dwquba@mlrdw3aw26j3xynofsgbd276hgnu5dt3kdie5hq@3ov2ynviom3aoeqwncbjlp2pmu@e7lhibzb3zek3rv3hoi3tmdis23k3ao5axcrkxy@qmnmamd3ukiwrfag6acw3wnuh6kqmrdyqij7ccq',
 ]
 let allMessage = ``;
 let currentRoundId = null;//本期活动id
 let lastRoundId = null;//上期id
 let roundList = [];
 let awardState = '';//上期活动的京豆是否收取
-let randomCount = $.isNode() ? 20 : 5;
+let randomCount = 2
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -534,7 +530,7 @@ async function plantBeanIndex() {
 }
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `http://share.turinglabs.net/api/v3/bean/query/${randomCount}/`, timeout: 10000}, (err, resp, data) => {
+   $.get({url: `http://share.turinglabs.net/api/v3/bean/query/${randomCount}/`, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -565,9 +561,11 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
-      newShareCodes = shareCodes[tempIndex].split('@');
-    }
-    const readShareCodeRes = await readShareCode();
+      //newShareCodes = shareCodes[tempIndex].split('@');
+      newShareCodes = [...shareCodes, "4npkonnsy7xi2ouj27jjt2ojrnpxtfou4dwquba","mlrdw3aw26j3xynofsgbd276hgnu5dt3kdie5hq"];
+}
+    //const readShareCodeRes = await readShareCode();
+    const readShareCodeRes = null;
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];
     }
