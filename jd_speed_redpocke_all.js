@@ -444,8 +444,8 @@ function cashOut(body) {
 
 function shareCodesFormat() {
   return new Promise(async (resolve) => {
-    const readShareCodeRes = await readShareCode(shareCodeType);
-   //const readShareCodeRes = null;
+    //const readShareCodeRes = await readShareCode(shareCodeType);
+   const readShareCodeRes = null;
 
     if (readShareCodeRes && readShareCodeRes.code === 1) {
       newShareCodes = [
