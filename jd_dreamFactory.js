@@ -44,7 +44,6 @@ const jxOpenUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
 let cookiesArr = [], cookie = '', message = '', allMessage = '';
 const inviteCodes = [
   'p15jzNJ363IRRYrz5uiijQ==@kMVrN_EU0rOG1TiQJoSHjg==',
-  "p15jzNJ363IRRYrz5uiijQ==@kMVrN_EU0rOG1TiQJoSHjg==",
 ];
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.tuanIds = [];
@@ -1338,7 +1337,7 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
+      $.newShareCodes = [...inviteCodes, "p15jzNJ363IRRYrz5uiijQ==","kMVrN_EU0rOG1TiQJoSHjg=="];
     }
     const readShareCodeRes = await readShareCode();
     if (readShareCodeRes && readShareCodeRes.code === 200) {
@@ -1358,7 +1357,7 @@ function requireConfig() {
         console.log(`拼团活动ID: 获取成功 ${tuanActiveId}\n`)
       } else {
         if (!$.tuanConfigs) {
-          await updateTuanIdsCDN('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_updateFactoryTuanId.json');
+          await updateTuanIdsCDN('http://cdn.boledao.com/shareCodes/jd_updateFactoryTuanId.json');
           if ($.tuanConfigs && $.tuanConfigs['tuanActiveId']) {
             tuanActiveId = $.tuanConfigs['tuanActiveId'];
             console.log(`拼团活动ID: 获取成功 ${tuanActiveId}\n`)

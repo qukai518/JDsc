@@ -9,7 +9,6 @@
 // 如: 京东账号1的shareCode1@京东账号1的shareCode2&京东账号2的shareCode1@京东账号2的shareCode2
 let PetShareCodes = [
  'MTE1NDQ5OTUwMDAwMDAwNDYzODc1NDM=@MTEyNDI1MTYxMDAwMDAwMDQ3MzkyNDM5',
-'MTE1NDQ5OTUwMDAwMDAwNDYzODc1NDM=@MTEyNDI1MTYxMDAwMDAwMDQ3MzkyNDM5',
 ]
 // 判断github action里面是否有东东萌宠互助码
 if (process.env.PETSHARECODES) {

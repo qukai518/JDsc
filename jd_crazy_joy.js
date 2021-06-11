@@ -32,13 +32,7 @@ let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭�
 let helpSelf = true // 循环助力，默认关闭
 let applyJdBean = 2000; //疯狂的JOY京豆兑换，目前最小值为2000京豆，默认为 0 不开启京豆兑换
 let cookiesArr = [], cookie = '', message = '';
-const inviteCodes = [
-  'LPqtzO6oxGa3LPRW97Gfdqt9zd5YaBeE@ukF3UMQ0rv6SM4_0DCIOFKt9zd5YaBeE@jgKcSkshSqRf7aimn_B8Vw==@lu_rqjJCjkyPoSdaq1chQqt9zd5YaBeE@5gosvpHbLEjwVjJPTcYg8g==',
-  'LPqtzO6oxGa3LPRW97Gfdqt9zd5YaBeE@ukF3UMQ0rv6SM4_0DCIOFKt9zd5YaBeE@jgKcSkshSqRf7aimn_B8Vw==@lu_rqjJCjkyPoSdaq1chQqt9zd5YaBeE@5gosvpHbLEjwVjJPTcYg8g==',
-  'LPqtzO6oxGa3LPRW97Gfdqt9zd5YaBeE@ukF3UMQ0rv6SM4_0DCIOFKt9zd5YaBeE@jgKcSkshSqRf7aimn_B8Vw==@lu_rqjJCjkyPoSdaq1chQqt9zd5YaBeE@5gosvpHbLEjwVjJPTcYg8g==',
-  'LPqtzO6oxGa3LPRW97Gfdqt9zd5YaBeE@ukF3UMQ0rv6SM4_0DCIOFKt9zd5YaBeE@jgKcSkshSqRf7aimn_B8Vw==@lu_rqjJCjkyPoSdaq1chQqt9zd5YaBeE@5gosvpHbLEjwVjJPTcYg8g==',
-  'LPqtzO6oxGa3LPRW97Gfdqt9zd5YaBeE@ukF3UMQ0rv6SM4_0DCIOFKt9zd5YaBeE@jgKcSkshSqRf7aimn_B8Vw==@lu_rqjJCjkyPoSdaq1chQqt9zd5YaBeE@5gosvpHbLEjwVjJPTcYg8g=='
-];
+const inviteCodes = [];
 const randomCount = $.isNode() ? 10 : 5;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 if ($.isNode()) {
@@ -619,9 +613,10 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
+      $.newShareCodes = [...inviteCodes, "LPqtzO6oxGa3LPRW97Gfdqt9zd5YaBeE","ukF3UMQ0rv6SM4_0DCIOFKt9zd5YaBeE"];
     }
-    const readShareCodeRes = await readShareCode();
+    //const readShareCodeRes = await readShareCode();
+    const readShareCodeRes = null;
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
     }
