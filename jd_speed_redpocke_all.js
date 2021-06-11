@@ -211,7 +211,7 @@ async function springRewardQuery() {
                 console.log(
                   `\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.markedPin}\n`
                 );
-                //addShareCode($.UserName, data.data.markedPin, shareCodeType);
+               // addShareCode($.UserName, data.data.markedPin, shareCodeType);
               } else {
                 console.log(data.errMsg);
               }
@@ -445,10 +445,11 @@ function cashOut(body) {
 function shareCodesFormat() {
   return new Promise(async (resolve) => {
     const readShareCodeRes = await readShareCode(shareCodeType);
+   //const readShareCodeRes = null;
 
     if (readShareCodeRes && readShareCodeRes.code === 1) {
       newShareCodes = [
-        ...new Set([...newShareCodes]),
+        ...new Set([...newShareCodes, ...(readShareCodeRes.data || [])]),
       ];
     }
     console.log(
