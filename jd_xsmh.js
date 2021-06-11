@@ -1,12 +1,12 @@
 /*
 
 [task_local]
-#618限时盲盒
-33 1 * 6 * http://nm66.top/jd_xsmh.js, tag=618限时盲盒, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+#618限时盲盒-柠檬版
+33 1 * 6 * http://nm66.top/jd_xsmh.js, tag=618限时盲盒-柠檬版, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 */
 
 
-const $ = new Env('618限时盲盒');
+const $ = new Env('618限时盲盒-柠檬版');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
