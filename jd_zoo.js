@@ -71,7 +71,7 @@ if ($.isNode()) {
         }
     }
     let res = [], res2 = [], res3 = [];
-    //res3 = await getAuthorShareCode('https://raw.githubusercontent.com/star261/jd/main/code/zoo.json');
+    res3 = await getAuthorShareCode('https://raw.githubusercontent.com/star261/jd/main/code/zoo.json');
     //if (!res3) await getAuthorShareCode('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_zoo.json')
     res2 = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/jd_zoo.json');
     if (pKHelpAuthorFlag) {
