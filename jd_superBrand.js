@@ -11,17 +11,17 @@
 ============Quantumultx===============
 [task_local]
 #特物Z|万物皆可国创
-30 11 * * * https://raw.githubusercontent.com/Wenmoux/scripts/master/jd/jd_superBrand.js, tag=特物Z|万物皆可国创, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+30 11,18 * * * https://raw.githubusercontent.com/Wenmoux/scripts/master/jd/jd_superBrand.js, tag=特物Z|万物皆可国创, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "30 11 * * *" script-path=https://raw.githubusercontent.com/Wenmoux/scripts/master/jd/jd_superBrand.js tag=特物Z|万物皆可国创
+cron "30 11,18 * * *" script-path=https://raw.githubusercontent.com/Wenmoux/scripts/master/jd/jd_superBrand.js tag=特物Z|万物皆可国创
 
 ===============Surge=================
-特物Z|万物皆可国创 = type=cron,cronexp="30 11 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Wenmoux/scripts/master/jd/jd_superBrand.js
+特物Z|万物皆可国创 = type=cron,cronexp="30 11,18 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Wenmoux/scripts/master/jd/jd_superBrand.js
 
 ============小火箭=========
-特物Z|万物皆可国创 = type=cron,script-path=https://raw.githubusercontent.com/Wenmoux/scripts/master/jd/jd_superBrand.js, cronexpr="30 11 * * *", timeout=3600, enable=true
+特物Z|万物皆可国创 = type=cron,script-path=https://raw.githubusercontent.com/Wenmoux/scripts/master/jd/jd_superBrand.js, cronexpr="30 11,18 * * *", timeout=3600, enable=true
 
  */
 const $ = new Env('特物Z|万物皆可国创');
@@ -54,7 +54,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
         return;
     }
 
-    for (let i = 0; i <  cookiesArr.length ; i++) {
+    for (let i = 0; i < cookiesArr.length; i++) {
         cookie = cookiesArr[i];
         if (cookie) {
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -83,14 +83,17 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
                 $.actname = actdata.actname
                 if($.actid&&$.enpid){
                 await getCode("secondfloor", $.actid)
-                await doTask("secondfloor", $.enpid, $.taskList.encryptAssignmentId, $.taskList.ext.followShop[0].itemId, $.taskList.assignmentType)
-            } 
+                await doTask("secondfloor", $.enpid, $.taskList[0].encryptAssignmentId, $.taskList[0].ext.followShop[0].itemId, $.taskList[0].assignmentType)
+                await $.wait(500);
+                await doTask("secondfloor", $.enpid, $.taskList[2].encryptAssignmentId, $.taskList[2].ext.brandMemberList[0].itemId, $.taskList[2].assignmentType)
+                await $.wait(500);
+               } 
                 await superBrandTaskLottery()
                 await $.wait(500);                
                 await superBrandTaskLottery()
-                 await $.wait(2000);               
+                 await $.wait(1000);               
                 let signdata = await getid("showSecondFloorSignInfo", "sign")
-                if(signdata&&signdata.enpid&&signdata.actid){
+                if(signdata.enpid&&signdata.actid){
                 await doTask("sign", signdata.enpid, signdata.eid, 1, 5)
                 let signList = await getCode("sign", signdata.actid)
                 let signeid = signList[1].encryptAssignmentId
@@ -99,7 +102,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
             }
         }
     }
-    for (let i = 0; i <cookiesArr.length  ; i++) {
+    for (let i = 0; i < cookiesArr.length; i++) {
         cookie = cookiesArr[i];
         if (cookie) {
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -109,15 +112,11 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
             console.log(`\n******开始【京东账号${$.index}】\n`);
             for (l = 0; l < codeList.length; l++) {
                 console.log(`为 ${codeList[l]}助力中`)
-                let code = await doTask("secondfloor", $.enpid, $.inviteenaid, codeList[l], 2)
-                if(code == 108){
-                l=9999;
-                console.log("助力次数已满")
-                }
+                await doTask("secondfloor", $.enpid, $.inviteenaid, codeList[l], 2)
             }
         }
     }
-    for (let i = 0; i <cookiesArr.length;  i++) {
+    for (let i = 0; i < 2; i++) {
         cookie = cookiesArr[i];
         if (cookie) {
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -126,7 +125,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
             $.nickName = '';
             console.log(`\n******开始【京东账号${$.index}】抽奖\n`);
             await superBrandTaskLottery()
-        //    await superBrandTaskLottery()
+            await superBrandTaskLottery()
             await superBrandTaskLottery()
         }
     }
@@ -186,12 +185,11 @@ function getCode(source, actid) {
                     console.log(`${$.name} API请求失败，请检查网路重试`);
                 } else {
                     data = JSON.parse(data);
-                         //  console.log(data.data.result)
+                    //       console.log(data.data.result)
                     if (data && data.data && data.code === "0" && source === "secondfloor") {
-                        if (data.data.result && data.data.result.taskList ) {
-                            $.taskList = data.data.result.taskList[0]
-                        //    console.log($.taskList)
-                            let result = data.data.result.taskList.filter(x => x.assignmentType == 2)[0]
+                        if (data.data.result && data.data.result.taskList && data.data.result.taskList[3]) {
+                            $.taskList = data.data.result.taskList
+                            let result = data.data.result.taskList[3]
                             let encryptAssignmentId = result.encryptAssignmentId
                             let itemid = result.ext.assistTaskDetail.itemId
                             $.inviteenaid = result.encryptAssignmentId
@@ -203,6 +201,7 @@ function getCode(source, actid) {
                     } else {
                         //  console.log(data.data.result)                       
                     }
+
                     resolve(data.data.result.taskList)
 
                 }
@@ -268,7 +267,7 @@ function superBrandTaskLottery(source = "secondfloor", actid, enpid, signeid) {
                     //   console.log(data)
                     if (data && data.code === "0") {
                         if (data.data.bizCode === "TK000") {
-                            console.log(`获得 你猜获得了啥🐶`)
+                         console.log(`获得 京豆 ${data.data.result.userAwardInfo.beanNum}`)
                         } else {
                             console.log(data.data.bizMsg)
                         }
