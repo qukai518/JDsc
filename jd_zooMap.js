@@ -3,7 +3,7 @@
 ===================quantumultx================
 [task_local]
 #618动物联萌
-10 10 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_zooMap.js, tag=618店铺任务, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+10 9 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_zooMap.js, tag=618店铺任务, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 =====================Loon================
 [Script]
