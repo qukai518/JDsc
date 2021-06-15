@@ -54,6 +54,7 @@ if ($.isNode()) {
       $.incomeBean = 0;
       $.expenseBean = 0;
       $.todayIncomeBean = 0;
+      $.todayexpenseBean = 0;
       $.errorMsg = '';
       $.isLogin = true;
       $.nickName = '';
@@ -61,7 +62,8 @@ if ($.isNode()) {
       $.balance = 0;
       $.expiredBalance = 0;
       await TotalBean();
-      console.log(`\n********开始【京东账号${$.index}】${$.nickName || $.UserName}******\n`);
+     // console.log(`\n********开始【京东账号${$.index}】${$.nickName || $.UserName}******\n`);
+      console.log(`\n********开始【京东账号】${$.nickName.substring(0, 3).concat('***')}******\n`);
       if (!$.isLogin) {
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
 
@@ -87,11 +89,11 @@ if ($.isNode()) {
     })
 async function showMsg() {
   if ($.errorMsg) return
-  allMessage += `账号${$.index}：${$.nickName || $.UserName}\n今日收入：${$.todayIncomeBean}京豆 🐶\n昨日收入：${$.incomeBean}京豆 🐶\n昨日支出：${$.expenseBean}京豆 🐶\n当前京豆：${$.beanCount}(今日将过期${$.expirejingdou})京豆 🐶${$.message}${$.index !== cookiesArr.length ? '\n\n' : ''}`;
+  allMessage += `账号${$.index}：${$.nickName || $.UserName}\n今日收入：${$.todayIncomeBean}京豆 🐶\n今日支出：${$.todayexpenseBean}京豆 🐶\n昨日收入：${$.incomeBean}京豆 🐶\n昨日支出：${$.expenseBean}京豆 🐶\n当前京豆：${$.beanCount}(今日将过期${$.expirejingdou})京豆 🐶${$.message}${$.index !== cookiesArr.length ? '\n\n' : ''}`;
   // if ($.isNode()) {
   //   await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `账号${$.index}：${$.nickName || $.UserName}\n昨日收入：${$.incomeBean}京豆 🐶\n昨日支出：${$.expenseBean}京豆 🐶\n当前京豆：${$.beanCount}京豆 🐶${$.message}`, { url: `https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean` })
   // }
-  $.msg($.name, '', `账号${$.index}：${$.nickName || $.UserName}\n今日收入：${$.todayIncomeBean}京豆 🐶\n昨日收入：${$.incomeBean}京豆 🐶\n昨日支出：${$.expenseBean}京豆 🐶\n当前京豆：${$.beanCount}(今日将过期${$.expirejingdou})京豆🐶${$.message}`, {"open-url": "https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean"});
+  $.msg($.name, '', `账号${$.index}：${$.nickName || $.UserName}\n今日收入：${$.todayIncomeBean}京豆 🐶\n今日支出：${$.todayexpenseBean}京豆 🐶\n昨日收入：${$.incomeBean}京豆 🐶\n昨日支出：${$.expenseBean}京豆 🐶\n当前京豆：${$.beanCount}(今日将过期${$.expirejingdou})京豆🐶${$.message}`, {"open-url": "https://bean.m.jd.com/beanDetail/index.action?resourceValue=bean"});
 }
 async function bean() {
   // console.log(`北京时间零点时间戳:${parseInt((Date.now() + 28800000) / 86400000) * 86400000 - 28800000}`);
@@ -147,6 +149,8 @@ async function bean() {
   for (let item of todayArr) {
     if (Number(item.amount) > 0) {
       $.todayIncomeBean += Number(item.amount);
+    } else if (Number(item.amount) < 0) {
+      $.todayexpenseBean += Number(item.amount);
     }
   }
   await queryexpirejingdou();//过期京豆
