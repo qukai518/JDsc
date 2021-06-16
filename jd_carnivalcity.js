@@ -20,11 +20,11 @@ d、 30000名之外，0京豆
 ===================quantumultx================
 [task_local]
 #京东手机狂欢城
-0 0-18/2 * 6 * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_carnivalcity.js, tag=京东手机狂欢城, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+40 0-18/2 * 6 * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_carnivalcity.js, tag=京东手机狂欢城, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 =====================Loon================
 [Script]
-cron "0 0-18/2 * 6 *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_carnivalcity.js, tag=京东手机狂欢城
+cron "40 0-18/2 * 6 *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_carnivalcity.js, tag=京东手机狂欢城
 
 ====================Surge================
 京东手机狂欢城 = type=cron,cronexp=0 0-18/6 * * *,wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_carnivalcity.js
