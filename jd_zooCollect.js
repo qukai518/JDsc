@@ -71,7 +71,7 @@ async function main() {
   await getHomeData();
   if ($.secretp) {
     secretp = $.secretp;
-    await stall_collectProduceScore({ "ss": getBody() });
+    await stall_collectProduceScore({ "ss": getBody()});
   }
 }
 function stall_collectProduceScore(body) {
@@ -130,10 +130,9 @@ function getHomeData() {
 function taskPostUrl(functionId, body = {}) {
   return {
     url: `${JD_API_HOST}?functionId=${functionId}`,
-    body: `functionId=${functionId}&body=${JSON.stringify(body)}&client=wh5&clientVersion=1.0.0`,
+    body: `functionId=${functionId}&body=${JSON.stringify(body)}&uuid=8888&client=wh5&clientVersion=1.0.0`,
     headers: {
       "User-Agent": "jdapp;iPhone;9.2.0;14.1;",
-      //'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
       'Content-Type': 'application/x-www-form-urlencoded',
       'Host': 'api.m.jd.com',
       'Cookie': cookie,
