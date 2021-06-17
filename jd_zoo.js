@@ -28,7 +28,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const pKHelpFlag = true;//是否PK助力  true 助力，false 不助力
 const pKHelpAuthorFlag = true;//是否助力作者PK  true 助力，false 不助力
-let joyToken = "MDFJb0lXQzAxMQ==.eFl7ZHt7V39md3BceylzHi4eHRtxW30HPXhDf3t3ZV43ZT14ETkOBSFALWISIAV6Yic5InBiDXAuJjAkdFI3.66c2abd5";
+let joyToken = "MDFMYlpVdDAxMQ==.fVRoZkx1UGNsTHxXaStHBFRqHEd8DTIYCn1ObHlAYFMkZwp9HCQ=.a0228a38";
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [];
 $.cookie = '';
@@ -68,6 +68,7 @@ if ($.isNode()) {
       $.isLogin = true;
       $.nickName = $.UserName;
       $.hotFlag = false; //是否火爆
+      $.maxLevel = false;//是否满级
       await TotalBean();
       console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
       console.log(`\n如有未完成的任务，请多执行几次\n`);
@@ -102,7 +103,7 @@ if ($.isNode()) {
     $.pkInviteList.push(...$.innerPkInviteList);
   }
   for (let i = 0; i < cookiesArr.length; i++) {
-    $.cookie = cookiesArr[i];
+    $.cookie = cookiesArr[i] + `joyytoken=50084${joyToken};`;
     $.canHelp = true;
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     if (!$.secretpInfo[$.UserName]) {
@@ -162,7 +163,7 @@ async function zoo() {
     await takePostRequest('zoo_getHomeData');
     $.userInfo =$.homeData.result.homeMainInfo
     console.log(`\n\n当前分红：${$.userInfo.raiseInfo.redNum}份，当前等级:${$.userInfo.raiseInfo.scoreLevel}\n当前金币${$.userInfo.raiseInfo.remainScore}，下一关需要${$.userInfo.raiseInfo.nextLevelScore - $.userInfo.raiseInfo.curLevelStartScore}\n\n`);
-    
+
     if(Number($.userInfo.raiseInfo.scoreLevel) === 30){
       $.maxLevel = true;
       console.log('已满级');
@@ -187,7 +188,7 @@ async function zoo() {
     await $.wait(1000);
     if(!$.maxLevel)await takePostRequest('zoo_collectProduceScore');
     await $.wait(1000);
-    await takePostRequest('zoo_getTaskDetail');
+    if(!$.maxLevel) await takePostRequest('zoo_getTaskDetail');
     await $.wait(1000);
     //做任务
     for (let i = 0; i < $.taskList.length && $.secretp && !$.hotFlag && !$.maxLevel; i++) {
@@ -274,7 +275,7 @@ async function zoo() {
         }
       }
     }
-    if (new Date().getHours() >= 14 && new Date().getHours() <= 17 && !$.hotFlag && !$.maxLevel){//30个店铺，为了避免代码执行太久，下午2点到5点才做店铺任务
+    if (new Date().getHours() >= 14 && new Date().getHours() <= 17 && !$.hotFlag  && !$.maxLevel){//30个店铺，为了避免代码执行太久，下午2点到5点才做店铺任务
       console.log(`去做店铺任务`);
       $.shopInfoList = [];
       await takePostRequest('qryCompositeMaterials');
