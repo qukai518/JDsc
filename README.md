@@ -32,4 +32,5 @@ E大的V4和lxk0301原版镜像安装canvas方法（未验证）：
 2、npm install -g @mapbox/node-pre-gyp
 
 3、npm install -g canvas
+
 （从国内镜像安装 npm install -g canvas --canvas_binary_host_mirror=https://npm.taobao.org/mirrors/node-canvas-prebuilt/ ）
