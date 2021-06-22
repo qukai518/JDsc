@@ -5,19 +5,24 @@
 青龙安装canvas方法：
 
 1、进入青龙容器：
-   docker exec -it qinglong /bin/sh
+   
+docker exec -it qinglong /bin/sh
    
 2、安装依赖：
-   apk add --no-cache build-base g++ cairo-dev pango-dev giflib-dev
+   
+apk add --no-cache build-base g++ cairo-dev pango-dev giflib-dev
    
 3、进入/ql/scripts目录
-   cd scripts
+   
+cd scripts
  
 4、编译生成canvas模块
-   npm install canvas --build-from-source
+  
+npm install canvas --build-from-source
    
 5、安装完成，退出容器
-   exit
+   
+exit
    
    
 E大的V4和lxk0301原版镜像安装canvas方法（未验证）：
