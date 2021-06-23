@@ -1,5 +1,7 @@
 /*
-惊喜牧场
+[task_local]
+#惊喜牧场
+20 0-23/3 * * * jd_jxmc.js
 */
 // prettier-ignore
 !function (t, r) { "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r() }(this, function () {
@@ -429,7 +431,13 @@ function dealReturn(type, data) {
       }
       break;
     case 'feed':
-      data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+      try {
+        data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+      }catch (e) {
+        console.log(`投喂失败`);
+        console.log(data);
+        $.runFeed = false;
+      }
       if (data.ret === 0) {
         console.log(`投喂成功`);
       } else if (data.ret === 2020) {
