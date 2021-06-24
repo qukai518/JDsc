@@ -76,7 +76,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     }
   }
   console.log(`\n\n内部互助 【赚京豆(微信小程序)-瓜分京豆】活动(优先内部账号互助(需内部cookie数量大于${$.assistNum || 4}个)，如有剩余助力次数则给作者lxk0301和随机团助力)\n`)
-  for (let i = 0; i < cookiesArr.length; i++) {
+  for (let i = 0; i < cookiesArr.length && i < 2; i++) {
     $.canHelp = true
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];

@@ -90,7 +90,7 @@ if ($.isNode()) {
       await jdDreamFactory()
     }
   }
-  for (let i = 0; i < cookiesArr.length; i++) {
+  for (let i = 0; i < cookiesArr.length && i < 2; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.isLogin = true;
