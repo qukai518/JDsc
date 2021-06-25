@@ -24,8 +24,8 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.inviteCodeList = [];
 $.authorCodeList = [
- 'qo35KEjDvoKQ68a2p-tTO0XaaytKlAw67gWmGmhHax4',
- '9LBSz2-mHKeEMdtaRGET2SLYOaBi8zmed8vDLpXXtH4',
+ "qo35KEjDvoKQ68a2p-tTO0XaaytKlAw67gWmGmhHax4",
+ "9LBSz2-mHKeEMdtaRGET2SLYOaBi8zmed8vDLpXXtH4",
 ];
 let cookiesArr = [];
 let uniqueIdList = [
@@ -112,7 +112,7 @@ if ($.isNode()) {
     //   }
     // }
     // console.log(`==================星店长任务执行完毕==================\n`);
-   /* console.log(`==================开始执行明星小店任务==================`);
+    console.log(`==================开始执行明星小店任务==================`);
     for (let i = 0; i < cookiesArr.length; i++) {
         $.index = i + 1;
         $.cookie = cookiesArr[i];
@@ -171,7 +171,7 @@ async function main() {
         }catch (e) {
             console.log(JSON.stringify(e.message));
         }
-    }*/
+    }
     console.log(`=============${$.UserName }：星店长奖励汇总================`);
     await $.wait(1000);
     $.rewards = [];
