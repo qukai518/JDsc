@@ -1,4 +1,17 @@
 # 自用青龙库
+青龙运行python脚本缺少requests模块，请按以下方式安装：
+
+1、进入青龙容器：
+   
+docker exec -it qinglong /bin/sh
+
+2、安装requests模块
+
+pip3 install requests
+
+3、安装完成，退出容器
+   
+exit
 
 新版宠汪汪脚本需要用到canvas模块进行滑动拼图验证。
 
