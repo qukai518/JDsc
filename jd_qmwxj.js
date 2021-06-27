@@ -14,7 +14,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 let allMessage = '';
-let shareCode = '';
+let shareCode = 'BFB0542F1765FAC5C5A2B60A20184EC8AD1DAAB9A3E3F6CBAFDE81EEB7393333';
 if (process.env.shareCode) {
   shareCode = process.env.shareCode;
 }
@@ -55,7 +55,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 await list1()
 await info()
 await helpme()
-//await helpme1()
+await helpme1()
 await dslq()
 
     }
