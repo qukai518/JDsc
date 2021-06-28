@@ -61,7 +61,7 @@ cd scripts
  
 4、安装png-js模块
   
-npm install png-js -S
+npm install -S png-js
    
 5、安装完成，退出容器
    
