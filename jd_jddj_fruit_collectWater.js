@@ -9,8 +9,7 @@ TG群:https://t.me/passerbyb2021
 
 [task_local]
 #京东到家果园水车收水滴
-0-59/32 * * * * hjddj_fruit_collectWater.js,tag=京东到家果园水车收水滴,img-url=https://raw.githubusercontent.com/58xinian/icon/master/ddxw.png, enabled=true
-
+0-59/32 * * * * jd_jddj_fruit_collectWater.js,tag=京东到家果园水车收水滴,img-url=https://raw.githubusercontent.com/58xinian/icon/master/ddxw.png, enabled=true
 */
 const $ = new API("jd_jddj_fruit_collectWater");
 
