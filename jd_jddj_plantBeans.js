@@ -9,7 +9,7 @@ TG群:https://t.me/passerbyb2021
 
 [task_local]
 #京东到家鲜豆庄园
-10 8 * * * jd_jddj_plantBeans.js,tag=京东到家鲜豆庄园img-url=https://raw.githubusercontent.com/58xinian/icon/master/ddxw.png, enabled=true
+10 8 * * * jd_jddj_plantBeans.js,tag=京东到家鲜豆庄园,img-url=https://raw.githubusercontent.com/58xinian/icon/master/ddxw.png, enabled=true
 
 */
 const $ = new API("jd_jddj_plantBeans");

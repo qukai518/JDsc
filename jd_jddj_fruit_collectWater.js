@@ -6,15 +6,12 @@ cookie只要里面的deviceid_pdj_jd=xxx-xxx-xxx;o2o_m_h5_sid=xxx-xxx-xxx关键�
 五分钟运行一次
 boxjs订阅地址:https://gitee.com/passerby-b/javascript/raw/master/JD/passerby-b.boxjs.json
 TG群:https://t.me/passerbyb2021
+
+[task_local]
+#京东到家果园水车收水滴
+0-59/32 * * * * hjddj_fruit_collectWater.js,tag=京东到家果园水车收水滴,img-url=https://raw.githubusercontent.com/58xinian/icon/master/ddxw.png, enabled=true
+
 */
-
-//[task_local]
-//*/5 * * * * https://raw.githubusercontent.com/passerby-b/JDDJ/main/jddj_fruit_collectWater.js
-
-//================Loon==============
-//[Script]
-//cron "*/5 * * * *" script-path=https://raw.githubusercontent.com/passerby-b/JDDJ/main/jddj_fruit_collectWater.js,tag=京东到家果园水车收水滴
-//
 const $ = new API("jd_jddj_fruit_collectWater");
 
 let ckPath = './jdCookie.js';//ck路径,环境变量:JDDJ_CKPATH
