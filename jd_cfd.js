@@ -91,7 +91,7 @@ $.appId = 10009;
       await $.wait(5000);
     }
   }
-  for (let j = 0; j < cookiesArr.length && i < 2; j++) {
+  for (let j = 0; j < cookiesArr.length && j < 2; j++) {
     cookie = cookiesArr[j];
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
     token = await getJxToken();
