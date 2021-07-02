@@ -2787,8 +2787,11 @@ async function petTask() {
             const followShops = item.followShops;
             for (let shop of followShops) {
                 if (!shop.status) {
+                	await beforeTask('follow_shop', shop.shopId);
+                    await $.wait(1000);
                     const followShopRes = await followShop(shop.shopId);
-                    console.log(`关注店铺${shop.name}结果::${JSON.stringify(followShopRes)}`)
+                    console.log(`关注店铺${shop.name}结果::${JSON.stringify(followShopRes)}`);
+                    await $.wait(2000);
                 }
             }
         }
@@ -3049,6 +3052,29 @@ function getFood(type) {
         })
     })
 }
+
+function beforeTask(fn, shopId) {
+  return new Promise(resolve => {
+    $.get({
+      url: `https://jdjoy.jd.com/common/pet/icon/click?iconCode=${fn}&linkAddr=${shopId}&reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE`,
+      headers: {
+        'Accept': '*/*',
+        'Connection': 'keep-alive',
+        'Content-Type': 'application/json',
+        'Origin': 'https://h5.m.jd.com',
+        'Accept-Language': 'zh-cn',
+        'Host': 'jdjoy.jd.com',
+        'User-Agent': 'jdapp;iPhone;10.0.6;12.4.1;fc13275e23b2613e6aae772533ca6f349d2e0a86;network/wifi;ADID/C51FD279-5C69-4F94-B1C5-890BC8EB501F;model/iPhone11,6;addressid/589374288;appBuild/167724;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1',
+        'Referer': 'https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html',
+        'cookie': cookie
+      }
+    }, (err, resp, data) => {
+      console.log('before task:', data);
+      resolve();
+    })
+  })
+}
+
 //关注店铺api
 function followShop(shopId) {
     return new Promise(resolve => {
@@ -3058,7 +3084,7 @@ function followShop(shopId) {
         const host = 'draw.jdfcloud.com';
         let opt = {
             // url: "//jdjoy.jd.com/common/pet/getPetTaskConfig?reqSource=h5",
-            url: `//draw.jdfcloud.com/common/pet/followShop?reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE&validate=${$.validate}`,
+            url: `//draw.jdfcloud.com/common/pet/followShop?reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE&validate=${$.validate} h2`,
             method: "POST",
             data: body,
             credentials: "include",
