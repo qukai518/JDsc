@@ -244,7 +244,7 @@ function draw() {
 function taskUrl(function_id, body) {
   return {
     url: `https://lop-proxy.jd.com/${function_id}`,
-    body: JSON.stringify([{"userNo": "$cooMrdGatewayUid$", "activityCode": "1376442109573201920", ...body}]),
+    body: JSON.stringify([{"userNo": "$cooMrdGatewayUid$", "activityCode": "1410048365793640448", ...body}]),
     headers: {
       'Host': 'lop-proxy.jd.com',
       'lop-dn': 'jingcai.jd.com',
