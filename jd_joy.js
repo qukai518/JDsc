@@ -2787,6 +2787,7 @@ async function petTask() {
             const followShops = item.followShops;
             for (let shop of followShops) {
                 if (!shop.status) {
+                	console.log('┖', shop.skuName)
                 	await beforeTask('follow_shop', shop.shopId);
                     await $.wait(1000);
                     const followShopRes = await followShop(shop.shopId);
@@ -2819,14 +2820,17 @@ async function petTask() {
             const followChannelList = item.followChannelList;
             for (let followChannelItem of followChannelList) {
                 if (!followChannelItem.status) {
-                    const body = {
+                   /* const body = {
                         "channelId": followChannelItem.channelId,
                         "taskType": "FollowChannel",
                         "reqSource": "weapp"
                     };
-                    const scanMarketRes = await scanMarket('scan', body);
-                    console.log(`浏览频道-${followChannelItem.channelName}结果::${JSON.stringify(scanMarketRes)}`)
-                     await $.wait(11000)
+                    const scanMarketRes = await scanMarket('scan', body);*/
+                    console.log('┖', followChannelItem['channelName'])
+                    await beforeTask('follow_channel', followChannelItem.channelId);
+                    await doTask(JSON.stringify({"channelId": followChannelItem.channelId, "taskType": 'FollowChannel'}))
+                    //console.log(`浏览频道-${followChannelItem.channelName}结果::${JSON.stringify(scanMarketRes)}`)
+                     await $.wait(5000)
                 }
             }
         }
@@ -2836,10 +2840,15 @@ async function petTask() {
             const followGoodList = item.followGoodList;
             for (let followGoodItem of followGoodList) {
                 if (!followGoodItem.status) {
-                    const body = `sku=${followGoodItem.sku}&reqSource=h5`;
+                    /*const body = `sku=${followGoodItem.sku}&reqSource=h5`;
                     const scanMarketRes = await scanMarket('followGood', body, 'application/x-www-form-urlencoded');
                     // const scanMarketRes = await appScanMarket('followGood', `sku=${followGoodItem.sku}&reqSource=h5`, 'application/x-www-form-urlencoded');
-                    console.log(`关注商品-${followGoodItem.skuName}结果::${JSON.stringify(scanMarketRes)}`)
+                    console.log(`关注商品-${followGoodItem.skuName}结果::${JSON.stringify(scanMarketRes)}`)*/
+                     console.log('┖', followGoodItem.skuName)
+                     await beforeTask('follow_good', followGoodItem.sku)
+                     await $.wait(1000)
+                     await doTask(`sku=${followGoodItem.sku}`, 'followGood')
+                     await $.wait(3000)
                 }
             }
         }
@@ -3108,6 +3117,39 @@ function followShop(shopId) {
         })
     })
 }
+
+function doTask(body, fnId = 'scan') {
+  return new Promise(resolve => {
+    $.post({
+      url: `https://jdjoy.jd.com/common/pet/${fnId}?reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE`,
+      headers: {
+        'Host': 'jdjoy.jd.com',
+        'accept': '*/*',
+        'content-type': fnId === 'followGood' || fnId === 'FollowChannel' || fnId === 'followShop' ? 'application/x-www-form-urlencoded' : 'application/json',
+        'origin': 'https://h5.m.jd.com',
+        'accept-language': 'zh-cn',
+        'referer': 'https://h5.m.jd.com/',
+        'Content-Type': fnId === 'followGood' ? 'application/x-www-form-urlencoded' : 'application/json; charset=UTF-8',
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+        'cookie': cookie
+      },
+      body: body
+    }, (err, resp, data) => {
+      if (err)
+        console.log('\tdoTask() Error:', err)
+      try {
+        console.log('\tdotask:', data)
+        data = JSON.parse(data);
+        data.success ? console.log('\t任务成功') : console.log('\t任务失败', JSON.stringify(data))
+      } catch (e) {
+        $.logErr(e);
+      } finally {
+        resolve();
+      }
+    })
+  })
+}
+
 
 function enterRoom() {
     return new Promise(resolve => {
