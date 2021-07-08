@@ -1,13 +1,65 @@
-/*
-[task_local]
-#燃动夏季
-1 0-23/4 * * * jd_summer_movement.js, tag=燃动夏季, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
-*/
-
+/**
+ *  燃动夏季
+ *  25 0,6-23/2 * * *
+ * */
 const $ = new Env('燃动夏季');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const MovementFaker = require('./MovementFaker.js');
+const https = require('https');
+const fs = require('fs/promises');
+const { R_OK } = require('fs').constants;
+const vm = require('vm');
+const URL = 'https://wbbny.m.jd.com/babelDiy/Zeus/2rtpffK8wqNyPBH6wyUDuBKoAbCt/index.html';
+const SYNTAX_MODULE = '!function(n){var r={};function o(e){if(r[e])';
+const REG_SCRIPT = /<script type="text\/javascript" src="([^><]+\/(app\.\w+\.js))\">/gm;
+const REG_ENTRY = /(__webpack_require__\(__webpack_require__.s=)(\d+)(?=\)})/;
+const needModuleId = 355
+const DATA = {appid:'50085',sceneid:'OY217hPageh5'};
+let smashUtils;
+class MovementFaker {
+  constructor(cookie) {this.cookie = cookie;this.ua = require('./USER_AGENTS.js').USER_AGENT;}
+  async run() {if (!smashUtils) {await this.init();}
+    var t = Math.floor(1e7 + 9e7 * Math.random()).toString();
+    var e = smashUtils.get_risk_result({id: t,data: {random: t}}).log;
+    var o = JSON.stringify({extraData: {log:  e || -1,sceneid: DATA.sceneid,},random: t});
+    return o;
+  }
+  async init() {
+    try {
+      console.time('MovementFaker');process.chdir(__dirname);const html = await MovementFaker.httpGet(URL);const script = REG_SCRIPT.exec(html);
+      if (script) {const [, scriptUrl, filename] = script;const jsContent = await this.getJSContent(filename, scriptUrl);const fnMock = new Function;const ctx = {window: { addEventListener: fnMock },document: {addEventListener: fnMock,removeEventListener: fnMock,cookie: this.cookie,},navigator: { userAgent: this.ua },};vm.createContext(ctx);vm.runInContext(jsContent, ctx);smashUtils = ctx.window.smashUtils;smashUtils.init(DATA);
+      }
+      console.timeEnd('MovementFaker');
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  async getJSContent(cacheKey, url) {
+    try {await fs.access(cacheKey, R_OK);const rawFile = await fs.readFile(cacheKey, { encoding: 'utf8' });return rawFile;
+    } catch (e) {
+      let jsContent = await MovementFaker.httpGet(url);
+      const moduleIndex = jsContent.indexOf(SYNTAX_MODULE, 1);
+      const findEntry = REG_ENTRY.test(jsContent);
+      if (!(moduleIndex && findEntry)) {
+        throw new Error('Module not found.');
+      }
+      jsContent = jsContent.replace(REG_ENTRY, `$1${needModuleId}`);
+      fs.writeFile(cacheKey, jsContent);
+      return jsContent;
+      REG_ENTRY.lastIndex = 0;
+      const entry = REG_ENTRY.exec(jsContent);
+    }
+  }
+  static httpGet(url) {
+    return new Promise((resolve, reject) => {
+      const protocol = url.indexOf('http') !== 0 ? 'https:' : '';
+      const req = https.get(protocol + url, (res) => {res.setEncoding('utf-8');let rawData = '';res.on('error', reject);res.on('data', chunk => rawData += chunk);res.on('end', () => resolve(rawData));});
+      req.on('error', reject);
+      req.end();
+    });
+  }
+}
+
 $.inviteList = [];
 let uuid = 8888;
 let cookiesArr = [];
@@ -86,6 +138,12 @@ async function main(){
     await $.wait(1000);
     await takePostRequest('olympicgames_receiveCash');
   }
+  if($.homeData.result.trainingInfo.state === 0 && !$.homeData.result.trainingInfo.finishFlag){
+    console.log(`开始运动`)
+    await takePostRequest('olympicgames_startTraining');
+  }else if($.homeData.result.trainingInfo.state === 0 && $.homeData.result.trainingInfo.finishFlag){
+    console.log(`已完成今日运动`)
+  }
   bubbleInfos = $.homeData.result.bubbleInfos;
   let runFlag = false;
   for(let item of bubbleInfos){
@@ -109,6 +167,8 @@ async function main(){
   console.log(`开始做任务`)
   await doTask();
 }
+
+async function getBody($) {const zf = new MovementFaker($.cookie);const ss = await zf.run();return ss;}
 
 async function doTask(){
   //做任务
@@ -178,8 +238,6 @@ async function doTask(){
   }
 }
 
-
-
 async function takePostRequest(type) {
   let body = ``;
   let myRequest = ``;
@@ -213,6 +271,10 @@ async function takePostRequest(type) {
       myRequest = await getPostRequest(body);
       break;
     case 'help':
+      body = await getPostBody(type);
+      myRequest = await getPostRequest( body);
+      break;
+    case 'olympicgames_startTraining':
       body = await getPostBody(type);
       myRequest = await getPostRequest( body);
       break;
@@ -320,11 +382,18 @@ async function dealReturn(type, data) {
       if (data.code === 0 && data.data && data.data.result) {
         console.log(`收取成功，获得：${data.data.result.poolCurrency}`);
       }else{
-        console.log(result);
+        console.log(JSON.stringify(data));
       }
       if(data.code === 0 && data.data && data.data.bizCode === -1002){
-        //$.hotFlag = true;
+        //$.hotFlag = true;:wq
         //console.log(`该账户脚本执行任务火爆，暂停执行任务，请手动做任务或者等待解决脚本火爆问题`)
+      }
+      break;
+    case 'olympicgames_startTraining':
+      if (data.code === 0 && data.data && data.data.result) {
+        console.log(`执行运动成功`);
+      }else{
+        console.log(JSON.stringify(data));
       }
       break;
     default:
@@ -413,13 +482,15 @@ async function getPostBody(type) {
   return new Promise(async resolve => {
     let taskBody = '';
     try {
-      const log = await MovementFaker.getBody($)
+      const log = await getBody($)
       if (type === 'help') {
         taskBody = `functionId=olympicgames_assist&body=${JSON.stringify({"inviteId":$.inviteId,"type": "confirm","ss" :log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`
       } else if (type === 'olympicgames_collectCurrency') {
         taskBody = `functionId=olympicgames_collectCurrency&body=${JSON.stringify({"type":$.collectId,"ss" : log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`;
       } else if(type === 'add_car'){
         taskBody = `functionId=olympicgames_doTaskDetail&body=${JSON.stringify({"taskId": $.taskId,"taskToken":$.taskToken,"ss" : log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`
+      }else if(type === 'olympicgames_startTraining'){
+        taskBody = `functionId=olympicgames_startTraining&body=${JSON.stringify({"ss" : log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`
       }else{
         taskBody = `functionId=${type}&body=${JSON.stringify({"taskId": $.oneTask.taskId,"actionType":1,"taskToken" : $.oneActivityInfo.taskToken,"ss" : log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`
       }
