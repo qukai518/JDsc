@@ -70,12 +70,14 @@ async function main(id) {
             console.log("互助京享值:", k.score);
             console.log("ε==(づ′▽`)づ")
             let lData = await launchBattle(k.friendPin)
+            await $.wait(500)
             if (lData.msg == '今日次数已耗尽') {
                 break
             }
             n++;
         }
         await getBoxRewardInfo();
+        await $.wait(500)
     } catch (e) {
         console.log("当前任务出错")
     }
