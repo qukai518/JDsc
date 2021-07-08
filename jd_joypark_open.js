@@ -7,17 +7,17 @@
 ============Quantumultx===============
 [task_local]
 #汪汪乐园开工位
-20 9 * * * jd_joypark_open.js, tag=汪汪乐园开工位, img-url=https://raw.githubusercontent.com/tsukasa007/icon/master/jd_joypark_open.png, enabled=true
+20 19 * * * jd_joypark_open.js, tag=汪汪乐园开工位, img-url=https://raw.githubusercontent.com/tsukasa007/icon/master/jd_joypark_open.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "20 9 * * *" script-path=jd_joypark_open.js,tag=汪汪乐园开工位
+cron "20 19 * * *" script-path=jd_joypark_open.js,tag=汪汪乐园开工位
 
 ===============Surge=================
-汪汪乐园开工位 = type=cron,cronexp="20 9 * * *",wake-system=1,timeout=3600,script-path=jd_joypark_open.js
+汪汪乐园开工位 = type=cron,cronexp="20 19 * * *",wake-system=1,timeout=3600,script-path=jd_joypark_open.js
 
 ============小火箭=========
-汪汪乐园开工位 = type=cron,script-path=jd_joypark_open.js, cronexpr="20 9 * * *", timeout=3600, enable=true
+汪汪乐园开工位 = type=cron,script-path=jd_joypark_open.js, cronexpr="20 19 * * *", timeout=3600, enable=true
 */
 const $ = new Env('汪汪乐园开工位');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
