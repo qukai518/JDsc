@@ -107,29 +107,6 @@ if ($.isNode()) {
       }
     }
   }
-  if(helpAuthorFlag){
-    let res = [];
-    res = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/jd_zoo.json');
-    if(!res){
-      res = [];
-    }else{
-      res = getRandomArrayElements(res,res.length);
-    }
-    if(res.length >0){
-      console.log(`\n******开始助力作者百元守卫战*********\n`);
-      for (let i = 0; i < cookiesArr.length; i++) {
-        $.cookie = cookiesArr[i];
-        $.canHelp = true;
-        $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-        for (let i = 0; i < res.length && $.canHelp; i++) {
-          $.inviteId = res[i];
-          console.log(`${$.UserName} 去助力 ${$.inviteId}`);
-          await takePostRequest('byHelp');
-          await $.wait(1000);
-        }
-      }
-    }
-  }
   if ($.inviteList.length > 0) console.log(`\n******开始内部京东账号【邀请好友助力】*********\n`);
   for (let i = 0; i < cookiesArr.length; i++) {
     $.cookie = cookiesArr[i];
@@ -147,7 +124,30 @@ if ($.isNode()) {
       await $.wait(2000);
     }
   }
-
+  if(helpAuthorFlag){
+    let res = [],res2 = [];
+    try{
+      res = await getAuthorShareCode('http://cdn.boledao.com/jd_zoo.json');
+      res2 = await getAuthorShareCode(`http://cdn.boledao.com/jd_zoo.json`);
+    }catch (e) {}
+    if(!res){res = [];}
+    if(!res2){res2 = [];}
+    let allCodeList = getRandomArrayElements([ ...res, ...res2],[ ...res, ...res2].length);
+    if(allCodeList.length >0){
+      console.log(`\n******开始助力作者百元守卫战*********\n`);
+      for (let i = 0; i < cookiesArr.length; i++) {
+        $.cookie = cookiesArr[i];
+        $.canHelp = true;
+        $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+        for (let i = 0; i < allCodeList.length && $.canHelp; i++) {
+          $.inviteId = allCodeList[i];
+          console.log(`${$.UserName} 去助力 ${$.inviteId}`);
+          await takePostRequest('byHelp');
+          await $.wait(1000);
+        }
+      }
+    }
+  }
 })().catch((e) => {$.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')}).finally(() => {$.done();})
 
 
@@ -179,7 +179,10 @@ async function main(){
       runFlag = true;
     }
   }
-  if(runFlag) await takePostRequest('olympicgames_home');
+  if(runFlag) {
+    await takePostRequest('olympicgames_home');
+    $.userInfo =$.homeData.result.userActBaseInfo;
+  }
   if (runFlag && Number($.userInfo.poolCurrency) >= Number($.userInfo.exchangeThreshold)) {
     console.log(`满足升级条件，去升级`);
     await $.wait(1000);
@@ -312,14 +315,16 @@ async function takePostRequest(type) {
       myRequest = await getPostRequest( body);
       break;
     case 'olypicgames_guradHome':
-      body = `functionId=olypicgames_guradHome&body={}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=${$.appid}`;
+      body = `functionId=olypicgames_guradHome&body={}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`;
       myRequest = await getPostRequest( body);
       break
     default:
       console.log(`错误${type}`);
   }
-  if( type === 'add_car' || type === 'help' ||  type === 'byHelp'){
+  if( type === 'add_car' ){
     myRequest['url'] = `https://api.m.jd.com/client.action?advId=olympicgames_doTaskDetail`;
+  }else if( type === 'help' ||  type === 'byHelp'){
+    myRequest['url'] = `https://api.m.jd.com/client.action?advId=olympicgames_assist`;
   }else{
     myRequest['url'] = `https://api.m.jd.com/client.action?advId=${type}`;
   }
@@ -389,11 +394,15 @@ async function dealReturn(type, data) {
       break;
     case 'add_car':
       if (data.code === 0) {
-        let acquiredScore = data.data.result.acquiredScore;
-        if(Number(acquiredScore) > 0){
-          console.log(`加购成功,获得金币:${acquiredScore}`);
+        if(data.data && data.data.result && data.data.result.acquiredScore){
+          let acquiredScore = data.data.result.acquiredScore;
+          if(Number(acquiredScore) > 0){
+            console.log(`加购成功,获得金币:${acquiredScore}`);
+          }else{
+            console.log(`加购成功`);
+          }
         }else{
-          console.log(`加购成功`);
+          console.log(JSON.stringify(data));
         }
       }else{
         console.log(`加购失败`);
@@ -407,14 +416,17 @@ async function dealReturn(type, data) {
           console.log(`助力成功`);
         }
       }else if(data.data && data.data.bizMsg){
-        if(data.data.bizMsg.indexOf('今天用完所有') > -1){
+        if(data.data.bizCode === -405){
           $.canHelp = false;
+        }
+        if(data.data.bizCode === -404){
+          $.oneInviteInfo.max = true;
         }
         console.log(data.data.bizMsg);
       }else{
         console.log(JSON.stringify(data));
       }
-      console.log(`助力结果\n${JSON.stringify(data)}`)
+      //console.log(`助力结果\n${JSON.stringify(data)}`)
       break;
     case 'olympicgames_collectCurrency':
       if (data.code === 0 && data.data && data.data.result) {
@@ -495,8 +507,8 @@ async function getPostBody(type) {
   return new Promise(async resolve => {
     let taskBody = '';
     try {
-      const log = await getBody($)
-      if (type === 'help' || type === 'byhelp') {
+      const log = await getBody($);
+      if (type === 'help' || type === 'byHelp') {
         taskBody = `functionId=olympicgames_assist&body=${JSON.stringify({"inviteId":$.inviteId,"type": "confirm","ss" :log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`
       } else if (type === 'olympicgames_collectCurrency') {
         taskBody = `functionId=olympicgames_collectCurrency&body=${JSON.stringify({"type":$.collectId,"ss" : log})}&client=wh5&clientVersion=1.0.0&uuid=${uuid}&appid=o2_act`;
@@ -544,7 +556,7 @@ function getRandomArrayElements(arr, count) {
 function getAuthorShareCode(url) {
   return new Promise(async resolve => {
     const options = {
-      "url": `${url}?${new Date()}`,
+      "url": `${url}`,
       "timeout": 10000,
       "headers": {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
