@@ -106,7 +106,7 @@ async function xgyl() {
 
 function getActInfo() {
   return new Promise(resolve => {
-    $.post(taskUrl('WonderfulLuckDrawApi/queryActivityBaseInfo'), (err, resp, data) => {
+    $.post(taskUrl('luckdraw/queryActivityBaseInfo'), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -221,7 +221,7 @@ function doMission(body) {
 
 function draw() {
   return new Promise(resolve => {
-    $.post(taskUrl('WonderfulLuckDrawApi/draw'), async (err, resp, data) => {
+    $.post(taskUrl('luckdraw/draw'), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
