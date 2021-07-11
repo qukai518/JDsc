@@ -89,7 +89,7 @@ const JD_API_HOST = 'https://lkyl.dianpusoft.cn/api';
         console.log(`\n${$.UserName} 去给自己的下一账号 ${decodeURIComponent($.newShareCodes[(i + 1) % $.newShareCodes.length]['cookie'].match(/pt_pin=([^; ]+)(?=;?)/) && $.newShareCodes[(i + 1) % $.newShareCodes.length]['cookie'].match(/pt_pin=([^; ]+)(?=;?)/)[1])}助力，助力码为 ${code}\n`)
         await createAssistUser(code, $.createAssistUserID);
       }
-      console.log(`\n去帮助作者:LXK9301\n`)
+      //console.log(`\n去帮助作者:LXK9301\n`)
       await helpFriends();
     }
   }
@@ -513,7 +513,7 @@ function createInviteUser() {
 }
 
 function createAssistUser(inviteId, taskId) {
-  console.log(`${inviteId}, ${taskId}`);
+  //console.log(`${inviteId}, ${taskId}`);
   return new Promise(resolve => {
     $.get(taskUrl(`/ssjj-task-record/createAssistUser/${inviteId}/${taskId}`), (err, resp, data) => {
       try {
@@ -699,7 +699,7 @@ function ssjjRooms() {
 function loginHome() {
   return new Promise(resolve => {
     const options = {
-      "url": "https://jdhome.m.jd.com/saas/framework/encrypt/pin?appId=6d28460967bda11b78e077b66751d2b0",
+      "url": "https://draw.jdfcloud.com//saas/framework/encrypt/pin?appId=6d28460967bda11b78e077b66751d2b0",
       "headers": {
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
@@ -708,9 +708,9 @@ function loginHome() {
         "Content-Length": "0",
         "Content-Type": "application/json",
         "Cookie": cookie,
-        "Host": "jdhome.m.jd.com",
-        "Origin": "https://jdhome.m.jd.com",
-        "Referer": "https://jdhome.m.jd.com/dist/taro/index.html/",
+        "Host": "draw.jdfcloud.com",
+        "Origin": "https://draw.jdfcloud.com",
+        "Referer": "https://draw.jdfcloud.com/dist/taro/index.html/",
         "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
       }
     }
@@ -738,7 +738,7 @@ function login(userName) {
     const body = {
       "body": {
         "client": 2,
-        userName
+        "userName" : userName
       }
     };
     const options = {
