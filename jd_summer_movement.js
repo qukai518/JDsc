@@ -63,8 +63,8 @@ class MovementFaker {
   }
 }
 
-$.inviteList = ['HcmphLbwLg33L4CeFYEw0chDtv4F59dCydHp2Hs1Ot8Rsm8bAgsAk51IfcK9GmJl3Ts6KaiE_k5eGgYP3vZafQ','HcmphLbwLg-mf4ScH4Y2g4dnCsKovvoV3IYAQlZhvKbUIGlnU49VMSdnc4q3pC5NVv-pbDOsde1ZWa4t7fSv4A'];
-$.byInviteList = [];
+$.inviteList = [];
+$.byInviteList = ['HcmphLbwLg33L4CeFYEw0chDtv4F59dCydHp2Hs1Ot8Rsm8bAgsAk51IfcK9GmJl3Ts6KaiE_k5eGgYP3vZafQ','HcmphLbwLg-mf4ScH4Y2g4dnCsKovvoV3IYAQlZhvKbUIGlnU49VMSdnc4q3pC5NVv-pbDOsde1ZWa4t7fSv4A'];
 let uuid = 8888;
 let cookiesArr = [];
 if ($.isNode()) {
