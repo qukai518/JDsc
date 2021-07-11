@@ -575,7 +575,6 @@ module.exports = {
 
 
 const $ = new Env('宠汪汪');
-//const zooFaker = require('./JDJRValidator_Pure-xiaoxiao');
 $.get = injectToRequest2($.get.bind($));
 $.post = injectToRequest2($.post.bind($));
 const notify = $.isNode() ? require('./sendNotify') : '';
