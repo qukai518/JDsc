@@ -144,7 +144,7 @@ async function helpFriends() {
   // await updateInviteCode();
   // if (!$.inviteCodes) await updateInviteCodeCDN();
   if ($.inviteCodes && $.inviteCodes['inviteCode'] && $.inviteCodes['inviteCode'].length) {
-    console.log(`\n去帮助作者\n`)
+    //console.log(`\n去帮助作者\n`)
     for (let item of $.inviteCodes.inviteCode) {
       if (!item) continue
       await createAssistUser(item, $.createAssistUserID);
