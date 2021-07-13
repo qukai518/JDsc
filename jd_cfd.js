@@ -1,23 +1,19 @@
-/*
+  /*
 京喜财富岛
 cron 25 0,8,13,19 * * * jd_cfd.js
 更新时间：2021-7-13
 活动入口：京喜APP-我的-京喜财富岛
-
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ============Quantumultx===============
 [task_local]
 #京喜财富岛
 25 0,8,13,19 * * * jd_cfd.js, tag=京喜财富岛, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jxcfd.png, enabled=true
-
 ================Loon==============
 [Script]
 cron "25 0,8,13,19 * * *" script-path=jd_cfd.js,tag=京喜财富岛
-
 ===============Surge=================
 京喜财富岛 = type=cron,cronexp="25 0,8,13,19 * * *",wake-system=1,timeout=3600,script-path=jd_cfd.js
-
 ============小火箭=========
 京喜财富岛 = type=cron,script-path=jd_cfd.js, cronexpr="25 0,8,13,19 * * *", timeout=3600, enable=true
  */
@@ -109,7 +105,7 @@ $.appId = 10028;
     }
     if (!$.canHelp) continue
     if ($.strMyShareIds && $.strMyShareIds.length) {
-      console.log(`\n助力作者\n`);
+      //console.log(`\n助力作者\n`);
       for (let id of $.strGroupIds) {
         console.log(`账号${$.UserName} 去助力 ${id}`)
         await helpByStage(id)
@@ -1001,7 +997,7 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       // const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = [...$.strMyShareIds];
+      $.newShareCodes = [...$.strMyShareIds, "649BDFE702AB9B4AC43874750949D647C2E6AB3CBCC9707E6239BDE6CC7FE34F","4C5F507C7D368B4BD8D6FBDC3B6471DFBF703D461F6456B81EEFCBB712D3B00A"];
     }
      const readShareCodeRes = await readShareCode();
      if (readShareCodeRes && readShareCodeRes.code === 200) {
