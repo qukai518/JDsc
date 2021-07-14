@@ -361,7 +361,7 @@ function smtg_obtainPrize(prizeId, timeout = 0, functionId = 'smt_exchangePrize'
 }
 function smtgHome() {
   return new Promise((resolve) => {
-    $.get(taskUrl('smtg_home'), (err, resp, data) => {
+    $.get(taskUrl('smtg_newHome'), (err, resp, data) => {
       try {
         if (err) {
           console.log('\n东东超市兑换奖品: API查询请求失败 ‼️‼️')
