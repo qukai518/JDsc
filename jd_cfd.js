@@ -34,7 +34,7 @@ $.result = [];
 $.shareCodes = [];
 let cookiesArr = [], cookie = '', token;
 
-const randomCount = $.isNode() ? 3 : 3;
+const randomCount = $.isNode() ? 2 : 2;
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -105,7 +105,7 @@ $.appId = 10028;
     }
     if (!$.canHelp) continue
     if ($.strMyShareIds && $.strMyShareIds.length) {
-     // console.log(`\n助力作者\n`);
+    //  console.log(`\n助力作者\n`);
       for (let id of $.strMyShareIds) {
         console.log(`账号${$.UserName} 去助力 ${id}`)
         await helpByStage(id)
@@ -156,7 +156,7 @@ async function cfd() {
     for(let key of Object.keys($.info.buildInfo.buildList)) {
       let vo = $.info.buildInfo.buildList[key]
       let body = `strBuildIndex=${vo.strBuildIndex}`
-      await getBuildInfo(body, vo.strBuildIndex)
+      await getBuildInfo(body, vo)
       await $.wait(1000)
     }
 
@@ -375,7 +375,11 @@ function helpdraw(dwUserId) {
         } else {
           data = JSON.parse(data);
           if (data.iRet === 0 || data.sErrMsg === "success") {
-            console.log(`领取助力奖励成功：获得${data.Data.ddwCoin}金币`)
+            if (data.Data.StagePrizeInfo) {
+              console.log(`领取助力奖励成功：获得${data.Data.ddwCoin}金币 ${data.Data.StagePrizeInfo.ddwMoney}财富 ${data.Data.StagePrizeInfo.strPrizeName}红包`)
+            } else {
+              console.log(`领取助力奖励成功：获得${data.Data.ddwCoin}金币`)
+            }
           } else {
             console.log(`领取助力奖励失败：${data.sErrMsg}`)
           }
@@ -598,7 +602,7 @@ function employTourGuide(body, buildNmae) {
 }
 
 // 升级建筑
-async function getBuildInfo(body, strBuildIndex, type = true) {
+async function getBuildInfo(body, buildList, type = true) {
   let twobody = body
   return new Promise(async (resolve) => {
     $.get(taskUrl(`user/GetBuildInfo`, body), async (err, resp, data) => {
@@ -610,7 +614,7 @@ async function getBuildInfo(body, strBuildIndex, type = true) {
           data = JSON.parse(data);
           if (type) {
             let buildNmae;
-            switch(strBuildIndex) {
+            switch(buildList.strBuildIndex) {
               case 'food':
                 buildNmae = '京喜美食城'
                 break
@@ -631,7 +635,7 @@ async function getBuildInfo(body, strBuildIndex, type = true) {
               console.log(`【${buildNmae}】当前建筑还未创建，开始创建`)
               await createbuilding(`strBuildIndex=${data.strBuildIndex}`, buildNmae)
               await $.wait(2000)
-              data = await getBuildInfo(twobody, strBuildIndex, false)
+              data = await getBuildInfo(twobody, buildList, false)
               await $.wait(2000)
             }
             console.log(`收金币`)
@@ -641,8 +645,9 @@ async function getBuildInfo(body, strBuildIndex, type = true) {
             await $.wait(2000)
             await getUserInfo(false)
             console.log(`升级建筑`)
+            console.log(`【${buildNmae}】当前等级：${buildList.dwLvl} 升级获得财富：${data.ddwLvlRich}`)
             console.log(`【${buildNmae}】升级需要${data.ddwNextLvlCostCoin}金币，当前拥有${$.info.ddwCoinBalance}`)
-            if(data.dwCanLvlUp === 1 && $.info.ddwCoinBalance >= data.ddwNextLvlCostCoin) {
+            if(data.dwCanLvlUp > 0 && $.info.ddwCoinBalance >= data.ddwNextLvlCostCoin) {
               console.log(`【${buildNmae}】满足升级条件，开始升级`)
               const body = `ddwCostCoin=${data.ddwNextLvlCostCoin}&strBuildIndex=${data.strBuildIndex}`
               let buildLvlUpRes = await buildLvlUp(body)
@@ -987,7 +992,7 @@ function awardTask(taskType, taskinfo) {
               if (msg.indexOf('活动太火爆了') !== -1) {
                 str = '任务为成就任务或者未到任务时间';
               } else {
-                str = msg + prizeInfo ? ` 获得金币 ¥ ${JSON.parse(prizeInfo).ddwCoin}` : '';
+                str = msg + prizeInfo ? `获得金币 ¥ ${JSON.parse(prizeInfo).ddwCoin}` : '';
               }
               console.log(`【领日常奖励】${taskName} ${str}\n${$.showLog ? data : ''}`);
             }
@@ -1159,9 +1164,9 @@ function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
     $.get({
-      url: `http://cdn.boledao.com/shareCodes/cfd.json`,headers:{
-      "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-    }}, async (err, resp, data) => {
+      url: `http://share.turinglabs.net/api/v3/jxbfd/query/${randomCount}/`,
+      'timeout': 10000
+    }, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
