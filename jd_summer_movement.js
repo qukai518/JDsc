@@ -18,7 +18,7 @@ const REG_SCRIPT = /<script type="text\/javascript" src="([^><]+\/(app\.\w+\.js)
 const REG_ENTRY = /(__webpack_require__\(__webpack_require__.s=)(\d+)(?=\)})/;
 const needModuleId = 356
 const DATA = {appid:'50085',sceneid:'OY217hPageh5'};
-const ua = `jdltapp;iPhone;3.1.0;${Math.ceil(Math.random()*4+10)}.${Math.ceil(Math.random()*4)};${randomString(40)}`;
+const ua = `jdltapp;iPhone;3.1.0;${Math.ceil(Math.random()*4+10)}.${Math.ceil(Math.random()*4)};${randomString(40)};`
 let smashUtils;
 class MovementFaker {
   constructor(cookie) {this.cookie = cookie;this.ua = ua;}
