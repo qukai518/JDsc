@@ -2757,7 +2757,7 @@ function getFriends(currentPage = '1') {
     let opt = {
       //url: `draw.jdfcloud.com//common/pet/api/getFriends?validate=${$.validate}&itemsPerPage=20&currentPage=${currentPage * 1}&reqSource=weapp`,
       // url: `//draw.jdfcloud.com/common/pet/getPetTaskConfig?reqSource=h5&invokeKey=Oex5GmEuqGep1WLC&validate=${$.validate}`,
-      url: `draw.jdfcloud.com/common/pet/h5/getFriends?itemsPerPage=20&currentPage=${currentPage * 1}&reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE&validate=${$.validate}`,
+      url: `draw.jdfcloud.com/common/pet/h5/getFriends?itemsPerPage=20&currentPage=${currentPage * 1}&reqSource=h5&invokeKey=qRKHmL4sna8ZOP9F&validate=${$.validate}`,
       method: "GET",
       data: {},
       credentials: "include",
@@ -2942,7 +2942,7 @@ function getRandomFood(friendPin) {
 function getCoinChanges() {
   return new Promise(resolve => {
     let opt = {
-      url: `jdjoy.jd.com/common/pet/getCoinChanges?changeDate=${Date.now()}&reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE&validate=${$.validate}`,
+      url: `jdjoy.jd.com/common/pet/getCoinChanges?changeDate=${Date.now()}&reqSource=h5&invokeKey=qRKHmL4sna8ZOP9F&validate=${$.validate}`,
       // url: "//draw.jdfcloud.com/common/pet/getPetTaskConfig?reqSource=h5",
       method: "GET",
       data: {},
@@ -3067,7 +3067,7 @@ function TotalBean() {
 }
 function taskUrl(functionId, friendPin) {
   let opt = {
-    url: `jdjoy.jd.com/common/pet/${functionId}?friendPin=${encodeURI(friendPin)}&reqSource=h5&invokeKey=NRp8OPxZMFXmGkaE&validate=${$.validate}`,
+    url: `jdjoy.jd.com/common/pet/${functionId}?friendPin=${encodeURI(friendPin)}&reqSource=h5&invokeKey=qRKHmL4sna8ZOP9F&validate=${$.validate}`,
     // url: `//draw.jdfcloud.com/common/pet/getPetTaskConfig?reqSource=h5`,
     method: "GET",
     data: {},
