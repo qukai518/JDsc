@@ -103,14 +103,14 @@ const JD_API_HOST = 'https://api.m.jd.com/';
          await help(code[0], code[1])
        }
      }
-   }
+   }*/
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
   })
   .finally(() => {
     $.done();
-  })*/
+  })
 
 async function jdBeanHome() {
   $.doneState = false
