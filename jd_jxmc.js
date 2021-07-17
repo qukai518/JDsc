@@ -1,4 +1,4 @@
-[task_local]
+/*[task_local]
 #惊喜牧场
 20 0-23/3 * * * jd_jxmc.js
 */
