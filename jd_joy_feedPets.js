@@ -2419,7 +2419,7 @@ function getCoordinate(c) {
     }
     return b.join("")
 }
-const HZ = 60;
+const HZ = 20;
 class MousePosFaker {
     constructor(puzzleX) {
         this.x = parseInt(Math.random() * 20 + 20, 10);
