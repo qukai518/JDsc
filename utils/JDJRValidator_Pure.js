@@ -8,7 +8,7 @@ const http = require('http');
 const stream = require('stream');
 const zlib = require('zlib');
 const vm = require('vm');
-//const PNG = require('png-js');
+const PNG = require('png-js');
 const UA = require('../USER_AGENTS.js').USER_AGENT;
 
 
