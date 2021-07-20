@@ -4,7 +4,7 @@
 14 10 * * *
 */
 
-const runWithCanvas = require('./utils/JDJRValidator_Pure.js');
+const validator = require('./utils/JDJRValidator_Pure.js');
 const Faker=require('./utils/sign_validate.js') 
 
 const $ = new Env('京东签到图形验证');
@@ -38,8 +38,8 @@ const turnTableId = [
   { "name": "京东商城-数码", "id": 347, "url": "https://prodev.m.jd.com/mall/active/4SWjnZSCTHPYjE5T7j35rxxuMTb6/index.html" },
   { "name": "京东超市", "id": 1204, "url": "https://pro.m.jd.com/mall/active/QPwDgLSops2bcsYqQ57hENGrjgj/index.html" },
 ]
-$.get = runWithCanvas.injectToRequest2($.get.bind($), 'channelSign')
-$.post = runWithCanvas.injectToRequest2($.post.bind($), 'channelSign')
+$.get = validator.injectToRequest($.get.bind($), 'channelSign')
+$.post = validator.injectToRequest($.post.bind($), 'channelSign')
 
 !(async () => {
   if (!cookiesArr[0]) {

@@ -1,6 +1,6 @@
 let common = require("./utils/common");
 let $ = new common.env('京东验证码获取'); 
-let runWithCanvas = require("./utils/jdValidate");
+let validator = require("./utils/jdValidate");
 let fs = require("fs"); 
 $.setOptions({
     headers: {
@@ -19,7 +19,7 @@ async function prepare() {
     })
 }
 async function main(id) {
-    let code = new runWithCanvas.JDJRValidator;
+    let code = new validator.JDJRValidator;
     for (let i = 0; i < 2; i++) {
         while (true) {
             try {
