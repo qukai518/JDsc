@@ -4,8 +4,8 @@
 14 10 * * *
 */
 
-const runWithCanvas = require('./JDJRValidator_Pure.js');
-const Faker=require('./sign_validate.js') 
+const runWithCanvas = require('./utils/JDJRValidator_Pure.js');
+const Faker=require('./utils/sign_validate.js') 
 
 const $ = new Env('京东签到图形验证');
 const notify = $.isNode() ? require('./sendNotify') : '';
