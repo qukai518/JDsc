@@ -38,8 +38,8 @@ const turnTableId = [
   { "name": "京东商城-数码", "id": 347, "url": "https://prodev.m.jd.com/mall/active/4SWjnZSCTHPYjE5T7j35rxxuMTb6/index.html" },
   { "name": "京东超市", "id": 1204, "url": "https://pro.m.jd.com/mall/active/QPwDgLSops2bcsYqQ57hENGrjgj/index.html" },
 ]
-$.get = validator.injectToRequest($.get.bind($), 'channelSign')
-$.post = validator.injectToRequest($.post.bind($), 'channelSign')
+$.get = validator.injectToRequest2($.get.bind($), 'channelSign')
+$.post = validator.injectToRequest2($.post.bind($), 'channelSign')
 
 !(async () => {
   if (!cookiesArr[0]) {
