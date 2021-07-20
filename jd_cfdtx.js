@@ -100,7 +100,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
 async function cfd() {
   try {
     if ((new Date().getHours() === 11 || new Date().getHours() === 23) && new Date().getMinutes() === 59) {
-      let nowtime = new Date().Format("ss")
+      let nowtime = new Date().Format("s.S")
       let starttime = process.env.CFD_STARTTIME ? process.env.CFD_STARTTIME : 60;
       if(nowtime < 59) {
         let sleeptime = (starttime - nowtime) * 1000;
@@ -164,6 +164,7 @@ async function userCashOutState(type = true) {
           if (type) {
             if (data.dwTodayIsCashOut !== 1) {
               if (data.ddwUsrTodayGetRich >= data.ddwTodayTargetUnLockRich) {
+                nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
                 if (new Date().getHours() >= 0 && new Date().getHours() < 12) {
                   data.UsrCurrCashList = data.UsrCurrCashList.filter((x) => x.ddwMoney / 100 >= 1)
                 } else if (new Date().getHours() === 12 && new Date().getMinutes() <= 10) {
