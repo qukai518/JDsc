@@ -112,7 +112,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
   .finally(() => $.done())
 
 async function PrizeIndex() {
-  let timel = new Date().Format("ss")
+  let timel = new Date().Format("s.S")
   let timea = 58;
   if(timel < 58) {
     let timec = (timea - timel) * 1000;
