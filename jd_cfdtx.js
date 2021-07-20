@@ -1,6 +1,6 @@
 /*
 京喜财富岛提现
-cron 59 23 * * * jd_cfdtx.js
+cron 59 11,23 * * * jd_cfdtx.js
 更新时间：2021-7-20
 活动入口：京喜APP-我的-京喜财富岛提现
 
@@ -104,7 +104,7 @@ let nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 
 
 async function cfd() {
   try {
-    if (nowTimes.getHours() === 23 && nowTimes.getMinutes() === 59) {
+    if ((nowTimes.getHours() === 11 || nowTimes.getHours() === 23) && nowTimes.getMinutes() === 59) {
       let nowtime = new Date().Format("ss")
       let starttime = process.env.CFD_STARTTIME ? process.env.CFD_STARTTIME : 60;
       if(nowtime < 59) {
@@ -120,7 +120,10 @@ async function cfd() {
       return
     }
 
+    console.log(`获取提现资格`)
     await cashOutQuali()
+    console.log(`提现`)
+    console.log(`提现金额：按库存轮询提现，0点场提1元以上，12点场提0.5元以上，12点后不做限制`)
     await userCashOutState()
 
     await showMsg()
@@ -166,6 +169,11 @@ async function userCashOutState(type = true) {
           if (type) {
             if (data.dwTodayIsCashOut !== 1) {
               if (data.ddwUsrTodayGetRich >= data.ddwTodayTargetUnLockRich) {
+                if (nowTimes.getHours() >= 0 && nowTimes.getHours() < 12) {
+                  data.UsrCurrCashList = data.UsrCurrCashList.filter((x) => x.ddwMoney / 100 >= 1)
+                } else if (nowTimes.getHours() === 12 && nowTimes.getMinutes() <= 10) {
+                  data.UsrCurrCashList = data.UsrCurrCashList.filter((x) => x.ddwMoney / 100 >= 0.5)
+                }
                 for (let key of Object.keys(data.UsrCurrCashList).reverse()) {
                   let vo = data.UsrCurrCashList[key]
                   if (vo.dwDefault === 1) {
@@ -226,7 +234,7 @@ async function userCashOutState(type = true) {
                 }
               }
             } else {
-              console.log(`今天已经提现过了~`)
+              console.log(`提现失败：今天已经提现过了~`)
             }
           }
         }
