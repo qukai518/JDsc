@@ -1,23 +1,19 @@
 /*
 京喜财富岛提现
-cron 59 11,12,23 * * * jd_cfdtx.js
+cron 59 11,23 * * * jd_cfdtx.js
 更新时间：2021-7-20
 活动入口：京喜APP-我的-京喜财富岛提现
-
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ============Quantumultx===============
 [task_local]
 #京喜财富岛提现
 59 11,23 * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_cfdtx.js, tag=京喜财富岛提现, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jxcfd.png, enabled=true
-
 ================Loon==============
 [Script]
 cron "59 11,23 * * *" script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_cfdtx.js,tag=京喜财富岛提现
-
 ===============Surge=================
 京喜财富岛提现 = type=cron,cronexp="59 11,23 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_cfdtx.js
-
 ============小火箭=========
 京喜财富岛提现 = type=cron,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_cfdtx.js, cronexpr="59 11,23 * * *", timeout=3600, enable=true
  */
@@ -36,7 +32,7 @@ $.showLog = $.getdata("cfd_showLog") ? $.getdata("cfd_showLog") === "true" : fal
 $.notifyTime = $.getdata("cfd_notifyTime");
 $.result = [];
 $.shareCodes = [];
-let cookiesArr = [], cookie = '', token, nowTimes;
+let cookiesArr = [], cookie = '', token;
 let allMessage = '', message = ''
 
 if ($.isNode()) {
@@ -103,8 +99,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
 
 async function cfd() {
   try {
-    nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
-    if ((nowTimes.getHours() === 11 || nowTimes.getHours() === 23) && nowTimes.getMinutes() === 59) {
+    if ((new Date().getHours() === 11 || new Date().getHours() === 23) && new Date().getMinutes() === 59) {
       let nowtime = new Date().Format("ss")
       let starttime = process.env.CFD_STARTTIME ? process.env.CFD_STARTTIME : 60;
       if(nowtime < 59) {
@@ -169,9 +164,9 @@ async function userCashOutState(type = true) {
           if (type) {
             if (data.dwTodayIsCashOut !== 1) {
               if (data.ddwUsrTodayGetRich >= data.ddwTodayTargetUnLockRich) {
-                if (nowTimes.getHours() >= 0 && nowTimes.getHours() < 12) {
+                if (new Date().getHours() >= 0 && new Date().getHours() < 12) {
                   data.UsrCurrCashList = data.UsrCurrCashList.filter((x) => x.ddwMoney / 100 >= 1)
-                } else if (nowTimes.getHours() === 12 && nowTimes.getMinutes() <= 10) {
+                } else if (new Date().getHours() === 12 && new Date().getMinutes() <= 10) {
                   data.UsrCurrCashList = data.UsrCurrCashList.filter((x) => x.ddwMoney / 100 >= 0.5)
                 }
                 for (let key of Object.keys(data.UsrCurrCashList).reverse()) {
