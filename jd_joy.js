@@ -25,9 +25,9 @@ cron "15 0-23/2 * * *" script-path=jd_joy.js,tag=京东宠汪汪
 京东宠汪汪 = type=cron,script-path=jd_joy.js, cronexpr="15 0-23/2 * * *", timeout=3600, enable=true
 */
 const $ = new Env('宠汪汪');
-const runWithCanvas = require('./utils/JDJRValidator_Pure');
-$.get = runWithCanvas.injectToRequest2($.get.bind($));
-$.post = runWithCanvas.injectToRequest2($.post.bind($));
+const zooFaker = require('./utils/JDJRValidator_Pure');
+$.get = zooFaker.injectToRequest2($.get.bind($));
+$.post = zooFaker.injectToRequest2($.post.bind($));
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -77,8 +77,8 @@ const weAppUrl = 'https://draw.jdfcloud.com//pet';
       message = '';
       subTitle = '';
       $.validate = '';
-      // const runWithCanvas = require('./utils/JDJRValidator_Pure');
-      // $.validate = await runWithCanvas.injectToRequest()
+      // const zooFaker = require('./utils/JDJRValidator_Pure');
+      // $.validate = await zooFaker.injectToRequest()
       await jdJoy();
       await showMsg();
       // await joinTwoPeopleRun();

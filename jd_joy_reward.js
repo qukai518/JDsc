@@ -23,9 +23,9 @@ cron "59 7,15,23 * * *" script-path=jd_joy_reward.js,tag=宠汪汪积分兑换�
  */
 // prettier-ignore
 const $ = new Env('宠汪汪积分兑换奖品');
-const runWithCanvas = require('./utils/JDJRValidator_Pure');
-// $.get = runWithCanvas.injectToRequest2($.get.bind($));
-// $.post = runWithCanvas.injectToRequest2($.post.bind($));
+const zooFaker = require('./utils/JDJRValidator_Pure');
+// $.get = zooFaker.injectToRequest2($.get.bind($));
+// $.post = zooFaker.injectToRequest2($.post.bind($));
 let allMessage = '';
 let joyRewardName = 20;//是否兑换京豆，默认0不兑换京豆，其中20为兑换20京豆,500为兑换500京豆，0为不兑换京豆.数量有限先到先得
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -80,7 +80,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
       }
       // console.log(`本地时间与京东服务器时间差(毫秒)：${await get_diff_time()}`);
       $.validate = '';
-      $.validate = await runWithCanvas.injectToRequest()
+      $.validate = await zooFaker.injectToRequest()
       console.log(`脚本开始请求时间 ${(new Date()).Format("yyyy-MM-dd hh:mm:ss | S")}`);
       await joyReward();
     }
@@ -104,7 +104,7 @@ async function joyReward() {
     if(nowtime < 59) {
       let sleeptime = (starttime - nowtime) * 1000;
       console.log(`等待时间 ${sleeptime / 1000}`);
-      await runWithCanvas.sleep(sleeptime)
+      await zooFaker.sleep(sleeptime)
     }
     for (let j = 0; j <= 10; j++) {
       await getExchangeRewards();

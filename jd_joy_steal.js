@@ -23,9 +23,9 @@ cron "10 0-21/3 * * *" script-path=jd_joy_steal.js,tag=宠汪汪偷好友积分�
 宠汪汪偷好友积分与狗粮 = type=cron,script-path=jd_joy_steal.js, cronexpr="10 0-21/3 * * *", timeout=3600, enable=true
 */
 const $ = new Env('宠汪汪偷好友积分与狗粮');
-const runWithCanvas = require('./utils/JDJRValidator_Pure');
-$.get = runWithCanvas.injectToRequest2($.get.bind($));
-$.post = runWithCanvas.injectToRequest2($.post.bind($));
+const zooFaker = require('./utils/JDJRValidator_Pure');
+$.get = zooFaker.injectToRequest2($.get.bind($));
+$.post = zooFaker.injectToRequest2($.post.bind($));
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -91,8 +91,8 @@ if ($.isNode() && process.env.jdJoyStealCoin) {
       message = '';
       subTitle = '';
       $.validate = '';
-      // const runWithCanvas = require('./utils/JDJRValidator_Pure');
-      // $.validate = await runWithCanvas.injectToRequest()
+      // const zooFaker = require('./utils/JDJRValidator_Pure');
+      // $.validate = await zooFaker.injectToRequest()
       await jdJoySteal();
       await showMsg();
     }
