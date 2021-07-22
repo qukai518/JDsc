@@ -27,6 +27,17 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 const helpAuthor = true; // 是否帮助作者助力，false打开通知推送，true关闭通知推送
+const jdVersion = '10.0.8'
+const iphoneVersion = [Math.ceil(Math.random()*2+12),Math.ceil(Math.random()*4)]
+const UA = `jdapp;iPhone;${jdVersion};${Math.ceil(Math.random()*2+12)}.${Math.ceil(Math.random()*4)};${randomString(40)};network/wifi;model/iPhone12,1;addressid/0;appBuild/167741;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ${iphoneVersion[0]}_${iphoneVersion[1]} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
+const UUID = UA.split(';') && UA.split(';')[4] || ''
+function randomString(e) {
+  e = e || 32;
+  let t = "abcdefhijkmnprstwxyz2345678", a = t.length, n = "";
+  for (i = 0; i < e; i++)
+    n += t.charAt(Math.floor(Math.random() * a));
+  return n
+}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 if ($.isNode()) {
@@ -49,7 +60,7 @@ const JD_API_HOST = 'https://api.m.jd.com/';
   }
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
-      cookie = cookiesArr[i];
+      cookie = cookiesArr[i] + '';
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
       $.index = i + 1;
       $.isLogin = true;
@@ -119,6 +130,7 @@ async function jdBeanHome() {
   //   await $.wait(1000)
   //   if ($.doneState) break
   // }
+  await goodMorning();
   do {
     await doTask2()
     await $.wait(3000)
@@ -130,6 +142,7 @@ async function jdBeanHome() {
   await $.wait(1000)
   await getTaskList();
   await receiveJd2();
+  await doEarnBeanTask();
   await showMsg();
 }
 
@@ -171,10 +184,42 @@ function doTask2() {
     })
 }
 
+function goodMorning() {
+     return new Promise(resolve => {
+         $.get({
+             url: 'https://api.m.jd.com/client.action?functionId=morningGetBean&area=22_1930_50948_52157&body=%7B%22rnVersion%22%3A%224.7%22%2C%22fp%22%3A%22-1%22%2C%22eid%22%3A%22%22%2C%22shshshfp%22%3A%22-1%22%2C%22userAgent%22%3A%22-1%22%2C%22shshshfpa%22%3A%22-1%22%2C%22referUrl%22%3A%22-1%22%2C%22jda%22%3A%22-1%22%7D&build=167724&client=apple&clientVersion=10.0.6&d_brand=apple&d_model=iPhone12%2C8&eid=eidI1aaf8122bas5nupxDQcTRriWjt7Slv2RSJ7qcn6zrB99mPt31yO9nye2dnwJ/OW%2BUUpYt6I0VSTk7xGpxEHp6sM62VYWXroGATSgQLrUZ4QHLjQw&isBackground=N&joycious=60&lang=zh_CN&networkType=wifi&networklibtype=JDNetworkBaseAF&openudid=32280b23f8a48084816d8a6c577c6573c162c174&osVersion=14.4&partner=apple&rfs=0000&scope=01&screen=750%2A1334&sign=0c19e5962cea97520c1ef9a2e67dda60&st=1625354180413&sv=112&uemps=0-0&uts=0f31TVRjBSsqndu4/jgUPz6uymy50MQJSPYvHJMKdY9TUw/AQc1o/DLA/rOTDwEjG4Ar9s7IY4H6IPf3pAz7rkIVtEeW7XkXSOXGvEtHspPvqFlAueK%2B9dfB7ZbI91M9YYXBBk66bejZnH/W/xDy/aPsq2X3k4dUMOkS4j5GHKOGQO3o2U1rhx5O70ZrLaRm7Jy/DxCjm%2BdyfXX8v8rwKw%3D%3D&uuid=hjudwgohxzVu96krv/T6Hg%3D%3D&wifiBssid=c99b216a4acd3bce759e369eaeeafd7',
+             headers: {
+                 'Cookie': cookie,
+                 'Accept': '*/*',
+                 'Connection': 'keep-alive',
+                 'Accept-Encoding': 'gzip, deflate, br',
+                 'User-Agent': UA,
+                 'Accept-Language': 'zh-Hans-CN;q=1',
+                 'Host': 'api.m.jd.com'
+             },
+         }, (err, resp, data) => {
+             try {
+                 data = JSON.parse(data)
+                 if(data.data){
+                      console.log(data.data.bizMsg)
+                 }
+                 if(data.errorMessage){
+                    console.log(data.errorMessage)
+               }
+             } catch (e) {
+                 $.logErr('Error: ', e, resp)
+             } finally {
+                 resolve(data)
+             }
+         })
+     })
+ }
+
+
 function getAuthorShareCode() {
   return new Promise(resolve => {
     $.get({url: "http://cdn.boledao.com/shareCodes/jd_updateBeanHome.json",headers:{
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+        "User-Agent": UA
       }}, async (err, resp, data) => {
       try {
         if (err) {
@@ -192,7 +237,7 @@ function getAuthorShareCode() {
 function getAuthorShareCode2() {
   return new Promise(resolve => {
     $.get({url: "http://cdn.boledao.com/shareCodes/jd_updateBeanHome.json",headers:{
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+        "User-Agent": UA
       }}, async (err, resp, data) => {
       try {
         if (err) {
@@ -386,6 +431,165 @@ function receiveTask(itemId = "zddd", type = "3") {
   })
 }
 
+async function doEarnBeanTask() {
+  try{
+    $.taskList = [];
+    await takePostRequest('beanTaskList')
+    console.log(`做任务\n`);
+    if($.viewAppHome && $.viewAppHome.takenTask == false){
+      $.IconDoTaskFlag = 0
+      console.log(`做任务:${$.viewAppHome.mainTitle};等待完成`);
+      await takePostRequest('beanHomeIconDoTask')
+      await $.wait(getRndInteger(2500, 3500))
+    }
+    if($.viewAppHome && $.viewAppHome.doneTask == false){
+      $.IconDoTaskFlag = 1
+      console.log(`做任务:${$.viewAppHome.mainTitle}`);
+      await takePostRequest('beanHomeIconDoTask')
+      await $.wait(getRndInteger(1000, 1500))
+    }
+
+    do{
+      await receiveEarnTask()
+      await $.wait(getRndInteger(1000, 1500))
+      await takePostRequest('beanTaskList1')
+    }while ($.taskFlag)
+
+    await $.wait(getRndInteger(1000, 1500))
+  }catch (e) {
+    console.log(e);
+  }
+}
+
+async function receiveEarnTask() {
+  await $.wait(getRndInteger(1000, 1500))
+  //做任务
+  $.taskFlag = false
+  for (let i = 0; i < $.taskList.length; i++) {
+    $.oneTask = $.taskList[i];
+    if ($.oneTask.status === 1) {
+      $.activityInfoList = $.oneTask.subTaskVOS;
+      for (let j = 0; j < $.activityInfoList.length; j++) {
+        $.taskFlag = true
+        $.oneActivityInfo = $.activityInfoList[j];
+        console.log(`做任务:${$.oneActivityInfo.title};等待完成`);
+        $.actionType = 0
+        if($.oneTask.taskType == 9){
+          $.actionType = 1
+          await takePostRequest('beanDoTask');
+          await $.wait(getRndInteger(4000, 5500))
+          $.actionType = 0
+        }
+        await takePostRequest('beanDoTask');
+        await $.wait(getRndInteger(2000, 2500))
+      }
+    }else if ($.oneTask.status === 2){
+      console.log(`任务:${$.oneTask.taskName};已完成`);
+    }else{
+      console.log(`任务:${$.oneTask.taskName};未能完成\n${JSON.stringify($.oneTask)}`);
+    }
+  }
+}
+
+async function takePostRequest(type) {
+  let body = ``;
+  let myRequest = ``;
+  switch (type) {
+    case 'beanTaskList':
+    case 'beanTaskList1':
+      body = `{"viewChannel":"AppHome"}`;
+      myRequest = await getGetRequest(`beanTaskList`, escape(body));
+      break;
+    case 'beanHomeIconDoTask':
+      body = `{"flag":"${$.IconDoTaskFlag}","viewChannel":"AppHome"}`;
+      myRequest = await getGetRequest(`beanHomeIconDoTask`, escape(body));
+      break;
+    case 'beanDoTask':
+      body = `{"actionType":${$.actionType},"taskToken":"${$.oneActivityInfo.taskToken}"}`;
+      myRequest = await getGetRequest(`beanDoTask`, escape(body));
+      break;
+    default:
+      console.log(`错误${type}`);
+  }
+  if (myRequest) {
+    return new Promise(async resolve => {
+      $.get(myRequest, (err, resp, data) => {
+        try {
+          // console.log(data);
+          dealReturn(type, data);
+        } catch (e) {
+          $.logErr(e, resp)
+        } finally {
+          resolve();
+        }
+      })
+    })
+  }
+}
+
+async function dealReturn(type, res) {
+  try {
+    data = JSON.parse(res);
+  } catch (e) {
+    console.log(`返回异常：${res}`);
+    return;
+  }
+  switch (type) {
+    case 'beanTaskList':
+      if (data.code == 0 && data.data) {
+        console.log(`当前等级:${data.data.curLevel || 0} 下一级可领取:${data.data.nextLevelBeanNum || 0}京豆`)
+        $.taskList = data.data.taskInfos && data.data.taskInfos || [];
+        $.viewAppHome = data.data.viewAppHome && data.data.viewAppHome || {};
+      } else if (data.data && data.data.bizMsg) {
+        console.log(data.data.bizMsg);
+      } else {
+        console.log(res);
+      }
+      break;
+    case 'beanTaskList1':
+      if (data.code == 0 && data.data) {
+        $.taskList = data.data.taskInfos && data.data.taskInfos || [];
+      } else if (data.data && data.data.bizMsg) {
+        console.log(data.data.bizMsg);
+      } else {
+        console.log(res);
+      }
+      break;
+    case 'beanDoTask':
+    case 'beanHomeIconDoTask':
+      if (data.data && (data.data.bizMsg || data.data.remindMsg)) {
+        console.log((data.data.bizMsg || data.data.remindMsg));
+        if(data.data.growthResult && data.data.growthResult.sceneLevelConfig){
+          console.log(`获得:${data.data.growthResult.sceneLevelConfig.beanNum || 0}京豆`)
+          if(!data.data.growthResult.sceneLevelConfig.beanNum){
+            console.log(JSON.stringify(data.data.growthResult.sceneLevelConfig))
+          }
+        }
+      } else {
+        console.log(res);
+      }
+      break;
+    default:
+      console.log(`未判断的异常${type}`);
+  }
+}
+async function getGetRequest(type, body) {
+  let url = `https://api.m.jd.com/client.action?functionId=${type}&body=${body}&appid=ld&client=apple&clientVersion=${jdVersion}&networkType=wifi&osVersion=${iphoneVersion[0]}.${iphoneVersion[1]}&uuid=${UUID}&openudid=${UUID}`;
+  const method = `GET`;
+  const headers = {
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept-Language": "zh-cn",
+    'Cookie': cookie,
+    "Referer": "https://h5.m.jd.com/",
+    "User-Agent": UA,
+  };
+  return {url: url, method: method, headers: headers};
+}
+// 随机数
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min) ) + min;
+}
 
 function award(source="home") {
   return new Promise(resolve => {
@@ -463,7 +667,7 @@ function taskGetUrl(function_id, body) {
       'Host': 'api.m.jd.com',
       'Accept': '*/*',
       'Connection': 'keep-alive',
-      'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+      'User-Agent': UA,
       'Accept-Language': 'zh-Hans-CN;q=1,en-CN;q=0.9',
       'Accept-Encoding': 'gzip, deflate, br',
       'Content-Type': "application/x-www-form-urlencoded"
@@ -484,7 +688,7 @@ function taskUrl(function_id, body) {
       'Host': 'api.m.jd.com',
       'Accept': '*/*',
       'Connection': 'keep-alive',
-      'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+      'User-Agent': UA,
       'Accept-Language': 'zh-Hans-CN;q=1,en-CN;q=0.9',
       'Accept-Encoding': 'gzip, deflate, br',
       'Content-Type': "application/x-www-form-urlencoded"
@@ -504,7 +708,7 @@ function TotalBean() {
         "Connection": "keep-alive",
         "Cookie": cookie,
         "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
+        "User-Agent": UA
       }
     }
     $.post(options, (err, resp, data) => {
