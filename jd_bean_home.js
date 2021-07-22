@@ -41,8 +41,8 @@ if ($.isNode()) {
 const JD_API_HOST = 'https://api.m.jd.com/';
 !(async () => {
   $.newShareCodes = []
-  //await getAuthorShareCode();
-  //await getAuthorShareCode2();
+  await getAuthorShareCode();
+  await getAuthorShareCode2();
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -68,7 +68,7 @@ const JD_API_HOST = 'https://api.m.jd.com/';
       await jdBeanHome();
     }
   }
- /*  for (let i = 0; i < cookiesArr.length; i++) {
+   for (let i = 0; i < cookiesArr.length; i++) {
      $.index = i + 1;
      if (cookiesArr[i]) {
        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -103,7 +103,7 @@ const JD_API_HOST = 'https://api.m.jd.com/';
          await help(code[0], code[1])
        }
      }
-   }*/
+   }
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
