@@ -324,13 +324,14 @@ function getActContent(info = false, shareUuid = '') {
                     if (task.okNum < task.dayMaxNum) {
                       console.log(`去做${task.title}任务`)
                       await doTask(task.settings[0].type, task.settings[0].value)
+                      await $.wait(2000)
                     }
                   } else if (['逛会场', '浏览店铺', '浏览商品'].includes(task.title)) {
                     if (task.okNum < task.dayMaxNum) {
                       console.log(`去做${task.title}任务`)
                       for (let set of task.settings.filter(vo => vo.status === 0)) {
                         await doTask(set.type, set.value)
-                        await $.wait(500)
+                        await $.wait(2000)
                       }
                     }
                   } else if(task.title === '每日签到'){
@@ -340,7 +341,7 @@ function getActContent(info = false, shareUuid = '') {
                       for (let set of task.settings.filter(vo => vo.status === 0)) {
                         let res = await doTask(set.type, set.value)
                         if (res.result) break
-                        await $.wait(500)
+                        await $.wait(2000)
                       }
                     }
                   } else if (ADD_CART && ['加购商品'].includes(task.title)) {
