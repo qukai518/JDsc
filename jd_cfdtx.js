@@ -107,7 +107,7 @@ async function cfd() {
     nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
     if ((nowTimes.getHours() === 11 || nowTimes.getHours() === 23) && nowTimes.getMinutes() === 59) {
       let nowtime = new Date().Format("s.S")
-      let starttime = $.isNode() ? (process.env.CFD_STARTTIME ? process.env.CFD_STARTTIME * 1 : 60) : ($.getdata('CFD_STARTTIME') ? $.getdata('CFD_STARTTIME') * 1 : 60);
+      let starttime = $.isNode() ? (process.env.CFD_STARTTIME ? process.env.CFD_STARTTIME * 1 : 59.9) : ($.getdata('CFD_STARTTIME') ? $.getdata('CFD_STARTTIME') * 1 : 59.9);
       if(nowtime < 59) {
         let sleeptime = (starttime - nowtime) * 1000;
         console.log(`等待时间 ${sleeptime / 1000}\n`);
@@ -115,15 +115,15 @@ async function cfd() {
       }
     }
 
+    if ($.num % 2 !== 0) {
+      console.log(`等待`)
+      await $.wait(2000)
+    }
+
     const beginInfo = await getUserInfo(false);
     if (beginInfo.Fund.ddwFundTargTm === 0) {
       console.log(`还未开通活动，请先开通\n`)
       return
-    }
-
-    if ($.num % 2 !== 0) {
-      console.log(`等待`)
-      await $.wait(2000)
     }
 
     console.log(`获取提现资格`)
@@ -188,6 +188,7 @@ async function userCashOutState(type = true) {
                     if (cashOutRes.iRet === 0) {
                       $.money = vo.ddwMoney / 100
                       console.log(`提现成功获得：${$.money}元`)
+                      break
                     } else {
                       await userCashOutState()
                     }
