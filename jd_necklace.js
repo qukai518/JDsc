@@ -1,6 +1,6 @@
 /*
 点点券，可以兑换无门槛红包（1元，5元，10元，100元，部分红包需抢购）
-Last Modified time: 2021-06-29 10:27:14
+Last Modified time: 2021-07-23 10:27
 活动入口：京东APP-领券中心/券后9.9-领点点券 [活动地址](https://h5.m.jd.com/babelDiy/Zeus/41Lkp7DumXYCFmPYtU3LTcnTTXTX/index.html)
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ===============Quantumultx===============
@@ -19,188 +19,16 @@ cron "10 0,20 * * *" script-path=jd_necklace.js,tag=点点券
 点点券 = type=cron,script-path=jd_necklace.js, cronexpr="10 0,20 * * *", timeout=3600, enable=true
  */
 const $ = new Env('点点券');
-//const fs = require('fs');
-//const stat = fs.stat;
-//const path = require('path');
 let allMessage = ``;
 const notify = $.isNode() ? require('./sendNotify') : '';
-//const zooFaker = require('./utils/ZooFaker_Necklace');
+const zooFaker = require('./utils/ZooFaker_Necklace').utils;
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const openUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/41Lkp7DumXYCFmPYtU3LTcnTTXTX/index.html%22%20%7D`
-let message = '';
+let message = '', joyToken = '';
 let nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000);
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', hasSend = false;
-const https = require('https');
-const fs = require('fs/promises');
-const {R_OK} = require('fs').constants;
-const vm = require('vm');
-const UA = require('./USER_AGENTS.js').USER_AGENT;
-
-const URL = 'https://h5.m.jd.com/babelDiy/Zeus/41Lkp7DumXYCFmPYtU3LTcnTTXTX/index.html';
-const REG_SCRIPT = /<script src="([^><]+\/(main\.\w+\.js))\?t=\d+">/gm;
-const REG_ENTRY = /^(.*?\.push\(\[)(\d+,\d+)/;
-const REG_PIN = /pt_pin=([^; ]+)(?=;?)/;
-const KEYWORD_MODULE = 'get_risk_result:';
-const DATA = {appid: '50082', sceneid: 'DDhomePageh5'};
-let smashUtils;
-
-class ZooFakerNecklace {
-  constructor(cookie, action) {
-    this.cookie = cookie;
-    this.action = action;
-  }
-
-  async run(data) {
-    if (!smashUtils) {
-      await this.init();
-    }
-
-    const t = Math.floor(1e+6 * Math.random()).toString().padEnd(6, '8');
-    const pin = decodeURIComponent(this.cookie.match(REG_PIN) && this.cookie.match(REG_PIN)[1]);
-    const {log} = smashUtils.get_risk_result({
-      id: this.action,
-      data: {
-        ...data,
-        pin,
-        random: t,
-      }
-    });
-    const body = {
-      ...data,
-      random: t,
-      extraData: {log, sceneid: DATA.sceneid},
-    };
-
-    // console.log(body);
-    return body;
-  }
-
-  async init() {
-    // console.time('ZooFakerNecklace');
-    process.chdir(__dirname);
-    const html = await ZooFakerNecklace.httpGet(URL);
-    const script = REG_SCRIPT.exec(html);
-
-    if (script) {
-      const [, scriptUrl, filename] = script;
-      const jsContent = await this.getJSContent(filename, scriptUrl);
-      const fnMock = new Function;
-      const ctx = {
-        window: {addEventListener: fnMock},
-        document: {
-          addEventListener: fnMock,
-          removeEventListener: fnMock,
-          cookie: this.cookie,
-        },
-        navigator: {userAgent: UA},
-      };
-      const _this = this;
-      Object.defineProperty(ctx.document, 'cookie', {
-        get() {
-          return _this.cookie;
-        },
-      });
-
-      vm.createContext(ctx);
-      vm.runInContext(jsContent, ctx);
-
-      smashUtils = ctx.window.smashUtils;
-      smashUtils.init(DATA);
-
-      // console.log(ctx);
-    }
-
-    // console.log(html);
-    // console.log(script[1],script[2]);
-    // console.timeEnd('ZooFakerNecklace');
-  }
-
-  async getJSContent(cacheKey, url) {
-    try {
-      await fs.access(cacheKey, R_OK);
-      const rawFile = await fs.readFile(cacheKey, {encoding: 'utf8'});
-
-      return rawFile;
-    } catch (e) {
-      let jsContent = await ZooFakerNecklace.httpGet(url);
-      const findEntry = REG_ENTRY.test(jsContent);
-      const ctx = {
-        moduleIndex: 0,
-      };
-      const injectCode = `moduleIndex=arguments[0].findIndex(s=>s&&s.toString().indexOf('${KEYWORD_MODULE}')>0);return;`;
-      const injectedContent = jsContent.replace(/^(!function\(\w\){)/, `$1${injectCode}`);
-
-      vm.createContext(ctx);
-      vm.runInContext(injectedContent, ctx);
-
-      if (!(ctx.moduleIndex && findEntry)) {
-        throw new Error('Module not found.');
-      }
-      jsContent = jsContent.replace(REG_ENTRY, `$1${ctx.moduleIndex},1`);
-      // Fix device info (actually insecure, make less sense)
-      jsContent = jsContent.replace(/\w+\.getDefaultArr\(7\)/, '["a","a","a","a","a","a","1"]');
-      fs.writeFile(cacheKey, jsContent);
-      return jsContent;
-
-      REG_ENTRY.lastIndex = 0;
-      const entry = REG_ENTRY.exec(jsContent);
-
-      console.log(ctx.moduleIndex);
-      console.log(entry[2]);
-    }
-  }
-
-  static httpGet(url) {
-    return new Promise((resolve, reject) => {
-      const protocol = url.indexOf('http') !== 0 ? 'https:' : '';
-      const req = https.get(protocol + url, (res) => {
-        res.setEncoding('utf-8');
-
-        let rawData = '';
-
-        res.on('error', reject);
-        res.on('data', chunk => rawData += chunk);
-        res.on('end', () => resolve(rawData));
-      });
-
-      req.on('error', reject);
-      req.end();
-    });
-  }
-}
-
-async function getBody($ = {}) {
-  // console.log('$', $);
-  let riskData;
-  switch ($.action) {
-    case 'startTask':
-      riskData = {taskId: $.id};
-      break;
-    case 'chargeScores':
-      riskData = {bubleId: $.id};
-      break;
-    case 'sign':
-      riskData = {};
-      break;
-    case 'exchangeGift':
-      riskData = { scoreNums: $.id, giftConfigId: $.giftConfigId || 198 };
-      break;
-    default:
-      break;
-  }
-  const zf = new ZooFakerNecklace($.cookie, $.action);
-  const log = await zf.run(riskData);
-
-  // return `body=${encodeURIComponent(JSON.stringify(log))}`;
-  // console.log('log', log)
-  return log;
-}
-
-ZooFakerNecklace.getBody = getBody;
-module.exports = ZooFakerNecklace;
-
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -216,9 +44,11 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
+  
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
-      cookie = cookiesArr[i];
+      await getToken();
+      cookie = cookiesArr[i] + `joyytoken=50082${joyToken};`;
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
       $.index = i + 1;
       $.isLogin = true;
@@ -237,7 +67,6 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
       await jd_necklace();
     }
   }
-  nods(process.cwd());
   if ($.isNode() && allMessage) {
     await notify.sendNotify(`${$.name}`, `${allMessage}`, { url: openUrl })
   }
@@ -251,14 +80,21 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
 async function jd_necklace() {
   try {
     await necklace_homePage();
+    await $.wait(2000)
     await doTask();
+    await $.wait(2000)
     await sign();
+    await $.wait(2000)
     await necklace_homePage();
+    await $.wait(2000)
     await receiveBubbles();
+    await $.wait(2000)
     await necklace_homePage();
+    await $.wait(2000)
     if (formatInt($.totalScore)) {
       if (new Date().getDate() === 20 && (new Date().getMonth() + 1 === 6)) {
         //2021-06-21凌晨0点，点点券将要全部清零处理，故全部兑换
+        await $.wait(2000)
         await necklace_exchangeGift(formatInt($.totalScore));//自动兑换多少钱的无门槛红包，1000代表1元，默认兑换全部点点券
       }
     }
@@ -270,48 +106,15 @@ async function jd_necklace() {
 function showMsg() {
   return new Promise(async resolve => {
     if (nowTimes.getHours() >= 20) {
-      $.msg($.name, '', `京东账号${$.index} ${$.nickName}\n当前${$.name}：${$.totalScore}个\n可兑换无门槛红包：${$.totalScore / 1000}元\n点击弹窗即可去兑换(注：此红包具有时效性)`, { 'open-url': openUrl});
+      $.msg($.name, '', `京东账号${$.index} ${$.nickName || $.UserName}\n当前${$.name}：${$.totalScore}个\n可兑换无门槛红包：${$.totalScore / 1000}元\n点击弹窗即可去兑换(注：此红包具有时效性)`, { 'open-url': openUrl});
     }
     // 云端大于10元无门槛红包时进行通知推送
     // if ($.isNode() && $.totalScore >= 20000 && nowTimes.getHours() >= 20) await notify.sendNotify(`${$.name} - 京东账号${$.index} - ${$.nickName}`, `京东账号${$.index} ${$.nickName}\n当前${$.name}：${$.totalScore}个\n可兑换无门槛红包：${$.totalScore / 1000}元\n点击链接即可去兑换(注：此红包具有时效性)\n↓↓↓ \n\n ${openUrl} \n\n ↑↑↑`, { url: openUrl })
     if ($.isNode() && nowTimes.getHours() >= 20 && (process.env.DDQ_NOTIFY_CONTROL ? process.env.DDQ_NOTIFY_CONTROL === 'false' : !!1)) {
-      allMessage += `京东账号${$.index} ${$.nickName}\n当前${$.name}：${$.totalScore}个\n可兑换无门槛红包：${$.totalScore / 1000}元\n(京东APP->领券->左上角点点券.注：此红包具有时效性)${$.index !== cookiesArr.length ? '\n\n' : `\n\n↓↓↓ \n https://h5.m.jd.com/babelDiy/Zeus/41Lkp7DumXYCFmPYtU3LTcnTTXTX/index.html \n\n ↑↑↑\n\n点点券将在每年 6月21日和11月14日 00:00 清空，请注意兑换`}`
+      allMessage += `京东账号${$.index} ${$.nickName || $.UserName}\n当前${$.name}：${$.totalScore}个\n可兑换无门槛红包：${$.totalScore / 1000}元\n(京东APP->领券->左上角点点券.注：此红包具有时效性)${$.index !== cookiesArr.length ? '\n\n' : `\n\n↓↓↓ \n https://h5.m.jd.com/babelDiy/Zeus/41Lkp7DumXYCFmPYtU3LTcnTTXTX/index.html \n\n ↑↑↑\n\n点点券将在每年 6月21日和11月14日 00:00 清空，请注意兑换`}`
     }
     resolve()
   })
-}
-function nods(dir) {
-	try {
-    const fs = require('fs');
-    const stat = fs.stat;
-    const path = require('path');
-  if (fs.existsSync(dir)) {
-    fs.readdir(dir, function(err, files) {
-      files.forEach(function(filename) {
-        const src = path.join(dir, filename)
-        stat(src, function (err, st) {
-          if (err) { throw err; }
-          // 判断是否为文件
-          if (st.isFile()) {
-            if (/^main\..+\..+/.test(filename)) {
-              fs.unlink(src, (err) => {
-                if (err) throw err;
-                console.log('成功删除文件: ' + src);
-              });
-            }
-          } else {
-            // 递归作为文件夹处理
-            nods(src);
-          }
-        });
-      });
-    });
-  } else {
-    console.log("给定的路径不存在，请给出正确的路径");
-  }
-  } catch (e) {
-    console.log(e)
-  }
 }
 async function doTask() {
   for (let item of $.taskConfigVos) {
@@ -322,6 +125,7 @@ async function doTask() {
       console.log(`【${item.taskName}】 任务领取成功,开始完成此任务`);
       await $.wait(1000);
       await reportTask(item);
+      await $.wait(1000);
     } else if (item.taskStage === 2) {
       console.log(`【${item.taskName}】 任务已做完,奖励未领取`);
     } else if (item.taskStage === 3) {
@@ -329,6 +133,7 @@ async function doTask() {
     } else if (item.taskStage === 1) {
       console.log(`\n【${item.taskName}】 任务已领取但未完成,开始完成此任务`);
       await reportTask(item);
+      await $.wait(2000);
     }
   }
 }
@@ -338,7 +143,7 @@ async function receiveBubbles() {
     for (let item of $.bubbles) {
       if (!item.id) continue;
       await necklace_chargeScores(item.id);
-      await $.wait(1000)
+      await $.wait(2000)
     }
   } else {
     console.log(`\n当前暂无可领取点点券`);
@@ -385,7 +190,7 @@ function formatInt(num, prec = 1, ceil = false) {
 //每日签到福利
 function necklace_sign() {
   return new Promise(async resolve => {
-    const body = await getBody({ 'cookie': cookie, 'action': 'sign' });
+    const body = await zooFaker.getBody({ 'cookie': cookie, 'action': 'sign', 'joyToken': joyToken });
     $.post(taskPostUrl("necklace_sign", body), async (err, resp, data) => {
       try {
         if (err) {
@@ -418,7 +223,7 @@ function necklace_sign() {
 //兑换无门槛红包
 function necklace_exchangeGift(scoreNums) {
   return new Promise(async resolve => {
-    const body = await getBody({ 'cookie': cookie, 'action': 'exchangeGift', 'id': scoreNums });
+    const body = await zooFaker.getBody({ 'cookie': cookie, 'action': 'exchangeGift', 'id': scoreNums, 'joyToken': joyToken });
     console.log(`\n使用${scoreNums}个点点券兑换${scoreNums / 1000}元无门槛红包`);
     $.post(taskPostUrl("necklace_exchangeGift", body), async (err, resp, data) => {
       try {
@@ -452,7 +257,7 @@ function necklace_exchangeGift(scoreNums) {
 //领取奖励
 function necklace_chargeScores(bubleId) {
   return new Promise(async resolve => {
-    const body = await getBody({ 'cookie': cookie, 'action': 'chargeScores', 'id': bubleId, 'giftConfigId': $.giftConfigId });
+    const body = await zooFaker.getBody({ 'cookie': cookie, 'action': 'chargeScores', 'id': bubleId, 'giftConfigId': $.giftConfigId, 'joyToken': joyToken });
     $.post(taskPostUrl("necklace_chargeScores", body), async (err, resp, data) => {
       try {
         if (err) {
@@ -488,7 +293,7 @@ function necklace_startTask(taskId, functionId = 'necklace_startTask', itemId = 
       currentDate: $.lastRequestTime.replace(/:/g, "%3A"),
     }
     if (functionId === 'necklace_startTask') {
-      body = await getBody({ 'id': taskId, 'cookie': cookie, 'action': 'startTask' })
+      body = await zooFaker.getBody({ 'id': taskId, 'cookie': cookie, 'action': 'startTask', 'joyToken': joyToken })
     }
     if (itemId && functionId === 'necklace_reportTask') body['itemId'] = itemId;
     $.post(taskPostUrl(functionId, body), async (err, resp, data) => {
@@ -590,51 +395,43 @@ function necklace_homePage() {
 }
 
 async function doAppTask(type = '3', id) {
-  let body = {
-    "pageClickKey": "CouponCenter",
-    "childActivityUrl": "openapp.jdmobile%3a%2f%2fvirtual%3fparams%3d%7b%5c%22category%5c%22%3a%5c%22jump%5c%22%2c%5c%22des%5c%22%3a%5c%22couponCenter%5c%22%7d",
-    "lat": "",
-    "globalLat": "",
-    "lng": "",
-    "globalLng": ""
-  }
+  let functionId = ``
+  let body = `area=1_2953_54044_0&body=%7B%22pageClickKey%22%3A%22CouponCenter%22%2C%22shshshfpb%22%3A%22xMvLenI90G5fXNwdmMLrZ9zcRvSKKKrp3twx2gniQsgkav01VHSjwfaIlRQEYYJ4lUh7i6BmZXDIqLmrcpFgFPw%3D%3D%22%2C%22eid%22%3A%22eidI10a1812352s2f8fFJhaZRAaygJavMzzPuH%5C/HxpE9QzhNJ2Cf5aWxpC%2Bi2hshw7jujEFX%5C/JQtTGYOL2wlDjPaiPMK0KbiFPDza4sbsufvPStkf1tM%22%2C%22childActivityUrl%22%3A%22openapp.jdmobile%253a%252f%252fvirtual%253fparams%253d%257b%255c%2522category%255c%2522%253a%255c%2522jump%255c%2522%252c%255c%2522des%255c%2522%253a%255c%2522couponCenter%255c%2522%257d%22%2C%22lat%22%3A%2240.18191448804161%22%2C%22globalLat%22%3A%2240.18993%22%2C%22lng%22%3A%22117.0065653831892%22%2C%22globalLng%22%3A%22117.010071%22%7D&build=167741&client=apple&clientVersion=10.0.8&d_brand=apple&d_model=iPhone10%2C2&eid=eidI10a1812352s2f8fFJhaZRAaygJavMzzPuH/HxpE9QzhNJ2Cf5aWxpC%2Bi2hshw7jujEFX/JQtTGYOL2wlDjPaiPMK0KbiFPDza4sbsufvPStkf1tM&isBackground=N&joycious=95&lang=zh_CN&networkType=wifi&networklibtype=JDNetworkBaseAF&openudid=8548106a862f1fe7b4b84d3a16f7ffdcf47390de&osVersion=14.4.2&partner=apple&rfs=0000&scope=01&screen=1242%2A2208&sign=2c33f9e1230505e54632d18706b99d5c&st=1627058018278&sv=100&uemps=0-0&uts=0f31TVRjBStnWyWKh4kj%2BvuskvWGi54eyJH5cLJVT6QoOtzNpjyhH/ToU5X7LhKoleMMycwNk8t28%2BJhe0WWPZLkED4dnpAJv9MsudkLTd%2BKR8CJOEgC4PH/IFRT8y51lwtUBXR26fHwsk4aYqBSg0uiALvjv09TMPXJwxQIQ6gEdaaN2v%2B2PBvm1Obp5Nr0RMweFYy4mc1DamSX2mqF5g%3D%3D&uuid=hjudwgohxzVu96krv/T6Hg%3D%3D&wifiBssid=a19cc6de09ae7d189d19659de2c95af6`
   await getCcTaskList('getCcTaskList', body, type);
-  body = {
-    "globalLng": "",
-    "globalLat": "",
-    "monitorSource": "ccgroup_ios_index_task",
-    "monitorRefer": "",
-    "taskType": "2",
-    "childActivityUrl": "openapp.jdmobile%3a%2f%2fvirtual%3fparams%3d%7b%5c%22category%5c%22%3a%5c%22jump%5c%22%2c%5c%22des%5c%22%3a%5c%22couponCenter%5c%22%7d",
-    "pageClickKey": "CouponCenter",
-    "lat": "",
-    "taskId": "necklace_" + id,
-    "lng": "",
+  if (id === 229) {
+    body = `area=16_1315_3486_59648&body=%7B%22shshshfpb%22%3A%22dPH6zeJy%5C/HFogCIf0ZGFYqSDOShGwmpjVOPM%5C/ViCGC5fgBLL9JoI9mjgUt46vjSFeSkmU9DZLEjFaeFTWBj4Axg%3D%3D%22%2C%22globalLng%22%3A%22118.1423%22%2C%22globalLat%22%3A%2224.49335%22%2C%22monitorSource%22%3A%22ccgroup_ios_index_task%22%2C%22monitorRefer%22%3A%22%22%2C%22taskType%22%3A%222%22%2C%22childActivityUrl%22%3A%22openapp.jdmobile%253a%252f%252fvirtual%253fparams%253d%257b%255c%2522category%255c%2522%253a%255c%2522jump%255c%2522%252c%255c%2522des%255c%2522%253a%255c%2522couponCenter%255c%2522%257d%22%2C%22pageClickKey%22%3A%22CouponCenter%22%2C%22lat%22%3A%2224.49441271645999%22%2C%22taskId%22%3A%22necklace_229%22%2C%22lng%22%3A%22118.1447713674174%22%2C%22eid%22%3A%22eidIeb54812323sf%2BAJEbj5LR0Kf6GUzM9DKXvgCReTpKTRyRwiuxY%5C/uvRHBqebAAKCAXkJFzhWtPj5uoHxNeK3DjTumb%2BrfXOt1w0%5C/dGmOJzfbLuyNo%22%7D&build=167707&client=apple&clientVersion=10.0.4&d_brand=apple&d_model=iPhone12%2C1&eid=eidIeb54812323sf%2BAJEbj5LR0Kf6GUzM9DKXvgCReTpKTRyRwiuxY/uvRHBqebAAKCAXkJFzhWtPj5uoHxNeK3DjTumb%2BrfXOt1w0/dGmOJzfbLuyNo&isBackground=N&joycious=70&lang=zh_CN&networkType=wifi&networklibtype=JDNetworkBaseAF&openudid=8a0d1837f803a12eb217fcf5e1f8769cbb3f898d&osVersion=14.3&partner=apple&rfs=0000&scope=11&screen=828%2A1792&sign=57453a76ffe9440d7961b05405fb4f13&st=1624535165882&sv=110&uemps=0-0&uts=0f31TVRjBStsz%2BC9YKuTtbGZPv/xrvQQdSUKvavez1nEbzXO4dLo%2BXEvUHAXAd0VPmZqkUNAf2yO/fBM7ImhPYnyBrotzw06Kk7qP6mG42fhA1t5BkW3ZGLaQgPtiuosYOHPMyHpg%2BJ9ZQBP4g3zsSFq2DUWsTOZbb85I4ThMCgqvymyLl48ebUg7aQTle9CfTJVWu5gx0YZ/ScklgN9Pg%3D%3D&uuid=hjudwgohxzVu96krv/T6Hg%3D%3D&wifiBssid=796606e8e181aa5865ec20728a27238b`
+  } else if (id === 260) {
+    body = `area=16_1315_3486_59648&body=%7B%22shshshfpb%22%3A%22hRRVbEkLST%2BoqUB6fhir%2BfMoJS814u0eqASGoy8xq0vV1m9X9zKoAVYtaZjcO4UsQaWNyUrMVkZK5HBZ5aJo5zQ%3D%3D%22%2C%22globalLng%22%3A%22118.1423%22%2C%22globalLat%22%3A%2224.49335%22%2C%22monitorSource%22%3A%22ccgroup_ios_index_task%22%2C%22monitorRefer%22%3A%22%22%2C%22taskType%22%3A%222%22%2C%22childActivityUrl%22%3A%22openapp.jdmobile%253a%252f%252fvirtual%253fparams%253d%257b%255c%2522category%255c%2522%253a%255c%2522jump%255c%2522%252c%255c%2522des%255c%2522%253a%255c%2522couponCenter%255c%2522%257d%22%2C%22pageClickKey%22%3A%22CouponCenter%22%2C%22lat%22%3A%2224.49435886957707%22%2C%22taskId%22%3A%22necklace_260%22%2C%22lng%22%3A%22118.144791637343%22%2C%22eid%22%3A%22eidI0faa812328s1AvGqBpW%2BSouJeXiZIORi9gLxq36FvXhk6SQPmtUFPglIaTIxGXnVzVAwHm%5C/QEwj14SR2vxSgH5tw4rWGdLJtHzSh8bloRLoX8mFY%22%7D&build=167568&client=apple&clientVersion=9.4.2&d_brand=apple&d_model=iPhone12%2C1&eid=eidI0faa812328s1AvGqBpW%2BSouJeXiZIORi9gLxq36FvXhk6SQPmtUFPglIaTIxGXnVzVAwHm/QEwj14SR2vxSgH5tw4rWGdLJtHzSh8bloRLoX8mFY&isBackground=N&joycious=51&lang=zh_CN&networkType=wifi&networklibtype=JDNetworkBaseAF&openudid=ebf4ce8ecbb641054b00c00483b1cee85660d196&osVersion=14.3&partner=apple&rfs=0000&scope=11&screen=828%2A1792&sign=93249982ced7ec850c69de8b3e859dab&st=1624610691429&sv=110&uts=0f31TVRjBSsqndu4/jgUPz6uymy50MQJSTfJm3Nbyn7GqB7OtrJRuHoZMYV%2Bs0mkEZsSwjxzwlDPXLeepml5BnM5XPZQmPVomYBHlkSfLJWR5D1y0Ovgf60fpjMS2gXL5aLh50cNO3cmx2GvVTaTeYxvRUl%2BpaW7HXsuBhxJgA6pUzd01tBX9yiFih8xvToesg91Nl8KcWGYzXJ2/hWKXg%3D%3D&uuid=hjudwgohxzVu96krv/T6Hg%3D%3D&wifiBssid=796606e8e181aa5865ec20728a27238b`
+  } else if (id === 267){
+    body = `area=16_1315_3486_59648&body=%7B%22shshshfpb%22%3A%22dPH6zeJy%5C/HFogCIf0ZGFYqSDOShGwmpjVOPM%5C/ViCGC5fgBLL9JoI9mjgUt46vjSFeSkmU9DZLEjFaeFTWBj4Axg%3D%3D%22%2C%22globalLng%22%3A%22118.1423%22%2C%22globalLat%22%3A%2224.49335%22%2C%22monitorSource%22%3A%22ccgroup_ios_index_task%22%2C%22monitorRefer%22%3A%22%22%2C%22taskType%22%3A%222%22%2C%22childActivityUrl%22%3A%22openapp.jdmobile%253a%252f%252fvirtual%253fparams%253d%257b%255c%2522category%255c%2522%253a%255c%2522jump%255c%2522%252c%255c%2522des%255c%2522%253a%255c%2522couponCenter%255c%2522%257d%22%2C%22pageClickKey%22%3A%22CouponCenter%22%2C%22lat%22%3A%2224.49437467152672%22%2C%22taskId%22%3A%22necklace_267%22%2C%22lng%22%3A%22118.1447981202065%22%2C%22eid%22%3A%22eidIeb54812323sf%2BAJEbj5LR0Kf6GUzM9DKXvgCReTpKTRyRwiuxY%5C/uvRHBqebAAKCAXkJFzhWtPj5uoHxNeK3DjTumb%2BrfXOt1w0%5C/dGmOJzfbLuyNo%22%7D&build=167707&client=apple&clientVersion=10.0.4&d_brand=apple&d_model=iPhone12%2C1&eid=eidIeb54812323sf%2BAJEbj5LR0Kf6GUzM9DKXvgCReTpKTRyRwiuxY/uvRHBqebAAKCAXkJFzhWtPj5uoHxNeK3DjTumb%2BrfXOt1w0/dGmOJzfbLuyNo&isBackground=N&joycious=70&lang=zh_CN&networkType=wifi&networklibtype=JDNetworkBaseAF&openudid=8a0d1837f803a12eb217fcf5e1f8769cbb3f898d&osVersion=14.3&partner=apple&rfs=0000&scope=11&screen=828%2A1792&sign=64e2361aa2a81068930c0c3325fd45ef&st=1624950832218&sv=111&uemps=0-0&uts=0f31TVRjBSsMGLCxYS3UIqlZl8dbXmnuZ4ayfhN43Ot1QaV41onc66czNm7agt5ZxuI/ZiEjTyLMd9C68bu6j250BhqFBz9aHYMZHRsZRt99av4Tsia77GOWxlDaSYf5ixm0pZhBRR4OQ%2BUBD6%2BPW4wCMOS5CO3/VI2cFHPfi%2BdGNinbfncIha86vGUGuGKiHSAf4rUFY4wrafX6Rksw7g%3D%3D&uuid=hjudwgohxzVu96krv/T6Hg%3D%3D&wifiBssid=796606e8e181aa5865ec20728a27238b`
+  } else if (id === 273) {
+    body = `area=16_1315_3486_59648&body=%7B%22shshshfpb%22%3A%22dPH6zeJy%5C/HFogCIf0ZGFYqSDOShGwmpjVOPM%5C/ViCGC5fgBLL9JoI9mjgUt46vjSFeSkmU9DZLEjFaeFTWBj4Axg%3D%3D%22%2C%22globalLng%22%3A%22118.1423%22%2C%22globalLat%22%3A%2224.49335%22%2C%22monitorSource%22%3A%22ccgroup_ios_index_task%22%2C%22monitorRefer%22%3A%22%22%2C%22taskType%22%3A%222%22%2C%22childActivityUrl%22%3A%22openapp.jdmobile%253a%252f%252fvirtual%253fparams%253d%257b%255c%2522category%255c%2522%253a%255c%2522jump%255c%2522%252c%255c%2522des%255c%2522%253a%255c%2522couponCenter%255c%2522%257d%22%2C%22pageClickKey%22%3A%22CouponCenter%22%2C%22lat%22%3A%2224.494383110087%22%2C%22taskId%22%3A%22necklace_273%22%2C%22lng%22%3A%22118.1447767134287%22%2C%22eid%22%3A%22eidIeb54812323sf%2BAJEbj5LR0Kf6GUzM9DKXvgCReTpKTRyRwiuxY%5C/uvRHBqebAAKCAXkJFzhWtPj5uoHxNeK3DjTumb%2BrfXOt1w0%5C/dGmOJzfbLuyNo%22%7D&build=167741&client=apple&clientVersion=10.0.8&d_brand=apple&d_model=iPhone12%2C1&eid=eidIeb54812323sf%2BAJEbj5LR0Kf6GUzM9DKXvgCReTpKTRyRwiuxY/uvRHBqebAAKCAXkJFzhWtPj5uoHxNeK3DjTumb%2BrfXOt1w0/dGmOJzfbLuyNo&isBackground=N&joycious=71&lang=zh_CN&networkType=wifi&networklibtype=JDNetworkBaseAF&openudid=8a0d1837f803a12eb217fcf5e1f8769cbb3f898d&osVersion=14.3&partner=apple&rfs=0000&scope=11&screen=828%2A1792&sign=c5f1773c699259a32596629ff17c77af&st=1627034890276&sv=101&uemps=0-0&uts=0f31TVRjBSuc9dw/M%2Bj%2BYjMPuoLDUbUPjPag%2BZ5OSbdXPyIGbVBxfPOWG8Z24KZdpryfyfoAUE5oYfYi1SuqGZ5atF1ARqzdFrPeo%2BZQVMmuwn/nYDGsLdj0Q9HcidhJXAaY1ti0j023Mv4f/ls51fJl5ypecBgw2sWtd8KiGQncYOe9GxCz6tlkHuSHDk3zN6hF%2BN0deRJOqJP8OOrJog%3D%3D&uuid=hjudwgohxzVu96krv/T6Hg%3D%3D&wifiBssid=796606e8e181aa5865ec20728a27238b`
+  } else if (id === 281) {
+    body = `area=1_2953_54044_0&body=%7B%22shshshfpb%22%3A%22xMvLenI90G5fXNwdmMLrZ9zcRvSKKKrp3twx2gniQsgkav01VHSjwfaIlRQEYYJ4lUh7i6BmZXDIqLmrcpFgFPw%3D%3D%22%2C%22globalLng%22%3A%22117.010071%22%2C%22globalLat%22%3A%2240.18993%22%2C%22monitorSource%22%3A%22ccgroup_ios_index_task%22%2C%22monitorRefer%22%3A%22%22%2C%22taskType%22%3A%222%22%2C%22childActivityUrl%22%3A%22openapp.jdmobile%253a%252f%252fvirtual%253fparams%253d%257b%255c%2522category%255c%2522%253a%255c%2522jump%255c%2522%252c%255c%2522des%255c%2522%253a%255c%2522couponCenter%255c%2522%257d%22%2C%22pageClickKey%22%3A%22CouponCenter%22%2C%22lat%22%3A%2240.18191448804161%22%2C%22taskId%22%3A%22necklace_281%22%2C%22lng%22%3A%22117.0065653831892%22%2C%22eid%22%3A%22eidI10a1812352s2f8fFJhaZRAaygJavMzzPuH%5C/HxpE9QzhNJ2Cf5aWxpC%2Bi2hshw7jujEFX%5C/JQtTGYOL2wlDjPaiPMK0KbiFPDza4sbsufvPStkf1tM%22%7D&build=167741&client=apple&clientVersion=10.0.8&d_brand=apple&d_model=iPhone10%2C2&eid=eidI10a1812352s2f8fFJhaZRAaygJavMzzPuH/HxpE9QzhNJ2Cf5aWxpC%2Bi2hshw7jujEFX/JQtTGYOL2wlDjPaiPMK0KbiFPDza4sbsufvPStkf1tM&isBackground=N&joycious=95&lang=zh_CN&networkType=wifi&networklibtype=JDNetworkBaseAF&openudid=8548106a862f1fe7b4b84d3a16f7ffdcf47390de&osVersion=14.4.2&partner=apple&rfs=0000&scope=01&screen=1242%2A2208&sign=53be7e8df676c891c8b7ffedd695c188&st=1627058033720&sv=122&uemps=0-0&uts=0f31TVRjBStnWyWKh4kj%2BvuskvWGi54eyJH5cLJVT6QoOtzNpjyhH/ToU5X7LhKoleMMycwNk8t28%2BJhe0WWPZLkED4dnpAJv9MsudkLTd%2BKR8CJOEgC4PH/IFRT8y51lwtUBXR26fHwsk4aYqBSg0uiALvjv09TMPXJwxQIQ6gEdaaN2v%2B2PBvm1Obp5Nr0RMweFYy4mc1DamSX2mqF5g%3D%3D&uuid=hjudwgohxzVu96krv/T6Hg%3D%3D&wifiBssid=a19cc6de09ae7d189d19659de2c95af6`
   }
   console.log(`\n领券浏览任务：type:${type},id:${id}\n`);
   if (type === '4') {
+    functionId = 'reportSinkTask'
+    body = `&appid=XPMSGC2019&monitorSource=&uuid=16245525345801334814959&body=%7B%22platformType%22%3A%221%22%2C%22taskId%22%3A%22necklace_${id}%22%7D&client=m&clientVersion=4.6.0&area=16_1315_1316_59175&geo=%5Bobject%20Object%5D`
     console.log('需等待30秒')
     await $.wait(15000);
   } else {
+    functionId = 'reportCcTask'
     console.log('需等待15秒')
   }
   await $.wait(15500);
-  await getCcTaskList('reportCcTask', body, type);
+  await getCcTaskList(functionId, body, type);
 }
 function getCcTaskList(functionId, body, type = '3') {
-  let url = '';
+  let url = `https://api.m.jd.com/client.action?functionId=${functionId}`;
+  if (functionId === 'reportSinkTask') {
+    url += body
+    body = ''
+  }
   return new Promise(resolve => {
-    if (functionId === 'getCcTaskList') {
-      url = `https://api.m.jd.com/client.action?functionId=${functionId}&body=${escape(JSON.stringify(body))}&uuid=8888888&client=apple&clientVersion=9.4.1&st=1614320848090&sign=d3259c0c19f6c792883485ae65f8991c&sv=111`
-    }
-    if (type === '3' && functionId === 'reportCcTask') url = `https://api.m.jd.com/client.action?functionId=${functionId}&body=${escape(JSON.stringify(body))}&uuid=8888888&client=apple&clientVersion=9.4.1&st=1624874606089&sign=268db25a0300e83652066f5dc4c495e7&sv=111`
-    if (type === '4' && functionId === 'reportCcTask') url = `https://api.m.jd.com/client.action?functionId=${functionId}&body=${escape(JSON.stringify(body))}&uuid=8888888&client=apple&clientVersion=9.4.1&st=1624875002081&sign=2a9f69fd001b2d46de23e3ef5cc85a01&sv=111`
-    // if (functionId === 'reportCcTask') {
-    //   url = `https://api.m.jd.com/client.action?functionId=${functionId}&body=${escape(JSON.stringify(body))}&uuid=8888888&client=apple&clientVersion=9.4.1&st=1614320901023&sign=26e637ba072ddbcfa44c5273ef928696&sv=111`
-    // }
     const options = {
       url,
-      body: `body=${escape(JSON.stringify(body))}`,
+      body,
       headers: {
         "Accept": "application/json, text/plain, */*",
         "Accept-Encoding": "gzip, deflate, br",
@@ -646,7 +443,7 @@ function getCcTaskList(functionId, body, type = '3') {
         "Origin": "https://h5.m.jd.com",
         "Cookie": cookie,
         "Referer": "https://h5.m.jd.com/babelDiy/Zeus/4ZK4ZpvoSreRB92RRo8bpJAQNoTq/index.html",
-        "User-Agent": ($.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")).replace(/jdapp/, 'jdltapp'),
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
       }
     }
     $.post((options), async (err, resp, data) => {
@@ -657,7 +454,7 @@ function getCcTaskList(functionId, body, type = '3') {
         } else {
           if (safeGet(data)) {
             if (type === '3' && functionId === 'reportCcTask') console.log(`点击首页领券图标(进入领券中心浏览15s)任务:${data}`)
-            if (type === '4' && functionId === 'reportCcTask') console.log(`点击“券后9.9”任务:${data}`)
+            if (type === '4' && functionId === 'reportSinkTask') console.log(`点击“券后9.9”任务:${data}`)
             data = JSON.parse(data);
             //异常情况：{"code":"600","echo":"signature verification failed"}
             if (data['code'] === '600' && !hasSend) {
@@ -698,9 +495,32 @@ function taskPostUrl(function_id, body = {}) {
       "sec-fetch-dest": "empty",
       "sec-fetch-mode": "cors",
       "sec-fetch-site": "same-site",
-      "user-agent": ($.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")).replace(/jdapp/, 'jdltapp')
+      "user-agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
     }
   }
+}
+function getToken(timeout = 0){
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url : `https://bh.m.jd.com/gettoken`,
+        headers : {
+          'Content-Type' : `text/plain;charset=UTF-8`
+        },
+        body : `content={"appname":"50082","whwswswws":"","jdkey":"","body":{"platform":"1"}}`
+      }
+      $.post(url, async (err, resp, data) => {
+        try {
+          data = JSON.parse(data);
+          joyToken = data.joyytoken;
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
 }
 function TotalBean() {
   return new Promise(async resolve => {
