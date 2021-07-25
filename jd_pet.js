@@ -68,6 +68,7 @@ let randomCount = $.isNode() ? 20 : 5;
       option = {};
       await shareCodesFormat();
       await jdPet();
+      await $.wait(50000);
     }
   }
   if ($.isNode() && allMessage && $.ctrTemp) {
