@@ -1896,7 +1896,7 @@ function nobyda() {
     return response
   }
   const get = (options, callback) => {
-    options.headers['User-Agent'] = 'JD4iPhone/167169 (iPhone; iOS 13.4.1; Scale/3.00)'
+    options.headers['User-Agent'] = 'JD4iPhone/167408 (iPhone; iOS 14.2; Scale/3.00)'
     if (isQuanX) {
       if (typeof options == "string") options = {
         url: options
@@ -1936,7 +1936,7 @@ function nobyda() {
     }
   }
   const post = (options, callback) => {
-    options.headers['User-Agent'] = 'JD4iPhone/167169 (iPhone; iOS 13.4.1; Scale/3.00)'
+    options.headers['User-Agent'] = 'JD4iPhone/167408 (iPhone; iOS 14.2; Scale/3.00)'
     if (options.body) options.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     if (isQuanX) {
       if (typeof options == "string") options = {
