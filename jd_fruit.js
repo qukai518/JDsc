@@ -68,6 +68,7 @@ const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
       option = {};
       await shareCodesFormat();
       await jdFruit();
+      await $.wait(50000);
     }
   }
   if ($.isNode() && allMessage && $.ctrTemp) {
