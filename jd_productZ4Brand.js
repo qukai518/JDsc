@@ -1,6 +1,6 @@
 /*
 特务Z
-cron 23 9,11 24-27 7 *
+cron 23 0,9 24-27 7 *
 要跑2次，第一次做任务和脚本内互助，第二次才够币抽奖
 */
 const $ = new Env('特务Z');
@@ -51,6 +51,20 @@ if ($.isNode()) {
     }
     await $.wait(1000);
   }
+  let res = [];
+  try{res = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/ProductZ4Brand.json');}catch (e) {}
+  for (let i = 0; i < 1; i++) {
+   $.cookie = cookiesArr[i];
+    $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+    $.encryptProjectId = useInfo[$.nickName];
+    for (let j = 0; j < res.length; j++) {
+      $.code = res[j];
+      console.log(`${$.UserName},去助力:${$.code}`);
+      await takePostRequest('help');
+      await $.wait(2000);
+    }
+  }
+
   for (let i = 0; i < cookiesArr.length; i++) {
     $.cookie = cookiesArr[i];
     $.canHelp = true;
