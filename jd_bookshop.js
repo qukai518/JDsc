@@ -99,7 +99,7 @@ async function jdBeauty() {
     console.log(`金币大于800，去抽奖`)
     while ($.gold >= 800) {
       await draw()
-      await $.wait(1000)
+      await $.wait(2000)
       $.gold -= 800
     }
   }
@@ -113,7 +113,7 @@ async function helpFriends() {
     if (!code) continue
     console.log(`去助力好友${code}`)
     await getActContent(true, code)
-    await $.wait(500)
+    await $.wait(2000)
   }
 }
 
@@ -348,6 +348,7 @@ function getActContent(info = false, shareUuid = '') {
                     if (task.okNum < task.dayMaxNum) {
                       console.log(`去做${task.title}任务`)
                       await doTask(task.settings[0].type, task.settings[0].value)
+                      await $.wait(2000)
                     }
                   }
                 }
