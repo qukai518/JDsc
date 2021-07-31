@@ -51,7 +51,7 @@ function randomString() {
 }
 !(async () => {
   $.newShareCodes = []
-  $.authorCode = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/jd_updateBeanHome.json')
+ // $.authorCode = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/jd_updateBeanHome.json')
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -78,7 +78,7 @@ function randomString() {
       await jdBeanHome();
     }
   }
-  for (let i = 0; i < cookiesArr.length; i++) {
+ /* for (let i = 0; i < cookiesArr.length; i++) {
     $.index = i + 1;
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -127,7 +127,7 @@ function randomString() {
   })
   .finally(() => {
     $.done();
-  })
+  })*/
 
 async function jdBeanHome() {
   try {
