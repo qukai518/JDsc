@@ -9,7 +9,7 @@
 1 7 * 8 * jd_wxFans_aug.js, tag=粉丝互动, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
  */
 const $ = new Env('八月粉丝互动');
-const jdCookieNode = $.isNode() ? require('./jdCookiesend.js') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
