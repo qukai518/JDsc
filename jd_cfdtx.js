@@ -146,7 +146,7 @@ async function cashOutQuali() {
         } else {
           data = JSON.parse(data)
           if (data.iRet === 0 || data.iRet === 2034) {
-            console.log(`获取提现资格：${data.sErrMsg}\n`)
+            console.log(data.iRet === 0 ? `获取提现资格成功\n` : `获取提现资格失败：${data.sErrMsg}\n`)
             console.log(`提现\n提现金额：按库存轮询提现，0点场提1元以上，12点场提0.5元以上，12点后不做限制\n`)
             await userCashOutState()
           } else {
@@ -175,9 +175,9 @@ async function userCashOutState(type = true) {
               if (data.ddwUsrTodayGetRich >= data.ddwTodayTargetUnLockRich) {
                 nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
                 if (nowTimes.getHours() >= 0 && nowTimes.getHours() < 12) {
-                  data.UsrCurrCashList = data.UsrCurrCashList.filter((x) => x.ddwMoney / 100 = 1)
+                  data.UsrCurrCashList = data.UsrCurrCashList.filter((x) => x.ddwMoney / 100 >= 1)
                 } else if (nowTimes.getHours() === 12 && nowTimes.getMinutes() <= 5) {
-                  data.UsrCurrCashList = data.UsrCurrCashList.filter((x) => x.ddwMoney / 100 = 1)
+                  data.UsrCurrCashList = data.UsrCurrCashList.filter((x) => x.ddwMoney / 100 >= 0.5)
                 }
                 for (let key of Object.keys(data.UsrCurrCashList).reverse()) {
                   let vo = data.UsrCurrCashList[key]
@@ -388,9 +388,9 @@ function showMsg() {
 function TotalBean() {
   return new Promise(async resolve => {
     const options = {
-      url: "https://wq.jd.com/user_new/info/GetJDUserInfoUnion?sceneval=2",
+      url: "https://me-api.jd.com/user_new/info/GetJDUserInfoUnion",
       headers: {
-        Host: "wq.jd.com",
+        Host: "me-api.jd.com",
         Accept: "*/*",
         Connection: "keep-alive",
         Cookie: cookie,
@@ -407,11 +407,11 @@ function TotalBean() {
         } else {
           if (data) {
             data = JSON.parse(data);
-            if (data['retcode'] === 1001) {
+            if (data['retcode'] === "1001") {
               $.isLogin = false; //cookie过期
               return;
             }
-            if (data['retcode'] === 0 && data.data && data.data.hasOwnProperty("userInfo")) {
+            if (data['retcode'] === "0" && data.data && data.data.hasOwnProperty("userInfo")) {
               $.nickName = data.data.userInfo.baseInfo.nickname;
             }
           } else {
