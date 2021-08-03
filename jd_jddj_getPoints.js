@@ -1,3 +1,4 @@
+
 /*
 //京东到家鲜豆庄园收水滴脚本,支持qx,loon,shadowrocket,surge,nodejs
 //用抓包抓 https://daojia.jd.com/html/index.html 页面cookie填写到下面,暂时不知cookie有效期
@@ -12,7 +13,6 @@
 0-59/31 * * * * jd_jddj_getPoints.js,tag=京东到家鲜豆庄园收水滴,img-url=https://raw.githubusercontent.com/58xinian/icon/master/ddxw.png, enabled=true
 */
 const $ = new API("jd_jddj_getPoints");
-
 let ckPath = './jdCookie.js';//ck路径,环境变量:JDDJ_CKPATH
 let cookies = [];
 let thiscookie = '', deviceid = '', nickname = '';
@@ -22,7 +22,7 @@ let thiscookie = '', deviceid = '', nickname = '';
             if (process.env.JDDJ_CKPATH) ckPath = process.env.JDDJ_CKPATH;
             delete require.cache[ckPath];
             let jdcookies = require(ckPath);
-            for (let key in jdcookies) cookies.push(jdcookies[key]);
+            for (let key in jdcookies) if (!!jdcookies[key]) cookies.push(jdcookies[key]);
         }
         else {
             let ckstr = $.read('#jddj_cookies');
@@ -42,28 +42,10 @@ let thiscookie = '', deviceid = '', nickname = '';
     for (let i = 0; i < cookies.length; i++) {
         console.log(`\r\n★★★★★开始执行第${i + 1}个账号,共${cookies.length}个账号★★★★★`);
         thiscookie = cookies[i];
-        if (!thiscookie.trim()) continue;
+        if (!thiscookie) continue;
 
         deviceid = _uuid();
-        let option = taskLoginUrl(deviceid, thiscookie);
-        await $.http.get(option).then(response => {
-                                    hd = JSON.parse(JSON.stringify(response.headers));
-                let o2o_m_h5_sid = hd['set-cookie'][0]
-    o2o_m_h5_sid = o2o_m_h5_sid.substring(o2o_m_h5_sid.indexOf("=") + 1, o2o_m_h5_sid.indexOf(";"))
-    let PDJ_H5_JDPIN = hd['set-cookie'][1]
-    PDJ_H5_JDPIN = PDJ_H5_JDPIN.substring(PDJ_H5_JDPIN.indexOf("=") + 1, PDJ_H5_JDPIN.indexOf(";"))
-        let PDJ_H5_MOBILE = hd['set-cookie'][2]
-    PDJ_H5_MOBILE = PDJ_H5_MOBILE.substring(PDJ_H5_MOBILE.indexOf("=") + 1, PDJ_H5_MOBILE.indexOf(";"))
-        let PDJ_H5_PIN = hd['set-cookie'][3]
-    PDJ_H5_PIN = PDJ_H5_PIN.substring(PDJ_H5_PIN.indexOf("=") + 1, PDJ_H5_PIN.indexOf(";"))
-
-    cookie1 = "o2o_m_h5_sid=" + o2o_m_h5_sid + ";PDJ_H5_JDPIN=" + PDJ_H5_JDPIN + ";"+"PDJ_H5_MOBILE="+PDJ_H5_MOBILE+";"+"PDJ_H5_PIN="+PDJ_H5_PIN;
-            let data = JSON.parse(response.body);
-            if (data.code == 0) {
-            thiscookie = thiscookie + cookie1;
-            }
-            else thiscookie = 'aabbcc';
-        });
+        thiscookie = await taskLoginUrl(deviceid, thiscookie);
 
         await userinfo();
         await $.wait(1000);
@@ -78,8 +60,6 @@ let thiscookie = '', deviceid = '', nickname = '';
 }).finally(() => {
     $.done();
 })
-
-
 
 //收水车水滴
 async function getPoints() {
@@ -147,8 +127,12 @@ async function userinfo() {
             $.http.get(option).then(response => {
                 let data = JSON.parse(response.body);
                 if (data.code == 0) {
-                    nickname = data.result.userInfo.userBaseInfo.nickName;
-                    console.log("●●●" + nickname + "●●●");
+                    try {
+                        nickname = data.result.userInfo.userBaseInfo.nickName;
+                        console.log("●●●" + nickname + "●●●");
+                    } catch (error) {
+                        console.log("●●●昵称获取失败●●●");
+                    }
                 }
                 resolve();
             })
@@ -180,18 +164,37 @@ function urlTask(url, body) {
     return option;
 }
 
-function taskLoginUrl(deviceid, thiscookie) {
+//根据京东ck获取到家ck
+async function taskLoginUrl(deviceid, thiscookie) {
+    return new Promise(async resolve => {
+        try {
+            let option = {
+                url: encodeURI('https://daojia.jd.com/client?_jdrandom=' + (+new Date()) + '&_funid_=login/treasure&functionId=login/treasure&body={}&lat=&lng=&lat_pos=&lng_pos=&city_id=&channel=h5&platform=6.6.0&platCode=h5&appVersion=6.6.0&appName=paidaojia&deviceModel=appmodel&isNeedDealError=false&traceId=' + deviceid + '&deviceToken=' + deviceid + '&deviceId=' + deviceid + '&_jdrandom=' + (+new Date()) + '&_funid_=login/treasure'),
+                headers: {
+                    "Cookie": 'deviceid_pdj_jd=' + deviceid + ';' + thiscookie + ';',
+                    "Host": "daojia.jd.com",
+                    'Content-Type': 'application/x-www-form-urlencoded;',
+                    "User-Agent": 'jdapp;iPhone;10.0.10;14.1;311fc185ed97a0392e35657dfe2a321664170965;network/wifi;model/iPhone11,6;appBuild/167764;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1'
+                }
+            };
+            let ckstr = '';
+            await $.http.get(option).then(async response => {
+                if (response.body.indexOf('请求成功') > -1) {
+                    for (const key in response.headers) {
+                        if (key.toLowerCase().indexOf('cookie') > -1) {
+                            ckstr = response.headers[key].toString();
+                        }
+                    }
+                    ckstr += 'deviceid_pdj_jd=' + deviceid;
+                }
+            });
+            resolve(ckstr);
 
-    return {
-        url: 'https://daojia.jd.com/client?_jdrandom=' + (+new Date()) + '&_funid_=login/treasure&functionId=login/treasure&body={}&lat=&lng=&lat_pos=&lng_pos=&city_id=&channel=h5&platform=6.6.0&platCode=h5&appVersion=6.6.0&appName=paidaojia&deviceModel=appmodel&isNeedDealError=false&traceId=' + deviceid + '&deviceToken=' + deviceid + '&deviceId=' + deviceid + '&_jdrandom=1627648796622&_funid_=login/treasure',
-        headers: {
-            "Cookie": 'deviceid_pdj_jd=' + deviceid + ';' + thiscookie + ';',
-            "Host": "daojia.jd.com",
-            "referer": "https://daojia.jd.com/taroh5/h5dist/",
-            'Content-Type': 'application/x-www-form-urlencoded',
-            "User-Agent": 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)'
+        } catch (error) {
+            console.log(error);
+            resolve('');
         }
-    }
+    })
 }
 
 function _uuid() {
