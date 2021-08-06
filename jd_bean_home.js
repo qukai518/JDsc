@@ -41,7 +41,7 @@ if ($.isNode()) {
 const JD_API_HOST = 'https://api.m.jd.com/';
 const jdVersion = '10.0.8'
 const iphoneVersion = [Math.ceil(Math.random()*2+12),Math.ceil(Math.random()*4)]
-const UA = `jdapp;iPhone;${jdVersion};${Math.ceil(Math.random()*2+12)}.${Math.ceil(Math.random()*4)};${randomString()};network/wifi;model/iPhone12,1;addressid/0;appBuild/167741;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ${iphoneVersion[0]}_${iphoneVersion[1]} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
+const UA = `jdapp;iPhone;${jdVersion};${iphoneVersion[0]}.${iphoneVersion[1]};${randomString()};network/wifi;model/iPhone12,1;addressid/0;appBuild/167741;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ${iphoneVersion[0]}_${iphoneVersion[1]} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
 function randomString() {
   return Math.random().toString(16).slice(2, 10) +
     Math.random().toString(16).slice(2, 10) +
@@ -78,7 +78,7 @@ function randomString() {
       await jdBeanHome();
     }
   }
- /* for (let i = 0; i < cookiesArr.length; i++) {
+  for (let i = 0; i < cookiesArr.length; i++) {
     $.index = i + 1;
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -120,7 +120,7 @@ function randomString() {
         }
       }
     }
-  }*/
+  }
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
