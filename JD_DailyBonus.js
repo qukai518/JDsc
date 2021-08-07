@@ -102,7 +102,17 @@ var ReDis = false; //是否移除所有禁用列表, true则开启. 适用于触
 var out = 0; //接口超时退出, 用于可能发生的网络不稳定, 0则关闭. 如QX日志出现大量"JS Context timeout"后脚本中断时, 建议填写6000
 
 var $nobyda = nobyda();
+const jdVersion = '10.0.10'
+const iphoneVersion = [Math.ceil(Math.random()*2+12),Math.ceil(Math.random()*4)]
+const UA = `jdapp;iPhone;${jdVersion};${iphoneVersion[0]}.${iphoneVersion[1]};${randomString()};network/wifi;model/iPhone12,1;addressid/3364463029;appBuild/167764;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ${iphoneVersion[0]}_${iphoneVersion[1]} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
 
+function randomString() {
+  return Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10) +
+    Math.random().toString(16).slice(2, 10)
+}
 async function all() {
   merge = {};
   switch (stop) {
@@ -1896,7 +1906,7 @@ function nobyda() {
     return response
   }
   const get = (options, callback) => {
-    options.headers['User-Agent'] = 'JD4iPhone/167408 (iPhone; iOS 14.2; Scale/3.00)'
+    options.headers['User-Agent'] = UA
     if (isQuanX) {
       if (typeof options == "string") options = {
         url: options
@@ -1936,7 +1946,7 @@ function nobyda() {
     }
   }
   const post = (options, callback) => {
-    options.headers['User-Agent'] = 'JD4iPhone/167408 (iPhone; iOS 14.2; Scale/3.00)'
+    options.headers['User-Agent'] = UA
     if (options.body) options.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     if (isQuanX) {
       if (typeof options == "string") options = {
