@@ -9,17 +9,17 @@
 ============Quantumultx===============
 [task_local]
 #荣耀焕新
-20 8 * * * jd_ryhx.js, tag=荣耀焕新, img-url=https://raw.githubusercontent.com/Orz-3/task/master/jd.png, enabled=true
+10 8,20 * * * jd_ryhx.js, tag=荣耀焕新, img-url=https://raw.githubusercontent.com/Orz-3/task/master/jd.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "20 8 * * *" script-path=jd_ryhx.js, tag=荣耀焕新
+cron "10 8,20 * * *" script-path=jd_ryhx.js, tag=荣耀焕新
 
 ===============Surge=================
-荣耀焕新 = type=cron,cronexp="20 8 * * *",wake-system=1,timeout=3600,script-path=jd_ryhx.js
+荣耀焕新 = type=cron,cronexp="10 8,20 * * *",wake-system=1,timeout=3600,script-path=jd_ryhx.js
 
 ============小火箭=========
-荣耀焕新 = type=cron,script-path=jd_ryhx.js, cronexpr="20 8 * * *", timeout=3600, enable=true
+荣耀焕新 = type=cron,script-path=jd_ryhx.js, cronexpr="10 8,20 * * *", timeout=3600, enable=true
 
  */
 const $ = new Env("荣耀焕新");
