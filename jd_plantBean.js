@@ -43,7 +43,7 @@ let currentRoundId = null;//本期活动id
 let lastRoundId = null;//上期id
 let roundList = [];
 let awardState = '';//上期活动的京豆是否收取
-let randomCount = $.isNode() ? 20 : 5;
+let randomCount = 2
 let num;
 !(async () => {
   await requireConfig();
@@ -111,7 +111,7 @@ async function jdPlantBean() {
       await receiveNutrients();//定时领取营养液
       await doHelp();//助力
       await doTask();//做日常任务
-      await doEgg();
+      //await doEgg();
       await stealFriendWater();
       await doCultureBean();
       await doGetReward();
