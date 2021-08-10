@@ -570,7 +570,7 @@ async function doHelp() {
         console.log(`该助力码[${item}]助力结果\n${$.toStr(helpRes)}`)
       }
     }else{
-      console.log(`该助力码[${item}]助力结果\n${$.toStr(helpRes)}`)''
+      console.log(`该助力码[${item}]助力结果\n${$.toStr(helpRes)}`)
     }
   }
 }
