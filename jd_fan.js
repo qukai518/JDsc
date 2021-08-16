@@ -10,6 +10,8 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
 const activityList = [
+    {'actid':'e4c6bdba323948ceb05e4122acd97fba','endTime':1631710304186},
+    {'actid':'d6fe4bd6a34e4eb9b498932122453890','endTime':1631711087390},
     {'actid':'5ae85e34c6054f379b3bdb0867842cd0','endTime':1629302400000},
     {'actid':'4baf19fa3f454e6abf82be7d66605ab4','endTime':1630425599000},
     {'actid':'c75ae2afd7ff4aec9ed47008b08400f7','endTime':1630288800000},
