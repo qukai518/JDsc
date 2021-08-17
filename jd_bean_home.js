@@ -78,7 +78,7 @@ function randomString() {
       await jdBeanHome();
     }
   }
-  for (let i = 0; i < cookiesArr.length; i++) {
+  /*for (let i = 0; i < cookiesArr.length; i++) {
     $.index = i + 1;
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -120,7 +120,7 @@ function randomString() {
         }
       }
     }
-  }
+  }*/
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
