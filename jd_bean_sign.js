@@ -43,7 +43,7 @@ if ($.isNode()) {
   process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE = process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE ? process.env.JD_BEAN_SIGN_NOTIFY_SIMPLE : 'true';
   await requireConfig();
   // 下载最新代码
-  await downFile();
+  //await downFile();
   await deleteFile(resultPath);//删除result.txt
   await deleteFile(NodeSet);//删除CookieSet.json
   if (!await fs.existsSync(JD_DailyBonusPath)) {
