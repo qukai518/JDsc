@@ -29,6 +29,8 @@ const activityList = [
     {'actid':'d6fe4bd6a34e4eb9b498932122453890','endTime':1630548000000},
     {'actid':'e4c6bdba323948ceb05e4122acd97fba','endTime':1629648000000},
     {'actid':'5622386323bb4a82a2ed4e0158f7c6a7','endTime':1631289599000},
+    {'actid':'61146464456f4e42927d067cfccdf579','endTime':1629907200000},
+    {'actid':'59564c90a57443deb40371c83332df27','endTime':1629907199000},
 ];
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
