@@ -4,7 +4,7 @@
  */
 const $ = new Env('扫码获取京东cookie');
 const qrcode = require('qrcode-terminal');
-const UA = `Mozilla/5.0 (Linux; Android 10; ELE-AL00 Build/HUAWEIELE-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/76.0.3809.89 Mobile Safari/537.36 T7/11.20 SP-engine/2.16.0 baiduboxapp/11.20.0.10 (Baidu; P1 10)`;
+const UA = `Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_2 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8H7 Safari/6533.18.5 UCBrowser/13.4.2.1122`;
 
 let s_token, cookies, guid, lsid, lstoken, okl_token, token
 !(async () => {
