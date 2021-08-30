@@ -345,10 +345,10 @@ async function invite(invite_pins) {
 }
 function enterRoom(invitePin) {
   return new Promise(resolve => {
-    let lkt = new Date().getTime()
-    let lks = $.md5('' + 'RtKLB8euDo7KwsO0' + lkt).toString()
-    headers['lkt'] = lkt;
-    headers['lks'] = lks;
+    //let lkt = new Date().getTime()
+    //let lks = $.md5('' + 'RtKLB8euDo7KwsO0' + lkt).toString()
+    //headers['lkt'] = lkt;
+    //headers['lks'] = lks;
     headers.Cookie = cookie;
     headers.LKYLToken = $.LKYLToken;
     headers['Content-Type'] = "application/json";
