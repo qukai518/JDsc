@@ -4,7 +4,7 @@
 活动入口：京东app首页-美妆馆-底部中间按钮
 只支持Node.js支持N个京东账号
 脚本兼容: Node.js
-cron 1 1,6,12,19 * * * jd_beauty.js
+cron 1 7,12,19 * * * jd_beauty.js
  */
 const $ = new Env('美丽研究院');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -19,6 +19,7 @@ $.init = false;
 // const bean = 1; //兑换多少豆，默认是500
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message, helpInfo, ADD_CART = false;
+const UA = `jdapp;iPhone;10.1.2;14.3;${randomString(40)};network/wifi;model/iPhone12,1;addressid/0;appBuild/167802;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
 
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -90,7 +91,7 @@ async function accountCheck() {
   }
   let client = new WebSocket(`wss://xinruimz-isv.isvjcloud.com/wss/?token=${$.token}`, null, {
     headers: {
-      'user-agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;10.0.2;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+      'user-agent': UA,
     }
   });
   client.onopen = async () => {
@@ -140,6 +141,7 @@ async function jdBeauty() {
     await $.wait(1000)
   }
   await showMsg();
+  await $.wait(50000);
 }
 
 async function mr() {
@@ -151,7 +153,7 @@ async function mr() {
   $.needs = []
   let client = new WebSocket(`wss://xinruimz-isv.isvjcloud.com/wss/?token=${$.token}`,null,{
     headers:{
-      'user-agent':"jdapp;android;9.5.2;7.1.2;3353830323230323-13932373530363D2;network/wifi;model/MI 9;addressid/0;aid/4e0314ac734f6d32;oaid/;osVer/25;appBuild/87971;partner/jdtopc;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 7.1.2; MI 9 Build/N2G47O; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36",
+      'user-agent': UA,
     }
   })
   console.log(`wss://xinruimz-isv.isvjcloud.com/wss/?token=${$.token}`)
@@ -167,7 +169,7 @@ async function mr() {
     for (let help of helpInfo) {
       client.send(help);
     }
-    await $.wait(1000)
+/*    await $.wait(1000)
     client.send(`{"msg":{"type":"action","args":{},"action":"shop_products"}}`)
     // 获得可生产的原料列表
     client.send(`{"msg":{"type":"action","args":{},"action":"get_produce_material"}}`)
@@ -189,7 +191,7 @@ async function mr() {
     }
 
     // 获得任务
-    // client.send(`{"msg":{"type":"action","args":{},"action":"get_task"}}`)
+    // client.send(`{"msg":{"type":"action","args":{},"action":"get_task"}}`)*/
     // 获取个人信息
     client.send(`{"msg":{"type":"action","args":{"source":1},"action":"get_user"}}`)
     await $.wait(1000)
@@ -203,9 +205,9 @@ async function mr() {
     console.log('服务器连接关闭');
     $.init = true;
     $.hasDone = true;
-    for (let i = 0; i < $.pos.length && i < $.tokens.length; ++i) {
+/*    for (let i = 0; i < $.pos.length && i < $.tokens.length; ++i) {
       $.helpInfo.push(`{"msg":{"type":"action","args":{"inviter_id":"${$.userInfo.id}","position":"${$.pos[i]}","token":"${$.tokens[i]}"},"action":"employee"}}`)
-    }
+    }*/
   };
   client.onmessage = async function (e) {
     if (e.data !== 'pong' && e.data && safeGet(e.data)) {
@@ -214,12 +216,12 @@ async function mr() {
       console.log(`\n开始任务："${JSON.stringify(vo.action)}`);
       switch (vo.action) {
         case "get_ad":
-          console.log(`当期活动：${vo.data.screen.name}`)
+//          console.log(`当期活动：${vo.data.screen.name}`)
           if (vo.data.check_sign_in === 1) {
             // 去签到
             console.log(`去做签到任务`)
             client.send(`{"msg":{"type":"action","args":{},"action":"sign_in"}}`)
-            client.send(`{"msg":{"action":"write","type":"action","args":{"action_type":1,"channel":2,"source_app":2}}}`)
+   //         client.send(`{"msg":{"action":"write","type":"action","args":{"action_type":1,"channel":2,"source_app":2}}}`)
           }
           break
         case "get_user":
@@ -236,7 +238,7 @@ async function mr() {
           $.level = $.userInfo.level;
           console.log(`当前美妆币${$.total}，用户等级${$.level}`);
           break;
-        case "shop_products":
+   /*     case "shop_products":
           let count = $.taskState.shop_view.length;
           if (count < 5) console.log(`去做关注店铺任务`);
           for (let i = 0; i < vo.data.shops.length && count < 5; ++i) {
@@ -360,7 +362,11 @@ async function mr() {
         case "material_produce_v2":
           console.log(`【${vo?.data?.position}】上开始生产${vo?.data?.material_name}`)
           client.send(`{"msg":{"type":"action","args":{},"action":"to_employee"}}`)
-          $.pos.push(vo.data.position)
+          if(vo?.data?.position){
+            $.pos.push(vo.data.position)
+          }else{
+            console.log(`not exist:${vo?.data}`)
+          }
           break
         case "material_fetch_v2":
           if (vo.code === '200' || vo.code === 200) {
@@ -436,7 +442,7 @@ async function mr() {
           } else {
             console.log(`生产信息获取失败，错误信息${vo.msg}`)
           }
-          break
+          break*/
         case "collect_coins":
           if (vo.code === '200' || vo.code === 200) {
             // console.log(`product_produce:${JSON.stringify(vo)}`)
@@ -445,8 +451,7 @@ async function mr() {
             console.log(`收取美妆币失败，错误信息${vo.msg}`)
           }
           break
-        case "product_producing":
-          // console.log('product_producing', vo);
+     /*   case "product_producing":
           if (vo.code === '200' || vo.code === 200) {
             for (let product of vo.data) {
               if (product.num === product.produce_num) {
@@ -472,7 +477,7 @@ async function mr() {
         //     console.log(`满足任务要求，去完成任务`)
         //     client.send(`{"msg":{"type":"action","args":{"task_id":${vo.data.id}},"action":"complete_task"}}`)
         //   }
-        //   break
+        //   break*/
         case 'get_benefit':
           for (let benefit of vo.data) {
             if (benefit.type === 1) { //type 1 是京豆
@@ -483,7 +488,7 @@ async function mr() {
                 for (let i = benefit.day_exchange_count; i < 10; i++){
                   // console.log(`开始兑换`)
                   client.send(`{"msg":{"type":"action","args":{"benefit_id":${benefit.id}},"action":"to_exchange"}}`);
-                  await $.wait(4500);
+                  await $.wait(5000);
                 }
               }
               // console.log(`物品【${benefit.description}】需要${benefit.coins}美妆币，库存${benefit.stock}份`)
@@ -498,23 +503,26 @@ async function mr() {
           }
           break
         case "to_exchange":
-          if (vo?.data) {
-            console.log(`兑换${vo?.data?.coins/-100}京豆成功;${JSON.stringify(vo)}`)
-          } else {
-            console.log(`兑换京豆失败：${JSON.stringify(vo)}`)
+          if(vo?.data?.coins){
+            console.log(`兑换${vo.data.coins/-1000}京豆成功;${JSON.stringify(vo)}`)
+          }else{
+            console.log(`vo.data.coins not exist:${vo?.data}`)
           }
           break
-        case "get_produce_material":
-          console.log('get_produce_material', vo?.msg);
+     /*   case "get_produce_material":
           $.material = vo.data
           break
         case "to_employee":
-          console.log(`雇佣助力码【${vo.data.token}】`)
-          $.tokens.push(vo.data.token)
+          console.log(`雇佣助力码【${vo?.data?.token}】`)
+          if(vo?.data?.token){
+            $.tokens.push(vo.data.token)
+          }else{
+            console.log(`not exist:${vo?.data}`)
+          }
           break
         case "employee":
           console.log(`${vo.msg}`)
-          break
+          break*/
       }
     }
   };
@@ -527,7 +535,7 @@ function getIsvToken() {
     headers: {
       'Host': 'api.m.jd.com',
       'accept': '*/*',
-      'user-agent': 'Dalvik/2.1.0 (Linux; U; Android 11; TAS-AN00 Build/TAS-AN00)',
+      'user-agent': UA,
       'accept-language': 'zh-Hans-JP;q=1, en-JP;q=0.9, zh-Hant-TW;q=0.8, ja-JP;q=0.7, en-US;q=0.6',
       'content-type': 'application/x-www-form-urlencoded',
       'Cookie': cookie
@@ -562,7 +570,7 @@ function getIsvToken2() {
     headers: {
       'Host': 'api.m.jd.com',
       'accept': '*/*',
-      'user-agent': 'Dalvik/2.1.0 (Linux; U; Android 11; TAS-AN00 Build/TAS-AN00)',
+      'user-agent': UA,
       'accept-language': 'zh-Hans-JP;q=1, en-JP;q=0.9, zh-Hant-TW;q=0.8, ja-JP;q=0.7, en-US;q=0.6',
       'content-type': 'application/x-www-form-urlencoded',
       'Cookie': cookie
@@ -601,7 +609,7 @@ function getToken() {
       'Accept-Language': 'zh-cn',
       'Content-Type': 'application/json;charset=utf-8',
       'Origin': 'https://xinruimz-isv.isvjcloud.com',
-      'User-Agent': "Dalvik/2.1.0 (Linux; U; Android 11; TAS-AN00 Build/TAS-AN00)",
+      'User-Agent': UA,
       'Referer': 'https://xinruimz-isv.isvjcloud.com/logined_jd/',
       'Authorization': 'Bearer undefined',
       'Cookie': `IsvToken=${$.isvToken};`
@@ -649,7 +657,7 @@ function TotalBean() {
         "Connection": "keep-alive",
         "Cookie": cookie,
         "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent":  "jdapp;android;9.5.2;11;network/wifi;Dalvik/2.1.0 (Linux; U; Android 11; TAS-AN00 Build/TAS-AN00)"
+        "User-Agent": UA,
       }
     }
     $.post(options, (err, resp, data) => {
@@ -680,6 +688,14 @@ function TotalBean() {
       }
     })
   })
+}
+
+function randomString(e) {
+    e = e || 32;
+    let t = "abcdef0123456789", a = t.length, n = "";
+    for (i = 0; i < e; i++)
+        n += t.charAt(Math.floor(Math.random() * a));
+    return n
 }
 
 function safeGet(data) {
