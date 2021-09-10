@@ -121,7 +121,7 @@ async function main() {
     // 宝箱
     await GetActTask()
     // 珍珠任务
-    await ComposeGame()
+    //await ComposeGame()
 }
 async function UserCashOut() {
     await work(`https://m.jingxi.com/jxbfd/user/UserCashOutState?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=1627230478007&ptag=7155.9.47&_stk=_cfd_t%2CbizCode%2CdwEnv%2Cptag%2Csource%2CstrZone&_ste=1`, 'UserCashOutState')
