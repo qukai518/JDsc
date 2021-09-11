@@ -122,10 +122,6 @@ async function cfd() {
       }
     }
 
-    //抽奖
-    await $.wait(2000)
-    await composePearlState(4)
-    
     //助力奖励
     await $.wait(2000)
     await composePearlState(2)
@@ -213,15 +209,6 @@ async function composePearlState(type) {
                 }
               }
               break
-            case 4:
-              data = JSON.parse(data);
-              if (data.iRet === 0) {
-                if (data.dayDrawInfo.dwIsDraw === 0) {
-                  await $.wait(2000)
-                  let strToken = await getPearlDailyReward().strToken
-                  await pearlDailyDraw(data.ddwSeasonStartTm, strToken)
-                }
-              }
             default:
               break;
           }
@@ -311,9 +298,9 @@ function pearlDailyDraw(ddwSeasonStartTm, strToken) {
     })
   })
 }
-function composePearlAward(strDT, type, size) {
+function composePearlAward(strDT) {
   return new Promise((resolve) => {
-    $.get(taskUrl(`user/ComposePearlAward`, `__t=${Date.now()}&type=${type}&size=${size}&strBT=${strDT}`), (err, resp, data) => {
+    $.get(taskUrl(`user/ComposePearlAward`, `__t=${Date.now()}&type=4&size=1&strBT=${strDT}`), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -381,6 +368,7 @@ function helpByStage(shareCodes) {
           } else if (data.iRet === 2190 || data.sErrMsg === '达到助力上限') {
             $.delcode = true
           } else {
+            console.log(`助力失败：${data.sErrMsg}`)
           }
         }
       } catch (e) {
