@@ -384,7 +384,6 @@ function helpByStage(shareCodes) {
           } else if (data.iRet === 2190 || data.sErrMsg === '达到助力上限') {
             $.delcode = true
           } else {
-            console.log(`助力失败：${data.sErrMsg}`)
           }
         }
       } catch (e) {
