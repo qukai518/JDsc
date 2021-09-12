@@ -199,13 +199,13 @@ async function composePearlState(type) {
                         await composePearlAward(data.strDT)
                       }
                     }
-                    let strLT = data.oPT[data.ddwCurTime % data.oPT.length]
+                   /* let strLT = data.oPT[data.ddwCurTime % data.oPT.length]
                     let res = await composePearlAddProcess(data.strDT, strLT)
                     if (res.iRet === 0) {
                       console.log(`\n合成月饼成功：进度${j + 1}/${count},获得${res.ddwAwardHb / 100}元红包\n`)
                     } else {
                       console.log(`\n合成月饼失败：${res.sErrMsg}\n`)
-                    }
+                    }*/
                     data = await composePearlState(1)
                   }
                 } else {
