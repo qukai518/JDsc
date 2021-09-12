@@ -122,7 +122,11 @@ async function cfd() {
       }
     }
 
-    //助力奖励
+   //抽奖
+    await $.wait(2000)
+    await composePearlState(4)
+    	
+   //助力奖励
     await $.wait(2000)
     await composePearlState(2)
 
@@ -209,7 +213,19 @@ async function composePearlState(type) {
                 }
               }
               break
-            default:
+            case 4:
+              data = JSON.parse(data);
+              console.log(`每日抽奖`)
+              if (data.iRet === 0) {
+                if (data.dayDrawInfo.dwIsDraw === 0) {
+                  let strToken = (await getPearlDailyReward()).strToken
+                  await $.wait(2000)
+                  await pearlDailyDraw(data.ddwSeasonStartTm, strToken)
+                } else {
+                  console.log(`无抽奖次数\n`)
+                }
+              }
+              default:
               break;
           }
         }
@@ -277,7 +293,7 @@ function getPearlDailyReward() {
 }
 function pearlDailyDraw(ddwSeasonStartTm, strToken) {
   return new Promise((resolve) => {
-    $.get(taskUrl(`user/PearlDailyDraw`, `ddwSeaonStart=${ddwSeasonStartTm}&strToken=${strToken}`), (err, resp, data) => {
+    $.get(taskUrl(`user/PearlDailyDraw`, `__t=${Date.now()}&ddwSeaonStart=${ddwSeasonStartTm}&strToken=${strToken}`), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -285,9 +301,9 @@ function pearlDailyDraw(ddwSeasonStartTm, strToken) {
         } else {
           data = JSON.parse(data);
           if (data.iRet === 0) {
-            console.log(`抽奖成功：获得${data.strPrizeName || JSON.stringify(data)}`)
+            console.log(`抽奖成功：获得${data.strPrizeName || JSON.stringify(data)}\n`)
           } else {
-            console.log(`抽奖失败：${data.sErrMsg}`)
+            console.log(`抽奖失败：${data.sErrMsg}\n`)
           }
         }
       } catch (e) {
