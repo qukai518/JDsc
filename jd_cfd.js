@@ -342,7 +342,7 @@ async function composePearlState(type = true) {
                 await pearlDailyDraw(data.ddwSeasonStartTm, strToken)
               }
               if (data.strDT) {
-                let count = Math.floor((Math.random() * 2))
+                let count = Math.floor((Math.random() * 2))+2
                 for (let j = 0; j < count; j++) {
                   let num = Math.ceil(Math.random() * 12 + 12)
                   console.log(`合成月饼：模拟操作${num}次`)
