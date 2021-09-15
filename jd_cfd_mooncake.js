@@ -366,7 +366,7 @@ function pearlHelpDraw(ddwSeasonStartTm, dwUserId) {
 // 助力
 function helpByStage(shareCodes) {
   return new Promise((resolve) => {
-    $.get(taskUrl(`user/PearlHelpByStage`, `__t=${Date.now()}&strShareId=${shareCodes}`), (err, resp, data) => {
+    $.get(taskUrl(`story/helpbystage`, `strShareId=${shareCodes}`), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
