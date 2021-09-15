@@ -207,7 +207,7 @@ function taskUrl(function_id, body = {}) {
       "Host": "api.m.jd.com",
       "Referer": `https://h5.m.jd.com/active/redrain/index.html?id=${$.activityId}&lng=0.000000&lat=0.000000&sid=&un_area=`,
       "Cookie": cookie,
-      "User-Agent": "JD4iPhone/9.3.5 CFNetwork/1209 Darwin/20.2.0",
+      "User-Agent": "okhttp/3.12.1;jdmall;android;version/10.1.4;build/90060;screen/1440x3007;os/11;network/wifi;",
     },
   };
 }
