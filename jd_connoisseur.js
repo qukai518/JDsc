@@ -6,14 +6,17 @@
 ============Quantumultx===============
 [task_local]
 #内容鉴赏官
-20 0,5 * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js, tag=内容鉴赏官, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+15 3,6 * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js, tag=内容鉴赏官, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+
 ================Loon==============
 [Script]
-cron "20 0,5 * * *" script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js,tag=内容鉴赏官
+cron "15 3,6 * * *" script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js,tag=内容鉴赏官
+
 ===============Surge=================
-内容鉴赏官 = type=cron,cronexp="20 0,5 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js
+内容鉴赏官 = type=cron,cronexp="15 3,6 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js
+
 ============小火箭=========
-内容鉴赏官 = type=cron,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js, cronexpr="20 0,5 * * *", timeout=3600, enable=true
+内容鉴赏官 = type=cron,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js, cronexpr="15 3,6 * * *", timeout=3600, enable=true
  */
 const $ = new Env('内容鉴赏官');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -35,13 +38,17 @@ if ($.isNode()) {
 const JD_API_HOST = 'https://api.m.jd.com/';
 let agid = [], pageId, encodeActivityId, paginationFlrs, activityId
 let allMessage = '';
-const UA = `jdapp;iPhone;10.1.2;14.7.1;${randomString(40)};network/wifi;model/iPhone13,4;addressid/0;appBuild/167802;jdSupportDarkMode/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
 !(async () => {
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  let res = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/connoisseur.json')
+  let res = await getAuthorShareCode('https://raw.githubusercontent.com/Aaron-lv/updateTeam/master/shareCodes/connoisseur.json')
+  if (!res) {
+    $.http.get({url: 'https://purge.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/connoisseur.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
+    await $.wait(1000)
+    res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/connoisseur.json')
+  }
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -111,7 +118,7 @@ async function getActiveInfo(url = 'https://prodev.m.jd.com/mall/active/2y1S9xVY
     headers: {
       "Host": "prodev.m.jd.com",
       "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-      "User-Agent": UA,
+      "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
       "Accept-Language": "zh-cn",
       "Accept-Encoding": "gzip, deflate, br",
       "Cookie": cookie,
@@ -393,7 +400,7 @@ async function getshareCode() {
       "Content-Type": "application/x-www-form-urlencoded",
       "Origin": "https://prodev.m.jd.com",
       "Accept-Language": "zh-cn",
-      "User-Agent": UA,
+      "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
       "Referer": "https://prodev.m.jd.com/mall/active/2y1S9xVYdTud2VmFqhHbkcoAYhJT/index.html",
       "Accept-Encoding": "gzip, deflate, br",
       "Cookie": cookie
@@ -410,7 +417,7 @@ async function getshareCode() {
             data = JSON.parse(data)
             for (let key of Object.keys(data.floorList)) {
               let vo = data.floorList[key]
-              if (vo.ofn && (vo.ofn === "20" && vo.template === 'customcode')) {
+              if (vo.ofn && ((vo.ofn === "16" || vo.ofn === "18" || vo.ofn === "20") && vo.template === 'customcode')) {
                 await getTaskInfo("1", vo.boardParams.projectCode, vo.boardParams.taskCode, vo.ofn)
                 await $.wait(2000)
               } else if (vo.ofn && ((vo.ofn === "22" || vo.ofn === "24") && vo.template === 'customcode')) {
@@ -457,7 +464,7 @@ function taskUrl(functionId, body) {
       "Origin": "https://prodev.m.jd.com",
       "Accept-Language": "zh-cn",
       "Accept-Encoding": "gzip, deflate, br",
-      "User-Agent": UA,
+      "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
       "Referer": "https://prodev.m.jd.com/mall/active/2y1S9xVYdTud2VmFqhHbkcoAYhJT/index.html",
       "Cookie": cookie,
     }
@@ -473,7 +480,7 @@ function taskPostUrl(url, body) {
       'Connection': 'keep-alive',
       'Content-Type': 'application/x-www-form-urlencoded',
       'Referer': '',
-      'User-Agent': 'JD4iPhone/167802 (iPhone; iOS 14.7.1; Scale/3.00)',
+      'User-Agent': 'JD4iPhone/167774 (iPhone; iOS 14.7.1; Scale/3.00)',
       'Accept-Language': 'zh-Hans-CN;q=1',
       'Accept-Encoding': 'gzip, deflate, br',
     }
@@ -565,7 +572,7 @@ function TotalBean() {
         Accept: "*/*",
         Connection: "keep-alive",
         Cookie: cookie,
-        "User-Agent": UA,
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
         "Accept-Language": "zh-cn",
         "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
         "Accept-Encoding": "gzip, deflate, br"
