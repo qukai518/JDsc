@@ -2,7 +2,7 @@
 
 `ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|gua_|jddj_|getJDCookie" "activity|backUp" "^jd[^_]|USER|utils|function|ZooFaker_Necklace.js|JDJRValidator_Pure|sign_graphics_validate"`
 
-
+定时规则`0 */4 * * *`
 
 ### 模块安装
 
