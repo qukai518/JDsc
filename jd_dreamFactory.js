@@ -1061,8 +1061,8 @@ async function tuanActivity() {
   }
 }
 async function joinLeaderTuan() {
-  let res = await updateTuanIdsCDN('https://raw.githubusercontent.com/1994112/updateTeam1/master/shareCodes/jd_updateFactoryTuanId.json')
-  if (!res) res = await updateTuanIdsCDN('https://raw.fastgit.org/1994112/updateTeam1/master/shareCodes/jd_updateFactoryTuanId.json')
+  let res = await updateTuanIdsCDN('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/jd_updateFactoryTuanId.json')
+  if (!res) res = await updateTuanIdsCDN('https://raw.fastgit.org/inoyna12/updateTeam/master/shareCodes/jd_updateFactoryTuanId.json')
   $.authorTuanIds = [...(res && res.tuanIds || [])]
   if ($.authorTuanIds && $.authorTuanIds.length) {
     for (let tuanId of $.authorTuanIds) {
