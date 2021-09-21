@@ -118,7 +118,7 @@ if ($.isNode()) {
   }
   let res = [];
   if(helpFlag){
-    res = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/jd_updateFactoryTuanId.json');
+    res = await getAuthorShareCode('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/jd_updateFactoryTuanId.json');
     if(!res){
       res = [];
     }
