@@ -31,10 +31,8 @@ let helpAuthor = true;
 const randomCount = $.isNode() ? 5 : 5;
 let cash_exchange = false;//是否消耗2元红包兑换200京豆，默认否
 const inviteCodes = [
-  `eU9Ya7jjZfgkpG3SwyIThQ@eU9YaemzYfouo2uAnXYQgA`,
-  `eU9Ya7jjZfgkpG3SwyIThQ@eU9YaemzYfouo2uAnXYQgA`,
+  ``,
 ]
-const UA = `jdapp;iPhone;10.1.1;14.3;${randomString(40)};network/wifi;model/iPhone12,1;addressid/4199175193;appBuild/167774;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -51,7 +49,12 @@ let allMessage = '';
     return;
   }
   await requireConfig()
-  $.authorCode = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/jd_updateCash.json')
+  $.authorCode = await getAuthorShareCode('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/jd_updateCash.json')
+  if (!$.authorCode) {
+    $.http.get({url: 'https://purge.jsdelivr.net/gh/inoyna12/updateTeam@master/shareCodes/jd_updateCash.json'}).then((resp) => {}).catch((e) => $.log('刷新CDN异常', e));
+    await $.wait(1000)
+    $.authorCode = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/inoyna12/updateTeam@master/shareCodes/jd_updateCash.json') || []
+  }
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -397,7 +400,7 @@ function exchange2(node) {
         'Host': 'api.m.jd.com',
         'Connection': 'keep-alive',
         'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': UA,
+        'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0"),
         'Accept-Language': 'zh-cn',
         'Accept-Encoding': 'gzip, deflate, br',
       }
@@ -451,7 +454,7 @@ function getSign(functionid, body, uuid) {
         Host,
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
       },
-      timeout: 15000
+      timeout: 30 * 1000
     }
     $.post(options, (err, resp, data) => {
       try {
@@ -489,7 +492,7 @@ function showMsg() {
 function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
-    $.get({url: `https://code.chiang.fun/api/v1/jd/jdcash/read/${randomCount}/`, 'timeout': 10000}, (err, resp, data) => {
+    $.get({url: `http://code.chiang.fun/api/v1/jd/jdcash/read/${randomCount}/`, 'timeout': 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -524,8 +527,7 @@ function shareCodesFormat() {
       let authorCode = deepCopy($.authorCode)
       $.newShareCodes = [...(authorCode.map((item, index) => authorCode[index] = item['inviteCode'])), ...$.newShareCodes];
     }
-    //const readShareCodeRes = await readShareCode();
-    const readShareCodeRes = null;
+    const readShareCodeRes = await readShareCode();
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
     }
@@ -592,7 +594,7 @@ function apptaskUrl(url, body) {
       'Connection': 'keep-alive',
       'Content-Type': 'application/x-www-form-urlencoded',
       'Referer': '',
-      'User-Agent': 'JD4iPhone/167774 (iPhone; iOS 14.3; Scale/3.00)',
+      'User-Agent': 'JD4iPhone/167774 (iPhone; iOS 14.7.1; Scale/3.00)',
       'Accept-Language': 'zh-Hans-CN;q=1',
       'Accept-Encoding': 'gzip, deflate, br',
     }
@@ -607,7 +609,7 @@ function taskUrl(functionId, body = {}) {
       'Connection': 'keep-alive',
       'Content-Type': 'application/json',
       'Referer': 'http://wq.jd.com/wxapp/pages/hd-interaction/index/index',
-      'User-Agent': UA,
+      'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
       'Accept-Language': 'zh-cn',
       'Accept-Encoding': 'gzip, deflate, br',
     }
