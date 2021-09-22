@@ -785,7 +785,7 @@ function login(userName) {
     })
   })
 }
-function updateInviteCode(url = 'http://cdn.boledao.com/shareCodes/jd_updateSmallHomeInviteCode.json') {
+function updateInviteCode(url = 'https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/jd_updateSmallHomeInviteCode.json') {
   return new Promise(resolve => {
     $.get({url}, async (err, resp, data) => {
       try {
