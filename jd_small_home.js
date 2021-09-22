@@ -19,17 +19,17 @@ https://h5.m.jd.com/babelDiy/Zeus/2HFSytEAN99VPmMGZ6V4EYWus1x/index.html
 ===============Quantumultx===============
 [task_local]
 #东东小窝
-16 22 * * * jd_small_home.js, tag=东东小窝, img-url=https://raw.githubusercontent.com/58xinian/icon/master/ddxw.png, enabled=true
+16 6,23 * * * jd_small_home.js, tag=东东小窝, img-url=https://raw.githubusercontent.com/58xinian/icon/master/ddxw.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "16 22 * * *" script-path=jd_small_home.js, tag=东东小窝
+cron "16 6,23 * * *" script-path=jd_small_home.js, tag=东东小窝
 
 ===============Surge=================
-东东小窝 = type=cron,cronexp="16 22 * * *",wake-system=1,timeout=3600,script-path=jd_small_home.js
+东东小窝 = type=cron,cronexp="16 6,23 * * *",wake-system=1,timeout=3600,script-path=jd_small_home.js
 
 ============小火箭=========
-东东小窝 = type=cron,script-path=jd_small_home.js, cronexpr="16 22 * * *", timeout=3600, enable=true
+东东小窝 = type=cron,script-path=jd_small_home.js, cronexpr="16 6,23 * * *", timeout=3600, enable=true
  */
 const $ = new Env('东东小窝');
 const notify = $.isNode() ? require('./sendNotify') : '';
