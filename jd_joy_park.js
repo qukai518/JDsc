@@ -6,7 +6,6 @@ JOY_COIN_MAXIMIZE =      最大化硬币收益，如果合成后全部挖土后�
 
 请确保新用户助力过开工位，否则开启游戏了就不算新用户，后面就不能助力开工位了！！！！！！！！！！
 
-脚本会默认帮zero205助力开工位，如需关闭请添加变量，变量名：HELP_JOYPARK，变量值：false
 
 更新地址：https://github.com/Tsukasa007/my_script
 
@@ -82,24 +81,6 @@ message = ""
         continue
       }
       console.log(`\n\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
-      // if ($.isNode()) {
-      //   if (process.env.HELP_JOYPARK && process.env.HELP_JOYPARK == "false") {
-      //   } else {
-      //     $.kgw_invitePin = ["7zG4VHS99AUEoX1mQTkC9Q"][Math.floor((Math.random() * 1))];
-      //     let resp = await getJoyBaseInfo(undefined, 2, $.kgw_invitePin);
-      //     if (resp.data && resp.data.helpState && resp.data.helpState === 1) {
-      //       $.log("帮【zero205】开工位成功，感谢！\n");
-      //     } else if (resp.data && resp.data.helpState && resp.data.helpState === 3) {
-      //       $.log("你不是新用户！跳过开工位助力\n");
-      //       break
-      //     } else if (resp.data && resp.data.helpState && resp.data.helpState === 2) {
-      //       $.log(`他的工位已全部开完啦！\n`);
-      //     } else {
-      //       $.log("开工位失败！\n");
-      //     }
-      //   }
-      // }
-      //下地后还有有钱买Joy并且买了Joy
       $.hasJoyCoin = true
       await getJoyBaseInfo(undefined, undefined, undefined, true);
       $.activityJoyList = []
