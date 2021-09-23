@@ -153,6 +153,8 @@
 30 3,12,22 * * * node /scripts/jd_esManager.js >> /scripts/logs/jd_esManager.log 2>&1
 # 送豆得豆
 14 0,12 * * * node /scripts/jd_sendBeans.js >> /scripts/logs/jd_sendBeans.log 2>&1
+# 京东试用
+14 3,17 * * * node /scripts/jd_try.js >> /scripts/logs/jd_try.log 2>&1
 # 领券中心签到
 11 0 * * * node /scripts/jd_ccSign.js >> /scripts/logs/jd_ccSign.log 2>&1
 # 汪汪乐园
