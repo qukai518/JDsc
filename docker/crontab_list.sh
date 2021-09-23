@@ -152,7 +152,7 @@
 # 电竞经理
 30 3,12,22 * * * node /scripts/jd_esManager.js >> /scripts/logs/jd_esManager.log 2>&1
 # 送豆得豆
-# 24 0,12 * * * node /scripts/jd_sendBeans.js >> /scripts/logs/jd_sendBeans.log 2>&1
+24 0,12 * * * node /scripts/jd_sendBeans.js >> /scripts/logs/jd_sendBeans.log 2>&1
 # 领券中心签到
 11 0 * * * node /scripts/jd_ccSign.js >> /scripts/logs/jd_ccSign.log 2>&1
 # 汪汪乐园
@@ -184,6 +184,6 @@
 # 柠檬我是大老板农场
 5 0-23/6 * * * node /scripts/jd_wsdlb.js >> /scripts/logs/jd_wsdlb.log 2>&1
 # 清空购物车(默认不运行，需要的话手动执行)
-# 11 7 * * * node /scripts/jd_ddnc_farmpark.js >> /scripts/logs/jd_ddnc_farmpark.log 2>&1
+# 11 7 * * * node /scripts/jd_cleancart.js >> /scripts/logs/jd_cleancart.log 2>&1
 # 取关所有主播(默认不运行，需要的话手动运行)
-# 11 7 * * * node /scripts/jd_ddnc_farmpark.js >> /scripts/logs/jd_ddnc_farmpark.log 2>&1
+# 11 7 * * * node /scripts/jd_unsubscriLive.js >> /scripts/logs/jd_unsubscriLive.log 2>&1
