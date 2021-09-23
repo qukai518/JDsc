@@ -1,7 +1,7 @@
 /* 
 [task_local]
 #京东图形验证
-0 0 * * * jd_sign.js
+0 1 * * * jd_sign.js
 */
 
 
