@@ -176,4 +176,4 @@ if [ ! -f "$CONFIG_PATH/config.sh" ]; then
 log "4.下面列出所有容器"
 docker ps
 
-log "5.安装已经完成。\n现在你可以访问设备的 ip:5678 用户名：admin  密码：shuye72  来添加cookie，和其他操作。感谢使用！"
+log "5.安装已经完成。\n现在你可以访问设备的 ip:5678 用户名：admin  密码：admin  来添加cookie，和其他操作。感谢使用！"
