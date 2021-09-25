@@ -44,7 +44,9 @@
 1 0-23/2 * * * node /scripts/jd_qqxing.js >> /scripts/logs/jd_qqxing.log 2>&1
 # 特物Z
 30 18,19 * * * node /scripts/jd_superBrand.js >> /scripts/logs/jd_superBrand.log 2>&1
-
+# 集魔方
+30 18,19 * * * node /scripts/jd_mofang.js >> /scripts/logs/jd_mofang.log 2>&1
+ 
 
 ##############长期活动##############
 # 签到
