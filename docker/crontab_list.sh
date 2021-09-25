@@ -34,10 +34,6 @@
 25 2,10 * * * node /scripts/jd_ddworld.js >> /scripts/logs/jd_ddworld.log 2>&1
 # 东东游戏
 35 2,9,15,21 1-11,17-30 9,10 * node /scripts/jd_gua_ddgame.js >> /scripts/logs/jd_gua_ddgame.log 2>&1
-# 东东玩家
-20 3,21 1-11,17-30 9,10 * node /scripts/jd_ddwj.js >> /scripts/logs/jd_ddwj.log 2>&1
-# 东东玩家互助
-35 0,2 1-11,17-30 9,10 * node /scripts/jd_zy_ddwj_help.js >> /scripts/logs/jd_zy_ddwj_help.log 2>&1
 # 明星小店
 12 19 19-30 9 * node /scripts/jd_star_shop.js >> /scripts/logs/jd_star_shop.log 2>&1
 # 热血心跳,狂解压
