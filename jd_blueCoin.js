@@ -211,14 +211,14 @@ async function PrizeIndex() {
         }
         if ($.totalBlue > $.blueCost) {
           if ($.type === 4 && !$.beanType) {
-            for (let j = 0; j <= 10; j++) {
+            for (let j = 0; j <= 30; j++) {
               await smtg_obtainPrize(prizeId, 0, "smtg_lockMaterialPrize")
-              if ($.errBizCodeCount >= 20) break
+              if ($.errBizCodeCount >= 40) break
             }
           } else {
-            for (let j = 0; j <= 10; j++) {
+            for (let j = 0; j <= 30; j++) {
               await smtg_obtainPrize(prizeId);
-              if ($.errBizCodeCount >= 20) break
+              if ($.errBizCodeCount >= 40) break
             }
           }
         } else {
