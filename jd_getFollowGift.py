@@ -1,3 +1,8 @@
+/*
+[task_local]
+#关注有礼
+0 0,19 * * *
+*/
 #!/bin/env python3
 # -*- coding: utf-8 -*
 '''
