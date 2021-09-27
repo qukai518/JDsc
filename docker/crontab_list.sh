@@ -86,9 +86,9 @@
 # 东东超市
 31 0,1-23/2 * * * node /scripts/jd_superMarket.js >> /scripts/logs/jd_superMarket.log 2>&1
 # 取关京东店铺商品
-45 23 * * * node /scripts/jd_unsubscribe.js >> /scripts/logs/jd_unsubscribe.log 2>&1
+45 15 * * * node /scripts/jd_unsubscribe.js >> /scripts/logs/jd_unsubscribe.log 2>&1
 # 京豆变动通知
-20 10 * * * node /scripts/jd_bean_change.js >> /scripts/logs/jd_bean_change.log 2>&1
+20 10,20 * * * node /scripts/jd_bean_change.js >> /scripts/logs/jd_bean_change.log 2>&1
 # 京东抽奖机
 0 0,12,23 * * * node /scripts/jd_lotteryMachine.js >> /scripts/logs/jd_lotteryMachine.log 2>&1
 # 金融养猪
@@ -181,7 +181,7 @@
 11 7 * * * node /scripts/jd_ddnc_farmpark.js >> /scripts/logs/jd_ddnc_farmpark.log 2>&1
 # 柠檬我是大老板农场
 5 0-23/6 * * * node /scripts/jd_wsdlb.js >> /scripts/logs/jd_wsdlb.log 2>&1
-# 清空购物车(默认不运行，需要的话手动执行)
-# 11 7 * * * node /scripts/jd_cleancart.js >> /scripts/logs/jd_cleancart.log 2>&1
-# 取关所有主播(默认不运行，需要的话手动运行)
-# 11 7 * * * node /scripts/jd_unsubscriLive.js >> /scripts/logs/jd_unsubscriLive.log 2>&1
+# 清空购物车
+11 13 * * * node /scripts/jd_cleancart.js >> /scripts/logs/jd_cleancart.log 2>&1
+# 取关所有主播
+11 9 * * * node /scripts/jd_unsubscriLive.js >> /scripts/logs/jd_unsubscriLive.log 2>&1
