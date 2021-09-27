@@ -45,7 +45,7 @@
 # 特物Z
 30 18,19 * * * node /scripts/jd_superBrand.js >> /scripts/logs/jd_superBrand.log 2>&1
 # 小魔方
-10 5,7 * * * node /scripts/jd_mf.js >> /scripts/logs/jd_mf.log 2>&1
+10 5,16 * * * node /scripts/jd_mf.js >> /scripts/logs/jd_mf.log 2>&1
  
 
 ##############长期活动##############
