@@ -82,7 +82,7 @@
 # 京东全民开红包
 12 0-23/4 * * * node /scripts/jd_redPacket.js >> /scripts/logs/jd_redPacket.log 2>&1
 # 进店领豆
-6 0 * * * node /scripts/jd_shop.js >> /scripts/logs/jd_shop.log 2>&1
+2 0 * * * node /scripts/jd_shop.js >> /scripts/logs/jd_shop.log 2>&1
 # 东东超市
 31 0,1-23/2 * * * node /scripts/jd_superMarket.js >> /scripts/logs/jd_superMarket.log 2>&1
 # 取关京东店铺商品
@@ -126,7 +126,7 @@
 # 京东保价
 41 0,23 * * * node /scripts/jd_work_price.js >> /scripts/logs/jd_work_price.jslog 2>&1
 # 京东极速版签到+赚现金任务
-21 1,6 * * * node /scripts/jd_speed_sign.js >> /scripts/logs/jd_speed_sign.log 2>&1
+21 1,8,17 * * * node /scripts/jd_speed_sign.js >> /scripts/logs/jd_speed_sign.log 2>&1
 # 京喜财富岛
 5 * * * * node /scripts/jd_cfd.js >> /scripts/logs/jd_cfd.log 2>&1
 # 京喜财富岛合成月饼
@@ -160,7 +160,7 @@
 # 汪汪乐园养joy(脚本有问题，暂时去除)
 # 20 0-23/3 * * * node /scripts/jd_joy_park.js >> /scripts/logs/jd_joy_park.log 2>&1
 # 柠檬推一推
-0 6-23/4 * * * node /scripts/jd_tyt.js >> /scripts/logs/jd_tyt.log 2>&1
+0 */3 * * * node /scripts/jd_tyt.js >> /scripts/logs/jd_tyt.log 2>&1
 # 店铺签到
 11 13 * * * node /scripts/jd_dpqd.js >> /scripts/logs/jd_dpqd.log 2>&1
 # 店铺签到2
