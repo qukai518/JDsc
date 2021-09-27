@@ -4,7 +4,7 @@ update date ：2021.07.15
 export TYT_PACKETID=""
  [task_local]
 #柠檬推一推
-0 6-23/4 * * * jd_tyt.js, tag=柠檬推一推, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+18 */3 * * * jd_tyt.js, tag=柠檬推一推, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 注意：助力码每天会变，旧的不可用。
 助力逻辑：优先助力互助码变量，再给我助力
 */
