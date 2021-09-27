@@ -44,7 +44,7 @@
 1 0-23/2 * * * node /scripts/jd_qqxing.js >> /scripts/logs/jd_qqxing.log 2>&1
 # 特物Z
 30 18,19 * * * node /scripts/jd_superBrand.js >> /scripts/logs/jd_superBrand.log 2>&1
-# 集魔方
+# 小魔方
 10 5,7 * * * node /scripts/jd_mf.js >> /scripts/logs/jd_mf.log 2>&1
  
 
