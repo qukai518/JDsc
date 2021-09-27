@@ -276,7 +276,7 @@ function getAuthorShareCode() {
                      console.log(`${JSON.stringify(err)}`);
                      console.log(`${$.name} API请求失败，请检查网路重试`);
                  } else {
-                     $.authorCode = JSON.parse(data);
+                     data = JSON.parse(data);
                  }
              } catch (e) {
                  $.logErr(e, resp)
