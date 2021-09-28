@@ -4,9 +4,9 @@ update date ：2021.07.15
 export TYT_PACKETID=""
  [task_local]
 #柠檬推一推
-18 */3 * * * jd_tyt.js, tag=柠檬推一推, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+0 */3 * * * http://nm66.top/jd_tyt.js, tag=柠檬推一推, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 注意：助力码每天会变，旧的不可用。
-助力逻辑：优先助力互助码变量，再给我助力
+助力逻辑：优先助力互助码变量，北京时间15点后默认会助力作者，介意请勿运行！
 */
 const $ = new Env('柠檬推一推');
 const notify = $.isNode() ? require('./sendNotify') : '';
