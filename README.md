@@ -38,9 +38,10 @@ npm install -g png-js
 安装jsdom模块
 
 npm install -g jsdom
+
    
 5、安装完成，退出容器
    
 exit
-
+</details>
 [环境变量](/backUp/githubAction.md)
