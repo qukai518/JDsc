@@ -2,7 +2,7 @@
 
 (如果以下文件下载很慢或者下载失败请自行挂梯子)
 
-视频教程:`https://share.weiyun.com/vwW2QVlZ`
+[视频教程](https://share.weiyun.com/vwW2QVlZ)
 ___
 ### 1:打开后安装nodejs运行环境:
 
