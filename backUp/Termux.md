@@ -58,9 +58,13 @@ ___
 ### 11:启动控制面板:
 
 `cp -i ~/jd-base/sample/auth.json ~/jd-base/config/auth.json`
+
 `cd ~/jd-base/panel`
+
 `npm i`
+
 `npm i pm2 -g`
+
 `pm2 start server.js`
 ___
 
