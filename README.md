@@ -41,3 +41,5 @@ npm install -g jsdom
 5、安装完成，退出容器
    
 exit
+
+[环境变量](/backUp/githubAction.md)
