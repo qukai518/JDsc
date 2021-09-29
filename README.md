@@ -1,11 +1,12 @@
-拉库命令:
+### 青龙拉库命令:
 
 `ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|gua_|jddj_|getJDCookie" "activity|backUp" "^jd[^_]|USER|utils|function|ZooFaker_Necklace.js|JDJRValidator_Pure|sign_graphics_validate"`
 
 定时规则`0 */4 * * *`
 
 ### 模块安装
-
+<details>
+<summary>查看</summary>
 一、青龙运行python脚本缺少requests模块，请按以下方式安装：
 
 1、进入青龙容器：
