@@ -47,6 +47,6 @@ exit
 
 ___
 
-手机termux使用脚本教程，无需root，自动运行并更新我仓库脚本
+手机termux使用脚本教程，无需root，自动运行并更新我仓库脚本，[点击查看](/backUp/Termux.md)
 
 [环境变量合集](/backUp/githubAction.md)
