@@ -4,15 +4,15 @@
 
 视频教程:`https://share.weiyun.com/vwW2QVlZ`
 
-1:打开后安装nodejs运行环境:
+## 1:打开后安装nodejs运行环境:
 
 `pkg install git vim nodejs perl cronie -y`
 
-2:拉取仓库:
+### 2:拉取仓库:
 
 `git clone https://github.com/inoyna12/jd-base.git`
 
-3:进入文件夹目录:
+# 3:进入文件夹目录:
 
 `cd jd-base/`
 
