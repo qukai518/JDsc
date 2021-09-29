@@ -1,7 +1,7 @@
 首先手机下载termux软件安装，下载链接:https://f-droid.org/repo/com.termux_117.apk
 (如果以下文件下载很慢或者下载失败请自行挂梯子)
 
-视频教程:'https://share.weiyun.com/vwW2QVlZ'
+视频教程:`https://share.weiyun.com/vwW2QVlZ`
 
 1:打开后安装nodejs运行环境:
 pkg install git vim nodejs perl cronie -y
