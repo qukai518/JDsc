@@ -45,5 +45,8 @@ npm install -g jsdom
 exit
 </details>
 
+___
+
+手机termux使用脚本教程，无需root，自动运行并更新我仓库脚本
 
 [环境变量合集](/backUp/githubAction.md)
