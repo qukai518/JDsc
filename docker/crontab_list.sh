@@ -49,10 +49,12 @@
  
 
 ##############长期活动##############
+# 芥么签到
+1 0,17 * * * cd /scripts && node jd_zsign.js >> /scripts/logs/jd_zsign.log 2>&1
 # 签到
 1 0,17 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
 # 签到图形验证
-30 0,17 * * * node /scripts/jd_sign.js >> /scripts/logs/jd_sign.log 2>&1
+30 1,17 * * * node /scripts/jd_sign.js >> /scripts/logs/jd_sign.log 2>&1
 # 京喜签到
 5 1,8 * * * node /scripts/jx_sign.js >> /scripts/logs/jx_sign.log 2>&1
 # 东东超市兑换奖品
