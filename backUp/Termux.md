@@ -77,59 +77,93 @@ ___
 登录进去后在首页填入你的京东cookie，然后软件挂在后台就会自动运行了，会自动更新我仓库的脚本。
 ___
 
-               常见问题合集
-重新启动挂机:
-cd jd-base/
-crond -ipP
-crontab ~/jd-base/config/crontab.list
-cd ~/jd-base/panel
-pm2 start server.js
+## 常见问题合集
+
+### 重新启动挂机:
+
+`cd jd-base/`
+
+`crond -ipP`
+
+`crontab ~/jd-base/config/crontab.list`
+
+`cd ~/jd-base/panel`
+
+`pm2 start server.js`
+
 以上命令一行一行输入，输入到最后就已经启动挂机了，可以在浏览器访问控制面板查看
+___
 
-手动运行脚本:
-bash ~/jd-base/jd.sh (这里填写脚本名） now
-示例:bash ~/jd-base/jd.sh jd_bean_change now
+### 手动运行脚本:
 
-手动更新脚本:
-cd jd-base/
-bash git_pull.sh
+`bash ~/jd-base/jd.sh (这里填写脚本名） now`
 
-查看互助码:
+示例:`bash ~/jd-base/jd.sh jd_bean_change now`
+___
+
+### 手动更新脚本:
+
+`cd jd-base/`
+
+`bash git_pull.sh`
+___
+
+### 查看互助码:
+
 首先去面板点击Share Code查看互助码，如果没有的话，使用termux手动运行脚本查看互助码:
 
-bash ~/jd-base/jd.sh jd_get_share_code now
+`bash ~/jd-base/jd.sh jd_get_share_code now`
 
 然后再去面板查看。
+___
 
-填写互助码:
-以京东农场为例，比如你填写了5个cookie账号，如果你想让后面4个账号助力第一个账号，那么在首页找到京东农场互助码那里就这样填:
+### 填写互助码:
+
+#### 以京东农场为例，比如你填写了5个cookie账号，如果你想让后面4个账号助力第一个账号，那么在首页找到京东农场互助码按照下方格式填写:
+
 MyFruit1="这里填写第一个账号助力码"
+
 MyFruit2=""
+
 MyFruit3=""
+
 MyFruit4=""
+
 MyFruit5=""
 
 
 ForOtherFruit1="${MyFruit1}"
+
 ForOtherFruit2="${MyFruit1}"
+
 ForOtherFruit3="${MyFruit1}"
+
 ForOtherFruit4="${MyFruit1}"
+
 ForOtherFruit5="${MyFruit1}"
 
 这里的ForOtherFruit1填写的内容代表你第一个账号要助力的助力码，ForOtherFruit2填写的内容也是助力你填写的第一个账号助力码，以下同理。
 
-如果你想助力多个账号，应该这么填:
+#### 如果你想助力多个账号，按照下方格式填写:
 
 MyFruit1="这里填写第一个账号助力码"
+
 MyFruit2="这里填写第二个账号助力码"
+
 MyFruit3="这里填写第三个账号助力码"
+
 MyFruit4="这里填写第四个账号助力码"
+
 MyFruit5="这里填写第五个账号助力码"
 
 ForOtherFruit1="${MyFruit2}@${MyFruit4}@${MyFruit5}"
+
 ForOtherFruit2="${MyFruit1}@${MyFruit3}@${MyFruit4}"
+
 ForOtherFruit3="${MyFruit1}@${MyFruit2}@${MyFruit4}"
+
 ForOtherFruit4="${MyFruit3}@${MyFruit5}@${MyFruit1}"
+
 ForOtherFruit5="${MyFruit2}@${MyFruit3}@${MyFruit4}"
 
 这里的ForOtherFruit1填写的内容代表你第一个账号助力第二个助力码，第四个助力码，第五个助力码。
