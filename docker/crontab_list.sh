@@ -50,7 +50,7 @@
 
 ##############长期活动##############
 # 芥么签到
-1 0,17 * * * cd /scripts && node jd_zsign.js >> /scripts/logs/jd_zsign.log 2>&1
+1 0,17 * * * node /scripts/jd_zsign.js >> /scripts/logs/jd_zsign.log 2>&1
 # 签到
 1 0,17 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
 # 签到图形验证
@@ -131,6 +131,8 @@
 21 1,8,17 * * * node /scripts/jd_speed_sign.js >> /scripts/logs/jd_speed_sign.log 2>&1
 # 京喜财富岛
 5 * * * * node /scripts/jd_cfd.js >> /scripts/logs/jd_cfd.log 2>&1
+# 京喜财富岛互助
+10 5,8,13,17 * * * node /scripts/jd_wealth_island_help.js >> /scripts/logs/jd_wealth_island_help.log 2>&1
 # 京喜财富岛合成月饼
 5 * * * * node /scripts/jd_cfd_mooncake.js >> /scripts/logs/jd_cfd_mooncake.log 2>&1 
 # 删除优惠券(默认注释，如需要自己开启，如有误删，已删除的券可以在回收站中还原，慎用)
@@ -174,7 +176,7 @@
 # 积分换话费
 13 5,17 * * * node /scripts/jd_dwapp.js >> /scripts/logs/jd_dwapp.log 2>&1
 # 财富岛热气球挂机
-11 1,12 * * * node /scripts/jd_cfd_loop.js >> /scripts/logs/jd_cfd_loop.log 2>&1
+11 * * * * node /scripts/jd_cfd_loop.js >> /scripts/logs/jd_cfd_loop.log 2>&1
 # 领现金兑换红包
 1 0 * * * node /scripts/jd_cash_exchange.js >> /scripts/logs/jd_cash_exchange.log 2>&1
 # 超级直播间盲盒抽京豆
