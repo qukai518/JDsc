@@ -1,4 +1,7 @@
 /*
+[task_local]
+#京东汽车兑换京豆
+59 23 * * *
  京东汽车兑换，500赛点兑换500京豆长期活动
  活动入口：京东APP首页-京东汽车-屏幕右中部，车主福利
  更新地址：https://github.com/X1a0He/jd_scripts_fixed/
