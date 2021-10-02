@@ -189,3 +189,5 @@
 11 9 * * * node /scripts/jd_unsubscriLive.js >> /scripts/logs/jd_unsubscriLive.log 2>&1
 # 天天拼图
 20 0,16 * * * node /scripts/jd_ttpt.js >> /scripts/logs/jd_ttpt.log 2>&1
+# 赚30元
+20 2,10,19 * * * node /scripts/jd_earn30.js >> /scripts/logs/jd_earn30.log 2>&1
