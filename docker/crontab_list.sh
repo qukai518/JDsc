@@ -191,3 +191,5 @@
 20 0,16 * * * node /scripts/jd_ttpt.js >> /scripts/logs/jd_ttpt.log 2>&1
 # 赚30元
 20 2,10,19 * * * node /scripts/jd_earn30.js >> /scripts/logs/jd_earn30.log 2>&1
+# 口袋书店
+20 8,12,18 * * * node /scripts/jd_bookshop.js >> /scripts/logs/jd_bookshop.log 2>&1
