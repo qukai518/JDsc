@@ -47,8 +47,10 @@
  
 
 ##############长期活动##############
+# 芥么赚豪礼
+37 0,11 * * * node /scripts/jd_genz.js >> /scripts/logs/jd_genz.log 2>&1
 # 芥么签到
-1 0,17 * * * node /scripts/jd_zsign.js >> /scripts/logs/jd_zsign.log 2>&1
+19 2 * * * * node /scripts/jd_zsign.js >> /scripts/logs/jd_zsign.log 2>&1
 # 签到
 1 0,17 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
 # 签到图形验证
