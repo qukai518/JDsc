@@ -10,10 +10,12 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
 const activityList =  [
-     {"actid": "68ae48944e414d31b2447f131531aec0", "endTime":1633622399000},  
     {"actid": "e49fe34c09e3447083992f4867588dd9", "endTime": 1633190398000},
+    {"actid": "5bb3f94bdbca4165ae2af0d85c8e66b2", "endTime": 1632931199000},
+    {"actid": "5dbc609b32bd4edf981a844079a467a9", "endTime": 1632931200000},
     {"actid": "de0f54a0769a45e0a369f8c6de9a0192", "endTime": 1633622361000},
-    {"actid": "c475acc1f3214c038881abeff5cd6442", "endTime": 1633795200000}
+    {"actid": "c475acc1f3214c038881abeff5cd6442", "endTime": 1633795200000},
+    {"actid": "d68fd77329e347f2ba19ae65c1f8fa71", "endTime": 1638374400000}
 ];
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -190,7 +192,7 @@ async function doTask(){
         }
     }
     //加购商品任务
-    if($.activityData.task3AddCart && $.runFalag){
+    if($.activityData.task3AddCart && $.runFalag && ["card","car"].includes(process.env.FS_LEVEL)){
         if($.activityData.task3AddCart.finishedCount !== $.activityData.task3AddCart.upLimit){
             needFinishNumber = Number($.activityData.task3AddCart.upLimit) - Number($.activityData.task3AddCart.finishedCount);
             console.log(`开始做加购商品任务`);
