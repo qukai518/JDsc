@@ -32,14 +32,18 @@
 25 2,10 * * * node /scripts/jd_ddworld.js >> /scripts/logs/jd_ddworld.log 2>&1
 # 东东游戏
 35 2,9,15,21 1-11,17-30 9,10 * node /scripts/jd_gua_ddgame.js >> /scripts/logs/jd_gua_ddgame.log 2>&1
-# 热血心跳,狂解压
-5 6,18 1-16,21-30 9,10 * node /scripts/jd_decompression.js >> /scripts/logs/jd_decompression.log 2>&1
 # 粉丝互动
 34 5,18 * * * node /scripts/jd_fan.js >> /scripts/logs/jd_fan.log 2>&1
 # 特物Z
-30 18,19 * * * node /scripts/jd_productZ4Brand.js >> /scripts/logs/jd_productZ4Brand.log 2>&1
+30 0,19 * * * node /scripts/jd_productZ4Brand.js >> /scripts/logs/jd_productZ4Brand.log 2>&1
 # 小魔方
 10 5,16 * * * node /scripts/jd_mf.js >> /scripts/logs/jd_mf.log 2>&1
+# 海尔京东超级品牌日10.8 - 10.15
+10 15 * * * node /scripts/jd_haier.js >> /scripts/logs/jd_haier.log 2>&1
+# 一加10.8 - 11.13
+10 14 * * * node /scripts/jd_yijia.js >> /scripts/logs/jd_yijia.log 2>&1
+ 
+ 
  
 
 ##############长期活动##############
@@ -48,9 +52,9 @@
 # 芥么签到
 19 2 * * * node /scripts/jd_zsign.js >> /scripts/logs/jd_zsign.log 2>&1
 # 签到
-1 0,17 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
+1 0 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
 # 签到图形验证
-30 1,17 * * * node /scripts/jd_sign.js >> /scripts/logs/jd_sign.log 2>&1
+30 6 * * * node /scripts/jd_sign.js >> /scripts/logs/jd_sign.log 2>&1
 # 京喜签到
 5 1,8 * * * node /scripts/jx_sign.js >> /scripts/logs/jx_sign.log 2>&1
 # 东东超市兑换奖品
@@ -67,7 +71,7 @@
 35 */1 * * * node /scripts/jd_joy_feedPets.js >> /scripts/logs/jd_joy_feedPets.log 2>&1
 # 宠汪汪偷好友积分与喂食
 30 0-21/3 * * * node /scripts/jd_joy_steal.js >> /scripts/logs/jd_joy_steal.log 2>&1
-# 宠汪汪邀请助力
+# 宠汪汪邀请助力与赛跑助力
 10 9-20/1 * * * node /scripts/jd_joy_run.js >> /scripts/logs/jd_joy_run.log 2>&1
 # 摇钱树
 23 */2 * * * node /scripts/jd_moneyTree.js >> /scripts/logs/jd_moneyTree.log 2>&1
@@ -145,8 +149,6 @@
 5 0 * * * node /scripts/jd_jin_tie.js >> /scripts/logs/jd_jin_tie.log 2>&1
 # 京喜牧场
 15 0-23/3 * * * node /scripts/jd_jxmc.js >> /scripts/logs/jd_jxmc.log 2>&1
-# 京小鸽
-30 2,20 * * * node /scripts/jd_jxg.js >> /scripts/logs/jd_jxg.log 2>&1
 # 电竞经理
 30 3,12,22 * * * node /scripts/jd_esManager.js >> /scripts/logs/jd_esManager.log 2>&1
 # 送豆得豆
@@ -157,7 +159,7 @@
 11 0 * * * node /scripts/jd_ccSign.js >> /scripts/logs/jd_ccSign.log 2>&1
 # 汪汪乐园
 0 0,7,9,17,20 * * * node /scripts/jd_joy_park_task.js >> /scripts/logs/jd_joy_park_task.log 2>&1
-# 汪汪乐园养joy(脚本有问题，暂时去除)
+# 汪汪乐园养joy
 20 0-23/3 * * * node /scripts/jd_joy_park.js >> /scripts/logs/jd_joy_park.log 2>&1
 # 柠檬推一推
 0 */3 * * * node /scripts/jd_tyt.js >> /scripts/logs/jd_tyt.log 2>&1
@@ -186,7 +188,7 @@
 # 取关所有主播
 11 9 * * * node /scripts/jd_unsubscriLive.js >> /scripts/logs/jd_unsubscriLive.log 2>&1
 # 天天拼图
-20 0,16 * * * node /scripts/jd_ttpt.js >> /scripts/logs/jd_ttpt.log 2>&1
+20 5,16 * * * node /scripts/jd_ttpt.js >> /scripts/logs/jd_ttpt.log 2>&1
 # 赚30元
 20 2,10,19 * * * node /scripts/jd_earn30.js >> /scripts/logs/jd_earn30.log 2>&1
 # 口袋书店
