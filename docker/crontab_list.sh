@@ -30,8 +30,8 @@
 1 0,11,21 * * * node /scripts/jd_jump.js >> /scripts/logs/jd_jump.log 2>&1
 # 东东世界
 25 2,10 * * * node /scripts/jd_ddworld.js >> /scripts/logs/jd_ddworld.log 2>&1
-# 东东游戏
-35 2,9,15,21 1-11,17-30 9,10 * node /scripts/jd_gua_ddgame.js >> /scripts/logs/jd_gua_ddgame.log 2>&1
+# 东东世界兑换
+35 0 * * * node /scripts/jd_ddworld_exchange.js >> /scripts/logs/jd_ddworld_exchange.log 2>&1
 # 粉丝互动
 34 5,18 * * * node /scripts/jd_fan.js >> /scripts/logs/jd_fan.log 2>&1
 # 特物Z
