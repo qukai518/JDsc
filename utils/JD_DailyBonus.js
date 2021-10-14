@@ -192,7 +192,7 @@ async function all(cookie, jrBody) {
         JDUserSignPre(stop, 'JDCare', '京东商城-个护', '2tZssTgnQsiUqhmg5ooLSHY9XSeN'), //京东个人护理馆
         JDUserSignPre(stop, 'JDJiaDian', '京东商城-家电', '3X4HMWmUigG689ZUZAg3Yo8Wtqf5'), // 京东小家电
         JDUserSignPre(stop, 'JDJewels', '京东商城-趣护', 'yhobhPM9LvDKmJxhRbXnYBko2gY'), //京东珠宝馆
-        // JDUserSignPre(stop, 'JDMakeup', '京东商城-美妆', '2smCxzLNuam5L14zNJHYu43ovbAP'), //京东美妆馆
+        JDUserSignPre(stop, 'JDMakeup', '京东商城-汽车', '34bHvkKjzxNFo6C4KUQeKb24bHUP'), //京东美妆馆
         JDUserSignPre(stop, 'JDVege', '京东商城-菜场', 'Wcu2LVCFMkBP3HraRvb7pgSpt64'), //京东菜场
         // JDUserSignPre(stop, 'JDLive', '京东智能-生活', 'KcfFqWvhb5hHtaQkS4SD1UU6RcQ') //京东智能生活
       ]);
@@ -477,7 +477,7 @@ function JingDongTurn(s) {
         headers: {
           Cookie: KEY
         },
-        body: 'body=%7B%22enAwardK%22%3A%2295d235f2a09578c6613a1a029b26d12d%22%2C%22riskParam%22%3A%7B%7D%7D&client=wh5'
+        body: 'body=%7B%22enAwardK%22%3A%225619e1d62ecb20014c54553cb608ac20%22%2C%22riskParam%22%3A%7B%7D%7D&client=wh5'
       };
       $nobyda.post(JDTUrl, async function(error, response, data) {
         try {
