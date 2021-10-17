@@ -24,8 +24,6 @@
 20 0,2 * * * node /scripts/jd_wish.js >> /scripts/logs/jd_wish.log 2>&1
 # 内容鉴赏官
 15 2,5 * * * node /scripts/jd_connoisseur.js >> /scripts/logs/jd_connoisseur.log 2>&1
-# 母婴-跳跳乐
-1 0,11,21 * * * node /scripts/jd_jump.js >> /scripts/logs/jd_jump.log 2>&1
 # 东东世界
 25 2,10 * * * node /scripts/jd_ddworld.js >> /scripts/logs/jd_ddworld.log 2>&1
 # 东东世界兑换
@@ -42,7 +40,11 @@
 10 14 * * * node /scripts/jd_yijia.js >> /scripts/logs/jd_yijia.log 2>&1
 # 攒金币 赢大礼
 22 0,8 * * * node /scripts/jd_GoldcoinToGift.js >> /scripts/logs/jd_GoldcoinToGift.log 2>&1
- 
+# 小鸽有礼-京小哥助手（微信小程序）
+3 0,7 * * * node /scripts/jd_xgyl_wx.js >> /scripts/logs/jd_xgyl_wx.log 2>&1
+# 小鸽有礼2
+10 0,7 * * * node /scripts/jd_xgyl.js >> /scripts/logs/jd_xgyl.log 2>&1
+
  
  
 
