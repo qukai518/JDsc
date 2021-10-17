@@ -7,6 +7,7 @@
 ### 模块安装
 <details>
 <summary>查看</summary>
+    测试
 一、青龙运行python脚本缺少requests模块，请按以下方式安装：
 
 1、进入青龙容器：
