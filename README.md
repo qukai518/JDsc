@@ -7,19 +7,41 @@
 ### 模块安装
 <details>
 <summary>查看</summary>
-安装依赖库
-docker exec -it qinglong bash -c "cd /ql/scripts && npm install -g typescript"
-docker exec -it qinglong bash -c "cd /ql/scripts && npm install axios"
-docker exec -it qinglong bash -c "cd /ql/scripts && npm install date-fns"
-docker exec -it qinglong bash -c "cd /ql/scripts && npm install crypto -g"
-docker exec -it qinglong bash -c "cd /ql/scripts && npm install jsdom"
-docker exec -it qinglong bash -c "cd /ql/scripts && npm install png-js"
-docker exec -it qinglong bash -c "cd /ql/scripts && npm install -g npm"
-docker exec -it qinglong bash -c "cd /ql/scripts && pnpm i png-js"
-docker exec -it qinglong bash -c "pip3 install requests"
-docker exec -it qinglong bash -c "apk add --no-cache build-base g++ cairo-dev pango-dev giflib-dev && cd /ql/scripts && npm install canvas --build-from-source"
-docker exec -it qinglong bash -c "apk add python3 zlib-dev gcc jpeg-dev python3-dev musl-dev freetype-dev"
-docker exec -it qinglong bash -c "cd /ql/scripts/ && apk add --no-cache build-base g++ cairo-dev pango-dev giflib-dev && npm i && npm i -S ts-node typescript @types/node date-fns axios png-js canvas --build-from-source"   
+一、青龙运行python脚本缺少requests模块，请按以下方式安装：
+
+1、进入青龙容器：
+   
+docker exec -it qinglong /bin/sh
+
+2、安装requests模块
+
+pip3 install requests
+
+3、安装完成，退出容器
+   
+exit
+
+二、青龙安装nodejs模块方法：
+
+1、进入青龙容器：
+   
+docker exec -it qinglong /bin/sh
+   
+2、进入/ql/scripts目录
+   
+cd scripts
+ 
+4、安装png-js模块
+  
+npm install -g png-js
+
+安装jsdom模块
+
+npm install -g jsdom
+
+   
+5、安装完成，退出容器
+   
 exit
 </details>
 
