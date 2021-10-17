@@ -40,6 +40,8 @@
 10 15 * * * node /scripts/jd_haier.js >> /scripts/logs/jd_haier.log 2>&1
 # 一加10.8 - 11.13
 10 14 * * * node /scripts/jd_yijia.js >> /scripts/logs/jd_yijia.log 2>&1
+# 攒金币 赢大礼
+22 0,8 * * * node /scripts/jd_GoldcoinToGift.js >> /scripts/logs/jd_GoldcoinToGift.log 2>&1
  
  
  
