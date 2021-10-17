@@ -1,8 +1,8 @@
 /*
 京东多合一签到,自用,可N个京东账号
 [task_local]
-#签到
-0 0 * * *
+#多合一签到
+0 0 * * * jd_bean_sign.js
 活动入口：各处的签到汇总
 Node.JS专用
 IOS软件用户请使用 https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
