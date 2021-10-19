@@ -16,7 +16,6 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //惊喜APP的UA。领取助力任务奖励需要惊喜APP的UA,环境变量：JX_USER_AGENT，有能力的可以填上自己的UA
 const JXUserAgent =  $.isNode() ? (process.env.JX_USER_AGENT ? process.env.JX_USER_AGENT : ``):``;
 $.inviteCodeList = [];
-$.inviteCodeList_hb = [];
 let cookiesArr = [];
 $.appId = 10028;
 $.helpCkList = [];
@@ -59,63 +58,22 @@ let token ='';
     await pasture();
     await $.wait(2000);
   }
-  console.log('\n##################开始账号内互助(红包)#################\n');
-  await getShareCode('jxmc_hb.json')
-  $.inviteCodeList_hb = [...($.inviteCodeList_hb || []), ...($.shareCode || [])]
-  for(let i = 0;i<$.helpCkList.length;i++){
-    $.can_help = true
-    $.cookie = $.helpCkList[i]
-    token = await getJxToken()
-    $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1])
-    for (let j = 0; j < $.inviteCodeList_hb.length && $.can_help; j++) {
-      $.oneCodeInfo = $.inviteCodeList_hb[j]
-      if($.oneCodeInfo.use === $.UserName){
-        continue
-      }
-      console.log(`\n${$.UserName}去助力${$.oneCodeInfo.use},助力码：${$.oneCodeInfo.code}\n`);
-      await takeGetRequest('help_hb');
-      await $.wait(2000);
-    }
-  }
   console.log('\n##################开始账号内互助#################\n');
-  $.shareCode = undefined
-  await getShareCode('jxmc.json')
-  let newCookiesArr = [];
-  for(let i = 0;i<$.helpCkList.length;i+=4){
-    newCookiesArr.push($.helpCkList.slice(i,i+4))
-  }
-  for (let i = 0; i < newCookiesArr.length; i++) {
-    let thisCookiesArr = newCookiesArr[i];
-    let codeList = [];
-    for (let j = 0; j < thisCookiesArr.length; j++) {
-      $.cookie = thisCookiesArr[j];
-      $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1])
-      for (let k = 0; k < $.inviteCodeList.length; k++) {
-        if ($.UserName === $.inviteCodeList[k].use) {
-          codeList.push({
-            'name': $.UserName,
-            'code': $.inviteCodeList[k].code
-          });
+    for (let j = 0; j < cookiesArr.length; j++) {
+        $.cookie = cookiesArr[j];
+        $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1]);
+        token = await getJxToken();
+        for (let k = 0; k < $.inviteCodeList.length; k++) {
+            $.oneCodeInfo = $.inviteCodeList[k];
+            if($.oneCodeInfo.use === $.UserName){
+                continue;
+            }else{
+                console.log(`\n${$.UserName}去助力${$.oneCodeInfo.use},助力码：${$.oneCodeInfo.code}\n`);
+                await takeGetRequest('help');
+                await $.wait(2000);
+            }
         }
-      }
     }
-    if (codeList.length < 4) { codeList = [...(codeList || []), ...($.shareCode || [])] }
-    for (let j = 0; j < thisCookiesArr.length; j++) {
-      $.cookie = thisCookiesArr[j];
-      token = await getJxToken()
-      $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1])
-      for (let k = 0; k < codeList.length; k++) {
-        $.oneCodeInfo = codeList[k];
-        if(codeList[k].name === $.UserName){
-          continue;
-        }else{
-          console.log(`\n${$.UserName}去助力${codeList[k].name},助力码：${codeList[k].code}\n`);
-          await takeGetRequest('help');
-          await $.wait(2000);
-        }
-      }
-    }
-  }
 })()
     .catch((e) => {
       $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -124,30 +82,6 @@ let token ='';
       $.done();
     })
 
-function getShareCode(name) {
-  return new Promise(resolve => {
-    $.get({
-      url: "https://raw.fastgit.org/inoyna12/updateTeam/master/shareCodes/"+name,
-      headers: {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-      }
-    }, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`);
-          console.log(`${$.name} API请求失败，请检查网路重试`);
-        } else {
-          console.log(`优先账号内部互助，有剩余助力次数再帮作者助力`);
-          $.shareCode = JSON.parse(data);
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
 
 async function pasture() {
   try {
@@ -178,7 +112,6 @@ async function pasture() {
       }
       $.crowInfo = $.homeInfo.cow;
     }
-    await takeGetRequest('GetInviteStatus')
     $.GetVisitBackInfo = {};
     await $.wait(1000);
     await takeGetRequest('GetVisitBackInfo');
@@ -418,16 +351,6 @@ async function takeGetRequest(type) {
       url += `&jxmc_jstoken=${token.farm_jstoken}&timestamp=${token.timestamp}&phoneid=${token.phoneid}`
       url += `&_stk=activeid%2Cactivekey%2Cchannel%2Ccurrdate%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp&_ste=1`;
       break;
-    case 'GetInviteStatus':
-        url = `https://m.jingxi.com/jxmc/operservice/GetInviteStatus?channel=7&sceneid=1001&activeid=jxmc_active_0001&activekey=null&jxmc_jstoken=${token.farm_jstoken}&timestamp=${token.timestamp}&phoneid=${token.phoneid}`;
-        // url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
-        break;
-    case 'help_hb':
-        url = `https://m.jingxi.com/jxmc/operservice/InviteEnroll?channel=7&sceneid=1001&activeid=jxmc_active_0001&activekey=null&sharekey=${$.oneCodeInfo.code}`
-        url += `&jxmc_jstoken=${token.farm_jstoken}&timestamp=${token.timestamp}&phoneid=${token.phoneid}`;
-        url += `&_stk=activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Csharekey%2Ctimestamp&_ste=1`;
-        // url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&g_ty=ls`;
-        break;
     default:
       console.log(`错误${type}`);
   }
@@ -538,11 +461,11 @@ function dealReturn(type, data) {
       if (data.ret === 0 && data.data.result === 0 ) {
         console.log(`助力成功`);
       }else if (data.ret === 0 && data.data.result === 4){
-        console.log(`助力次数已用完 或者已助力`);
+        console.log(`助力次数已用完`);
         //$.canHelp = false;
       }else if(data.ret === 0 && data.data.result === 5){
-        console.log(`助力已满`);
-        $.oneCodeInfo.max = true;
+          console.log(`已助力过`);
+        //$.oneCodeInfo.max = true;
       }else{
         console.log(JSON.stringify(data))
       }
@@ -576,23 +499,6 @@ function dealReturn(type, data) {
         console.log(JSON.stringify(data));
       }
       break;
-    case 'GetInviteStatus':
-        if (data.ret === 0) {
-            if(data.data.sharekey){
-                console.log(`红包邀请码:${data.data.sharekey}`);
-                $.inviteCodeList_hb.push({'use':$.UserName,'code':data.data.sharekey,'max':false});
-            }
-        } else {
-            console.log(`异常：${JSON.stringify(data)}\n`);
-        }
-        break;
-    case 'help_hb':
-        if (data.ret == 2711) {
-          console.log(`无助力次数`)
-          $.can_help = false
-        }
-        console.log(`红包助力：${JSON.stringify(data)}\n`);
-        break;
     default:
       console.log(JSON.stringify(data));
   }
