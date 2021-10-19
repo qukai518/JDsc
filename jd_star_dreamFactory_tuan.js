@@ -47,7 +47,7 @@ if ($.isNode()) {
   $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
   await requestAlgo();
   await getTuanActiveId();
-  tuanActiveId = 'tCo0qqjNLYX_v3sjUL8RcQ==';
+  //tuanActiveId = 'Xj2_3G-hQ4GRLCsLqIxFeQ==';
   if(!tuanActiveId){console.log(`未能获取到有效的团活动ID`);return ;}
   //let nowTime = getCurrDate();
   // let jdFactoryTime = $.getdata('jdFactoryTime');
