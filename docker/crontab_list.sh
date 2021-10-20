@@ -34,10 +34,6 @@
 30 0,19 * * * node /scripts/jd_productZ4Brand.js >> /scripts/logs/jd_productZ4Brand.log 2>&1
 # 小魔方
 10 5,16 * * * node /scripts/jd_mf.js >> /scripts/logs/jd_mf.log 2>&1
-# 海尔京东超级品牌日10.8 - 10.15
-10 15 * * * node /scripts/jd_haier.js >> /scripts/logs/jd_haier.log 2>&1
-# 一加10.8 - 11.13
-10 14 * * * node /scripts/jd_yijia.js >> /scripts/logs/jd_yijia.log 2>&1
 # 攒金币 赢大礼
 22 0,8 * * * node /scripts/jd_GoldcoinToGift.js >> /scripts/logs/jd_GoldcoinToGift.log 2>&1
 # 小鸽有礼-京小哥助手（微信小程序）
@@ -48,7 +44,7 @@
 10 16 * * * node /scripts/jd_chinaJoy.js >> /scripts/logs/jd_chinaJoy.log 2>&1
 # 魔方兑换
 38 14,20 * * * node /scripts/jd_mofang_exchange.js >> /scripts/logs/jd_mofang_exchange.log 2>&1
-# 成城城领现金
+# 城城领现金
 38 0-23/1 * * * node /scripts/jd_city.js >> /scripts/logs/jd_city.log 2>&1
 
  
