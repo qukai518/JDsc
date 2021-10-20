@@ -25,8 +25,8 @@ let message = '', allMessage = '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let appIdArr = ['1E1xZy6s','1ElBTx6o','1E1NXxq0'];
-let appNameArr = ['PLUS生活特权','企有此礼','众筹许愿池'];
+let appIdArr = ['1E1NXxq0'];
+let appNameArr = ['众筹许愿池'];
 let appId, appName;
 $.shareCode = [];
 if ($.isNode()) {
@@ -63,7 +63,7 @@ if ($.isNode()) {
       for (let j = 0; j < appIdArr.length; j++) {
         appId = appIdArr[j]
         appName = appNameArr[j]
-        console.log(`开始第${j + 1}个活动：${appName}\n`)
+        console.log(`\n开始第${j + 1}个活动：${appName}\n`)
         await jd_wish();
       }
     }
@@ -122,9 +122,9 @@ async function jd_wish() {
     await $.wait(2000)
 
     if (forNum === 0) {
-      console.log(`没有抽奖机会\n\n`)
+      console.log(`没有抽奖机会\n`)
     } else {
-      console.log(`可以抽奖${forNum}次，去抽奖\n\n`)
+      console.log(`可以抽奖${forNum}次，去抽奖\n`)
     }
 
     $.canLottery = true
