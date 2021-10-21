@@ -31,9 +31,9 @@ let autoCode = '';
         return;
     }
     let res = [];
-    try{res = await getAuthorShareCode('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/shop.json');}catch (e) {}
+    try{res = await getAuthorShareCode('https://raw.githubusercontent.com/lsh26/share_code/main/shop.json');}catch (e) {}
     if(!res){
-        try{res = await getAuthorShareCode('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/shop.json');}catch (e) {}
+        try{res = await getAuthorShareCode('https://gitee.com/star267/share-code/raw/master/shop.json');}catch (e) {}
         if(!res){res = [];}
     }
     if(res.length > 0){
