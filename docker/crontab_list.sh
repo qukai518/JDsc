@@ -46,6 +46,8 @@
 38 14,20 * * * node /scripts/jd_mofang_exchange.js >> /scripts/logs/jd_mofang_exchange.log 2>&1
 # 城城领现金
 38 0-23/1 * * * node /scripts/jd_city.js >> /scripts/logs/jd_city.log 2>&1
+# 限时抢京豆
+38 8,20 * * * node /scripts/jd_xsqjd.js >> /scripts/logs/jd_xsqjd.log 2>&1
 
  
  
