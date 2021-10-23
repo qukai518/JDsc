@@ -48,8 +48,6 @@
 38 8,20 * * * node /scripts/jd_xsqjd.js >> /scripts/logs/jd_xsqjd.log 2>&1
 # 预售福利机
 5 0,2 * * * node /scripts/jd_ys.js >> /scripts/logs/jd_ys.log 2>&1
-# 双11环游记
-5 0,6,14 * * * node /scripts/jd_hyj.js >> /scripts/logs/jd_hyj.log 2>&1
 # 惊喜大作战
 50 1 * * * node /scripts/jd_jxdzz.js >> /scripts/logs/jd_jxdzz.log 2>&1
 # 选品官
