@@ -61,7 +61,7 @@
 # 星系牧场
 45 0,6-23/2 * * * node /scripts/jd_qqxing.js >> /scripts/logs/jd_qqxing.log 2>&1
 # 电竞预言家
-45 7 * * * node /scripts/jd_djyyj.js >> /scripts/logs/jd_djyyj.log 2>&1
+45 10,20 * * * node /scripts/jd_lol.js >> /scripts/logs/jd_lol.log 2>&1
 
  
 
