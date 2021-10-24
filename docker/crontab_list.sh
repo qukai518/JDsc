@@ -62,6 +62,8 @@
 45 0,6-23/2 * * * node /scripts/jd_qqxing.js >> /scripts/logs/jd_qqxing.log 2>&1
 # 电竞预言家
 45 10,20 * * * node /scripts/jd_lol.js >> /scripts/logs/jd_lol.log 2>&1
+# 极速版签到免单
+18 8,12,20 * * * node /scripts/jd_speed_signfree.js >> /scripts/logs/jd_speed_signfree.log 2>&1
 
  
 
