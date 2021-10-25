@@ -27,7 +27,7 @@ async function main() {
     // 签到
     await GetTakeAggrPage()
     // 找导游
-    await EmployTourGuide()
+    //await EmployTourGuide()
     // 捡破烂 珍珠
     await pickshell()
     // 卖贝壳
@@ -63,7 +63,7 @@ async function main() {
                         await $.wait(1000)
                     }
                 }
-                console.log("\n热气球旅客邀请")
+                /*console.log("\n热气球旅客邀请")
                 for (let i of Array(data.dwTourGuideComTm)) {
                     await work(`https://m.jingxi.com/jxbfd/user/SpeedUp?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=${$.timestamp}&ptag=${$.ptag}&strBuildIndex=fun&_stk=_cfd_t%2CbizCode%2CdwEnv%2Cptag%2Csource%2CstrBuildIndex%2CstrZone&_ste=1`)
                     if ($.haskey($.source, 'iRet', 1003)) {
@@ -74,7 +74,7 @@ async function main() {
                     console.log("接待旅客", $.source.dwTodaySpeedPeople)
                     await $.wait(300)
                 }
-                break;
+                break;*/
             case 'StoryInfo':
                 if (data.Mermaid != null && data.Mermaid.strStoryId) {
                     await work(`https://m.jingxi.com/jxbfd/story/MermaidOper?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=${$.timestamp}&ptag=${$.ptag}&strStoryId=${data.Mermaid.strStoryId}&dwType=2&ddwTriggerDay=${data.Mermaid.ddwTriggerDay}&_stk=_cfd_t%2CbizCode%2CddwTriggerDay%2CdwEnv%2CdwType%2Cptag%2Csource%2CstrStoryId%2CstrZone&_ste=1`)
