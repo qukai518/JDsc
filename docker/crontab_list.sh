@@ -66,6 +66,10 @@
 18 8,12,20 * * * node /scripts/jd_speed_signfree.js >> /scripts/logs/jd_speed_signfree.log 2>&1
 # 天天集卡券
 20 11,16 1-2,25-31 10,11 * node /scripts/jd_necklacecard.js >> /scripts/logs/jd_necklacecard.log 2>&1
+# 京东超级盒子
+10 1,6,8 25-31,1-11 10,11 * node /scripts/jd_superbox.js >> /scripts/logs/jd_superbox.log 2>&1
+# 潮玩儿制躁团
+20 11,16 1-2,25-31 10,11 * node /scripts/jd_zzt.js >> /scripts/logs/jd_zzt.log 2>&1
 
  
 
