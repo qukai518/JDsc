@@ -6,7 +6,7 @@ export first="false"
 
 [task_local]
 #柠檬是兄弟就砍我2
-0 17,21 * * * http://nm66.top/jd_kanjia2.js, tag=柠檬是兄弟就砍我2, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+0 0-23/3 * * * http://nm66.top/jd_kanjia2.js, tag=柠檬是兄弟就砍我2, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 */
 const $ = new Env('京喜欢乐砍');
 const notify = $.isNode() ? require('./sendNotify') : '';
