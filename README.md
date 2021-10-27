@@ -46,7 +46,9 @@ exit
 </details>
 
 ___
-
+2021.10.27修复npm install安装模块失败，增加一键安装脚本。
 手机termux使用脚本教程，无需root，自动运行并更新我仓库脚本，[点击查看](/backUp/Termux.md)
+
+___
 
 [环境变量合集](/backUp/githubAction.md)
