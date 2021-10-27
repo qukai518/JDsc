@@ -5,8 +5,8 @@ export launchid="ba3b268758521b2a48ce7ed61b82ff7a" ##你的邀请码
 export first="false"
 
 [task_local]
-#柠檬是兄弟就砍我2
-0 0-23/3 * * * http://nm66.top/jd_kanjia2.js, tag=柠檬是兄弟就砍我2, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+#京喜欢乐砍
+39 0-23/3 * * * jx_hlk.js
 */
 const $ = new Env('京喜欢乐砍');
 const notify = $.isNode() ? require('./sendNotify') : '';
