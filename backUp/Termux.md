@@ -3,10 +3,18 @@
 (如果以下文件下载很慢或者下载失败请自行挂梯子)
 
 [视频教程](https://share.weiyun.com/vwW2QVlZ)
+
+一键安装指令:
+`bash <(curl -Ls https://ghproxy.com/https://raw.githubusercontent.com/inoyna12/JDsc/main/docker/termux)`
+安装过程中如果出现`(Y/I/N/O/D/Z) [default=N]`，输入y回车就行，安装到最后会出现你的面板地址和账号密码，如果面板进不去的话清除软件数据按照下方手动执行命令安装。
 ___
 ### 1:打开后安装nodejs运行环境:
 
 `pkg install git vim nodejs perl cronie -y`
+
+`apt update && apt upgrade -y`
+
+`apt install nodejs -y`
 ___
 
 ### 2:拉取仓库:
