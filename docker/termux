@@ -1,4 +1,4 @@
-#bash <(curl -Ls https://gitee.com/ewf-9/BiJi/raw/master/termux-jdql)
+#bash <(curl -Ls https://ghproxy.com/https://raw.githubusercontent.com/inoyna12/JDsc/main/docker/termux)
 #首先手机下载termux软件安装，下载链接:https://f-droid.org/repo/com.termux_117.apk
 #(如果以下文件下载很慢或者下载失败请自行挂梯子)
 #视频教程:https://share.weiyun.com/vwW2QVlZ
