@@ -76,7 +76,7 @@
 # 发财大赢家助力
 1 6-22/3 * * * node /scripts/jd_fcdyj.js >> /scripts/logs/jd_fcdyj.log 2>&1
 # 京享红包
-1 0,12,18 * * * node /scripts/jd_redEnvelope.js >> /scripts/logs/jd_redEnvelope.log 2>&1
+1 0,12,18,20 * * * node /scripts/jd_redEnvelope1.js >> /scripts/logs/jd_redEnvelope1.log 2>&1
 
  
 
