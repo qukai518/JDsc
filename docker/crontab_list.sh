@@ -71,6 +71,8 @@
 20 0,6-23 * * * node /scripts/jd_big_winner.js >> /scripts/logs/jd_big_winner.log 2>&1
 # 京喜欢乐砍
 20 4,12,20 * * * node /scripts/jx_hlk.js >> /scripts/logs/jx_hlk.log 2>&1
+# 极速版签到免单
+20 4,20 * * * node /scripts/jd_speed_signfree.js >> /scripts/logs/jd_speed_signfree.log 2>&1
 
  
 
