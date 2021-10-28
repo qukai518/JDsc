@@ -1,10 +1,7 @@
 /*
-京享红包(使用京粉请停止运行)
-ck1助力 作者
-其余助力ck1
-https://u.jd.com/3wVdViu
-跳转到app 可查看助力情况
-1 0,12,18 * * * jd_redEnvelope.js
+双十一无门槛红包
+0 0,12,18,20 * * * jd_redEnvelope.js
+添加环境变量FLCODE 如需自己返利，请填写该变量（https://u.jd.com/后面的英文）
 */
 const $ = new Env('京享红包');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
