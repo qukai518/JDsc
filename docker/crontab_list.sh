@@ -73,6 +73,8 @@
 20 4,12,20 * * * node /scripts/jx_hlk.js >> /scripts/logs/jx_hlk.log 2>&1
 # 极速版签到免单
 20 4,20 * * * node /scripts/jd_speed_signfree.js >> /scripts/logs/jd_speed_signfree.log 2>&1
+# 发财大赢家助力
+1 6-22/3 * * * node /scripts/jd_fcdyj.js >> /scripts/logs/jd_fcdyj.log 2>&1
 
  
 
