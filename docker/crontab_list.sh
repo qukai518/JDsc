@@ -31,8 +31,6 @@
 30 0,19 * * * node /scripts/jd_productZ4Brand.js >> /scripts/logs/jd_productZ4Brand.log 2>&1
 # 小魔方
 10 5,16 * * * node /scripts/jd_mf.js >> /scripts/logs/jd_mf.log 2>&1
-# 攒金币 赢大礼
-22 0,8 * * * node /scripts/jd_GoldcoinToGift.js >> /scripts/logs/jd_GoldcoinToGift.log 2>&1
 # 小鸽有礼-京小哥助手（微信小程序）
 3 0,7 * * * node /scripts/jd_xgyl_wx.js >> /scripts/logs/jd_xgyl_wx.log 2>&1
 # 小鸽有礼2
