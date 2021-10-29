@@ -47,8 +47,6 @@
 5 0,2 * * * node /scripts/jd_ys.js >> /scripts/logs/jd_ys.log 2>&1
 # 惊喜大作战
 50 1 * * * node /scripts/jd_jxdzz.js >> /scripts/logs/jd_jxdzz.log 2>&1
-# 选品官
-23 9,10 * * * node /scripts/jd_selectionOfficer.js >> /scripts/logs/jd_selectionOfficer.log 2>&1
 # 跳跳乐瓜分京豆
 1 0,11,21 * * * node /scripts/jd_jump.js >> /scripts/logs/jd_jump.log 2>&1
 # 手机狂欢城
