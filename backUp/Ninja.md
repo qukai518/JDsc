@@ -10,6 +10,7 @@ docker stop qinglong
 
 docker rm qinglong
 
+```bash
 docker run -dit \
    -v $PWD/ql/config:/ql/config \
    -v $PWD/ql/log:/ql/log \
@@ -25,7 +26,8 @@ docker run -dit \
    --hostname qinglong \
    --restart unless-stopped \
    whyour/qinglong:latest
-   
+```   
+
 docker exec -it qinglong bash
 
 git clone https://github.com/Waikkii/waikiki_ninja.git /ql/ninja
