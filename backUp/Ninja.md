@@ -64,4 +64,4 @@ ___
 
 浏览器输入你的服务器ip:5701进入
 
-Ninja配置文件在`ql/ninja/backend/.env`里
+Ninja配置文件在目录`ql/ninja/backend/.env`，一般情况下使用默认的就行，按照需求自行修改。
