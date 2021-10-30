@@ -57,8 +57,8 @@ echo '密码:admin'
 
 #如果你不知道定时任务的脚本是运行什么的，进入下方网址查看:
 #https://github.com/inoyna12/JDsc/blob/main/docker/crontab_list.sh
-if [ -r ~/.bashrc ];then
-echo ""
-else
-echo 'pm2 start /data/data/com.termux/files/home/jd-base/panel/server.js' >> ~/.bashrc 
-fi
+#if [ -r ~/.bashrc ];then
+#echo ""
+#else
+#echo 'pm2 start /data/data/com.termux/files/home/jd-base/panel/server.js' >> ~/.bashrc 
+#fi
