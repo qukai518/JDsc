@@ -39,7 +39,7 @@ docker run -dit \
 
 6.输入命令
 ```bash
-git clone https://github.com/Waikkii/waikiki_ninja.git /ql/ninja
+git clone -b master https://ghproxy.com/https://github.com/Waikkii/waikiki_ninja.git /ql/ninja
 cd /ql/ninja/backend
 pnpm install
 cp .env.example .env
@@ -59,4 +59,4 @@ cp sendNotify.js /ql/scripts/sendNotify.js
 
 `docker restart qinglong`
 
-到这里就搭建好了，浏览器打开 你的服务器ip:5701 进入
+浏览器输入你的服务器ip:5701进入
