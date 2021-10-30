@@ -69,6 +69,8 @@
 1 6-22/3 * * * node /scripts/jd_fcdyj.js >> /scripts/logs/jd_fcdyj.log 2>&1
 # 京享红包
 1 0,12,18,20 * * * node /scripts/jd_redEnvelope1.js >> /scripts/logs/jd_redEnvelope1.log 2>&1
+# 发财挖宝助力
+1 4,18 * * * node /scripts/jd_fcwb.js >> /scripts/logs/jd_fcwb.log 2>&1
  
 
 ##############长期活动##############
