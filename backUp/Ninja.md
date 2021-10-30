@@ -1,7 +1,8 @@
 [Ninja作者仓库地址](https://github.com/Waikkii/Waikiki_ninja/tree/master)
 
-
 以下教程仅适用于服务器已经搭建好青龙面板的用户，并且青龙面板版本在2.8.2+
+
+___
 
 ### 搭建步骤
 
@@ -58,5 +59,7 @@ cp sendNotify.js /ql/scripts/sendNotify.js
 8.重新ssh连接服务器，输入以下命令重启容器。或者在宝塔面板中重启容器。
 
 `docker restart qinglong`
+
+___
 
 浏览器输入你的服务器ip:5701进入
