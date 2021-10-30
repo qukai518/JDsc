@@ -63,3 +63,5 @@ cp sendNotify.js /ql/scripts/sendNotify.js
 ___
 
 浏览器输入你的服务器ip:5701进入
+
+Ninja配置文件在`ql/ninja/backend/.env`里
