@@ -25,8 +25,8 @@ let message = '', allMessage = '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let appIdArr = ['1E1xZy6s','1FV1VwKc','1E1NXxq0'];
-let appNameArr = ['PLUS生活特权','惊喜大作战','众筹许愿池'];
+let appIdArr = ['1E1NXxq0', '1FV1VwKc', '1FFRWxaY'];
+let appNameArr = ['众筹许愿池', '惊喜大作战', '荣耀钞能力'];
 let appId, appName;
 $.shareCode = [];
 if ($.isNode()) {
@@ -63,16 +63,16 @@ if ($.isNode()) {
       for (let j = 0; j < appIdArr.length; j++) {
         appId = appIdArr[j]
         appName = appNameArr[j]
-        console.log(`开始第${j + 1}个活动：${appName}\n`)
+        console.log(`\n开始第${j + 1}个活动：${appName}\n`)
         await jd_wish();
       }
     }
   }
-  let res = await getAuthorShareCode('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/wish.json')
+  let res = await getAuthorShareCode('https://raw.githubusercontent.com/Aaron-lv/updateTeam/master/shareCodes/wish.json')
   if (!res) {
-    $.http.get({url: 'https://purge.jsdelivr.net/gh/inoyna12/updateTeam@master/shareCodes/wish.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
+    $.http.get({url: 'https://purge.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/wish.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
     await $.wait(1000)
-    res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/inoyna12/updateTeam@master/shareCodes/wish.json')
+    res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/wish.json')
   }
   $.shareCode = [...$.shareCode, ...(res || [])]
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -122,9 +122,9 @@ async function jd_wish() {
     await $.wait(2000)
 
     if (forNum === 0) {
-      console.log(`没有抽奖机会\n\n`)
+      console.log(`没有抽奖机会\n`)
     } else {
-      console.log(`可以抽奖${forNum}次，去抽奖\n\n`)
+      console.log(`可以抽奖${forNum}次，去抽奖\n`)
     }
 
     $.canLottery = true
@@ -262,7 +262,7 @@ function interact_template_getLotteryResult() {
             let userAwardsCacheDto = data && data.data && data.data.result && data.data.result.userAwardsCacheDto
             if (userAwardsCacheDto) {
               if (userAwardsCacheDto.type === 2) {
-                console.log(`抽中：${userAwardsCacheDto.jBeanAwardVo.quantity}${userAwardsCacheDto.jBeanAwardVo.ext}`)
+                console.log(`抽中：${userAwardsCacheDto.jBeanAwardVo.quantity}${userAwardsCacheDto.jBeanAwardVo.ext || `京豆`}`)
               } else if (userAwardsCacheDto.type === 0) {
                 console.log(`很遗憾未中奖~`)
               } else {
