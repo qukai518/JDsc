@@ -8,9 +8,11 @@ Ninja作者仓库地址:https://github.com/Waikkii/Waikiki_ninja/tree/master
 1.首先去服务器防火墙放行5701端口，然后ssh连接你的服务器
 
 2.输入命令
+
 `docker stop qinglong`
 
 3.输入命令
+
 `docker rm qinglong`
 
 4.输入命令
@@ -32,6 +34,7 @@ docker run -dit \
    whyour/qinglong:latest
 ```   
 5.输入命令
+
 `docker exec -it qinglong bash`
 
 6.输入命令
