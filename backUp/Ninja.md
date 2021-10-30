@@ -2,14 +2,19 @@ Ninja作者仓库地址:https://github.com/Waikkii/Waikiki_ninja/tree/master
 
 以下教程仅适用于服务器已经搭建好青龙面板的用户，并且青龙面板版本在2.8.2+
 
+### 一
 服务器防火墙放行5701端口
 
-ssh连接服务器
+### 二
+ssh连接你的服务器服务器
 
+### 三
 docker stop qinglong
 
+### 四
 docker rm qinglong
 
+### 五
 ```bash
 docker run -dit \
    -v $PWD/ql/config:/ql/config \
@@ -27,9 +32,10 @@ docker run -dit \
    --restart unless-stopped \
    whyour/qinglong:latest
 ```   
-
+### 六
 docker exec -it qinglong bash
 
+### 七
 ```bash
 git clone https://github.com/Waikkii/waikiki_ninja.git /ql/ninja
 cd /ql/ninja/backend
@@ -38,7 +44,7 @@ cp .env.example .env
 pm2 start
 cp sendNotify.js /ql/scripts/sendNotify.js
 ```
-
+### 八
 ```bash
 cd /ql/ninja/backend
 git checkout .
