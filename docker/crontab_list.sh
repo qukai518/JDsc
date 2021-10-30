@@ -70,7 +70,7 @@
 # 京享红包
 1 0,12,18,20 * * * node /scripts/jd_redEnvelope1.js >> /scripts/logs/jd_redEnvelope1.log 2>&1
 # 城城领现金抽奖
-1 0 2,4,20 30 10 * node /scripts/jd_city_lottery.js >> /scripts/logs/jd_city_lottery.log 2>&1
+#1 0 2,4,20 30 10 * node /scripts/jd_city_lottery.js >> /scripts/logs/jd_city_lottery.log 2>&1
 
  
 
