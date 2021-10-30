@@ -71,6 +71,8 @@
 1 0,12,18,20 * * * node /scripts/jd_redEnvelope1.js >> /scripts/logs/jd_redEnvelope1.log 2>&1
 # 发财挖宝助力
 1 4,18 * * * node /scripts/jd_fcwb.js >> /scripts/logs/jd_fcwb.log 2>&1
+# 抢京豆
+9 0,9 * * * node /scripts/jd_qjd.js >> /scripts/logs/jd_qjd.log 2>&1
  
 
 ##############长期活动##############
