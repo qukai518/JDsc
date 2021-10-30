@@ -30,17 +30,20 @@ docker run -dit \
 
 docker exec -it qinglong bash
 
+```bash
 git clone https://github.com/Waikkii/waikiki_ninja.git /ql/ninja
 cd /ql/ninja/backend
 pnpm install
 cp .env.example .env
 pm2 start
 cp sendNotify.js /ql/scripts/sendNotify.js
+```
 
-
+```bash
 cd /ql/ninja/backend
 git checkout .
 git pull
 pnpm install
 pm2 start
 cp sendNotify.js /ql/scripts/sendNotify.js
+```
