@@ -55,3 +55,5 @@ pnpm install
 pm2 start
 cp sendNotify.js /ql/scripts/sendNotify.js
 ```
+8.重新ssh连接服务器，输入以下命令重启容器。或者在宝塔面板中重启容器。
+`docker restart qinglong`
