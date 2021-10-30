@@ -1,4 +1,4 @@
-Ninja作者仓库地址:https://github.com/Waikkii/Waikiki_ninja/tree/master
+[Ninja作者仓库地址](https://github.com/Waikkii/Waikiki_ninja/tree/master)
 
 
 以下教程仅适用于服务器已经搭建好青龙面板的用户，并且青龙面板版本在2.8.2+
