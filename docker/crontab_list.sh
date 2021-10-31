@@ -59,8 +59,6 @@
 10 1,6,8 25-31,1-11 10,11 * node /scripts/jd_superbox.js >> /scripts/logs/jd_superbox.log 2>&1
 # 省钱大赢家之翻翻乐
 20 0,6-23 * * * node /scripts/jd_big_winner.js >> /scripts/logs/jd_big_winner.log 2>&1
-# 京喜欢乐砍
-20 4,12,20 * * * node /scripts/jx_hlk.js >> /scripts/logs/jx_hlk.log 2>&1
 # 极速版签到免单
 20 4,20 * * * node /scripts/jd_speed_signfree.js >> /scripts/logs/jd_speed_signfree.log 2>&1
 # 发财大赢家助力
