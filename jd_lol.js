@@ -1,12 +1,8 @@
-if (!["card","car"].includes(process.env.FS_LEVEL)) {
-    console.log("请设置通用加购/开卡环境变量FS_LEVEL为\"car\"(或\"card\"开卡+加购)来运行加购脚本")
-    return
-}
 /**
  电竞预言家瓜分京豆，链接： u.jd.com/3wyVFhp
  必须得做完任务才能参与竞猜，有加购，没开卡，参与竞猜后，如果猜对了，第二天可以瓜分京豆（蚊子腿。。。）
  暂时还有24号和25号  2场，，，
- cron 23 10,11 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_lol.js
+ cron 11 13,15 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_lol.js
  环境变量：ANSWERCODE, 选择哪一个队伍,默认随机； 例：ANSWERCODE="A" 选择第一个队伍，ANSWERCODE="B" 选择第二个队伍
  PS:只有押对队伍才能在第二天瓜分豆子。如果觉得哪个队伍胜率大，可以自己修改环境变量，梭哈一个队伍
  */
@@ -137,20 +133,17 @@ async function main(cookie) {
     for (let i = 0; i < questions.length; i++) {
         questionInfo[questions[i].answerCode] = questions[i].skuName;
     }
-    let thisCode = '';
     if(answerCode === '999'){
-        thisCode =  Math.round((Math.random()*10))%2 === 0 ? "A" : "B";
-        console.log(`\n没有设置环境变量ANSWERCODE，随机选择队伍:${thisCode}\n`)
-    }else{
-        thisCode = answerCode;
+        answerCode =  Math.round((Math.random()*10))%2 === 0 ? "A" : "B";
+        console.log(`\n没有设置环境变量ANSWERCODE，随机选择队伍:${answerCode}\n`)
     }
-    if(thisCode){
+    if(answerCode){
         if(homePage.userAnswerCode === null){
             await takeRequest(cookie,`appid=china-joy&functionId=champion_game_prod&body={"activityDate":"${homePage.activityDate}","apiMapping":"/api/checkGuess"}&t=${Date.now()}&loginType=2`);
 
             await $.wait(1000);
-            console.log(`${userName},选择队伍：${questionInfo[thisCode]}`);
-            let guessAnswer = await takeRequest(cookie,`appid=china-joy&functionId=champion_game_prod&body={"activityDate":"${homePage.activityDate}","answerCode":"${thisCode}","apiMapping":"/api/guessAnswer"}&t=${Date.now()}&loginType=2`);
+            console.log(`${userName},选择队伍：${questionInfo[answerCode]}`);
+            let guessAnswer = await takeRequest(cookie,`appid=china-joy&functionId=champion_game_prod&body={"activityDate":"${homePage.activityDate}","answerCode":"${answerCode}","apiMapping":"/api/guessAnswer"}&t=${Date.now()}&loginType=2`);
             console.log(`${userName},选择返回：${JSON.stringify(guessAnswer)}`);
             await $.wait(1000);
             homePage = await takeRequest(cookie,`appid=china-joy&functionId=champion_game_prod&body={"apiMapping":"/api/homePage"}&t=${Date.now()}&loginType=2`);
@@ -187,6 +180,7 @@ async function main(cookie) {
             console.log(JSON.stringify(lotteryInfo));
             await $.wait(2000);
         }
+        break;
     }
 }
 async function takeRequest(cookie,body){
