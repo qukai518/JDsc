@@ -71,9 +71,6 @@
 1 4,18 * * * node /scripts/jd_fcwb_help.js >> /scripts/logs/jd_fcwb_help.log 2>&1
 # 抢京豆
 9 0,9 * * * node /scripts/jd_qjd.js >> /scripts/logs/jd_qjd.log 2>&1
-# 沸腾之夜
-23,35 20 * * * node /scripts/jd_hotNeight.js >> /scripts/logs/jd_hotNeight.log 2>&1
- 
 
 ##############长期活动##############
 # 芥么赚豪礼
