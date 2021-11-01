@@ -1698,7 +1698,7 @@ function uploadShareCode(code, pin) {
 function shareCodesFormat() {
   return new Promise(async resolve => {
     $.newShareCodes = []
-    const readShareCodeRes = await readShareCode();
+    const readShareCodeRes = null;
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds, ...(readShareCodeRes.data || [])])];
     } else {
