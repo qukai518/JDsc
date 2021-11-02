@@ -65,6 +65,10 @@
 1 0,12,18,20 * * * node /scripts/jd_redEnvelope.js >> /scripts/logs/jd_redEnvelope.log 2>&1
 # 抢京豆
 9 0,9 * * * node /scripts/jd_qjd.js >> /scripts/logs/jd_qjd.log 2>&1
+# 双11特务
+10 9,13,16,19,20 * * * node /scripts/jd_superBrand.js >> /scripts/logs/jd_superBrand.log 2>&1
+
+
 
 ##############长期活动##############
 # 芥么赚豪礼
