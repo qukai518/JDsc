@@ -67,6 +67,8 @@
 9 0,9 * * * node /scripts/jd_qjd.js >> /scripts/logs/jd_qjd.log 2>&1
 # 双11特务
 10 9,13,16,19,20 * * * node /scripts/jd_superBrand.js >> /scripts/logs/jd_superBrand.log 2>&1
+# 手机竞猜
+48 0 * * * node /scripts/jd_sjjc.js >> /scripts/logs/jd_sjjc.log 2>&1
 
 
 
