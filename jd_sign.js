@@ -1,7 +1,7 @@
 /* 
-[task_local]
-#京东图形验证
-0 1 * * * jd_sign.js
+
+只支持nodejs环境
+14 10 * * *
 */
 
 
@@ -29,7 +29,7 @@ let signFlag = false
 let successNum = 0
 let errorNum = 0
 let JD_API_HOST = 'https://jdjoy.jd.com'
-$.invokeKey = "JL1VTNRadM68cIMQ"
+$.invokeKey = "q8DNJdpcfRQ69gIx"
 let lkt = 0
 if(process.env.JOY_HOST){
   JD_API_HOST = process.env.JOY_HOST
@@ -282,7 +282,7 @@ function jsonParse(str) {
 }
 
 function getUA(){
-  $.UA = `jdapp;iPhone;10.1.0;14.3;${randomString(40)};network/wifi;model/iPhone12,1;addressid/4199175193;appBuild/167774;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
+  $.UA = `jdapp;iPhone;10.1.6;14.6;${randomString(40)};network/wifi;model/iPhone12,1;addressid/0;appBuild/167841;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
 }
 function randomString(e) {
   e = e || 32;
