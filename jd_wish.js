@@ -25,8 +25,8 @@ let message = '', allMessage = '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let appIdArr = ['1FFRWwqg','1FV1ZwKY','1FFVQyqw','1FFRWxaY','1E1xZy6s','1FV1VwKc','1E1NXxq0'];
-let appNameArr = ['心动电波','好物好生活','有1111点新动','送你超能力','PLUS生活特权','惊喜大作战','众筹许愿池'];
+let appIdArr = ['1FFdSxqw','1FFRWwqg','1FV1ZwKY','1FFVQyqw','1FFRWxaY','1E1xZy6s','1FV1VwKc','1E1NXxq0'];
+let appNameArr = ['焕新带电生活','心动电波','好物好生活','有1111点新动','送你超能力','PLUS生活特权','惊喜大作战','众筹许愿池'];
 let appId, appName;
 $.shareCode = [];
 if ($.isNode()) {
@@ -262,7 +262,8 @@ function interact_template_getLotteryResult() {
             let userAwardsCacheDto = data && data.data && data.data.result && data.data.result.userAwardsCacheDto
             if (userAwardsCacheDto) {
               if (userAwardsCacheDto.type === 2) {
-                console.log(`抽中：${userAwardsCacheDto.jBeanAwardVo.quantity}${userAwardsCacheDto.jBeanAwardVo.ext}`)
+                //console.log(`抽中：${userAwardsCacheDto.jBeanAwardVo.quantity}${userAwardsCacheDto.jBeanAwardVo.ext}`)
+                console.log(`抽中：${userAwardsCacheDto.jBeanAwardVo.prizeName}`)
               } else if (userAwardsCacheDto.type === 0) {
                 console.log(`很遗憾未中奖~`)
               } else {
