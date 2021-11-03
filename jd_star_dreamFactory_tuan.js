@@ -26,7 +26,6 @@ const JD_API_HOST = 'https://m.jingxi.com';
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const openTuanCK = $.isNode() ? (process.env.OPEN_DREAMFACTORY_TUAN ? process.env.OPEN_DREAMFACTORY_TUAN : '1'):'1';
-const helpFlag = true;//是否参考作者团
 let tuanActiveId = ``;
 let cookiesArr = [], cookie = '', message = '';
 $.tuanIds = [];
@@ -47,7 +46,6 @@ if ($.isNode()) {
   $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
   await requestAlgo();
   await getTuanActiveId();
-  //tuanActiveId = 'Xj2_3G-hQ4GRLCsLqIxFeQ==';
   if(!tuanActiveId){console.log(`未能获取到有效的团活动ID`);return ;}
   //let nowTime = getCurrDate();
   // let jdFactoryTime = $.getdata('jdFactoryTime');
@@ -116,29 +114,6 @@ if ($.isNode()) {
       }
     }
   }
-  let res = [];
-  if(helpFlag){
-    res = await getAuthorShareCode('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/jd_updateFactoryTuanId.json');
-    if(!res){
-      res = [];
-    }
-    if(res.length === 0){
-      return ;
-    }
-    console.log(`\n===============开始助力作者团===================`);
-    let thisTuanID = getRandomArrayElements(res, 1)[0];
-    $.tuanMax = false;
-    for (let i = 0; i < cookiesArr.length && !$.tuanMax; i++) {
-      if(openTuanCKList.includes((i+1).toString())){
-        $.index = i + 1;
-        cookie = cookiesArr[i];
-        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-        console.log(`账号${$.UserName} 去参加作者团： ${thisTuanID}`);
-        await JoinTuan(thisTuanID);
-        await $.wait(2000);
-      }
-    }
-  }
 })().catch((e) => {$.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')}).finally(() => {$.done();});
 
 async function jdDreamFactoryTuan() {try {await userInfo();await tuanActivity();} catch (e) {$.logErr(e);}}
@@ -159,17 +134,12 @@ async function getTuanActiveId() {
               const start = item.start;
               const end = item.end;
               const link = item.link;
-              if ((new Date(item.start).getTime() <= Date.now()) && (new Date(item.end).getTime() > Date.now())) {
+              if (new Date(item.end).getTime() > Date.now() && new Date(item.start).getTime() < Date.now()) {
                 if (link && link.match(/activeId=(.*),/) && link.match(/activeId=(.*),/)[1]) {
                   console.log(`\n获取团活动ID成功: ${link.match(/activeId=(.*),/)[1]}\n有效时段：${start} - ${end}`);
                   tuanActiveId = link.match(/activeId=(.*),/)[1];
                   break
                 }
-              } else if ((new Date(item.start).getTime() > Date.now()) && (new Date(item.end).getTime() > Date.now())) {
-                  if (link && link.match(/activeId=(.*),/) && link.match(/activeId=(.*),/)[1]) {
-                    console.log(`\n团活动ID: ${link.match(/activeId=(.*),/)[1]}\n有效时间：${start} - ${end}\n团ID还未开始`);
-                    tuanActiveId = '';
-                  }
               } else {
                   tuanActiveId = '';
               }
