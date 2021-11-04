@@ -69,6 +69,8 @@
 10 9,13,16,19,20 * * * node /scripts/jd_superBrand.js >> /scripts/logs/jd_superBrand.log 2>&1
 # 手机竞猜
 48 0 * * * node /scripts/jd_sjjc.js >> /scripts/logs/jd_sjjc.log 2>&1
+# 星店长
+5 7,12,20 * * * node /scripts/jd_star.js >> /scripts/logs/jd_star.log 2>&1
 
 
 
