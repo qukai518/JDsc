@@ -71,6 +71,8 @@
 48 0 * * * node /scripts/jd_sjjc.js >> /scripts/logs/jd_sjjc.log 2>&1
 # 星店长
 5 7,12,20 * * * node /scripts/jd_star.js >> /scripts/logs/jd_star.log 2>&1
+# 星推官
+22 3,4 * * * node /scripts/jd_xtg.js >> /scripts/logs/jd_xtg.log 2>&1
 
 
 
