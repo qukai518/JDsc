@@ -1,6 +1,6 @@
-/*
+/**
 双十一无门槛红包
-3 6,12,20 * * * jd_redEnvelope.js
+ cron 3 0,20 * * * jd_redEnvelope.js
 添加环境变量FLCODE 如需自己返利，请填写该变量（https://u.jd.com/后面的英文）
 */
 const $ = new Env("京享红包");
@@ -51,7 +51,7 @@ $.shareCode = "";
 
 async function main() {
   let userName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1]);
-  $.UA = `jdapp;iPhone;10.2.0;13.1.2;${randomString(40)};M/5.0;network/wifi;ADID/;model/iPhone8,1;addressid/2308460622;appBuild/167853;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;`;
+  $.UA = `jdapp;iPhone;10.2.2;14.6;${randomString(40)};M/5.0;network/wifi;ADID/;model/iPhone12,1;addressid/0;appBuild/167863;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;`;
   $.max = false;
   $.hotFlag = false;
   const flCodeArr = ["yCLiLAL"];
