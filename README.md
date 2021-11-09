@@ -47,10 +47,10 @@ exit
 
 ___
 
-手机termux使用脚本教程，无需root，自动运行并更新我仓库脚本，[点击查看](/backUp/Termux.md)
+手机面具(magisk)刷入青龙面板，需root。 [点击查看](/backUp/magisk_qinglong.md)
 
-2021.10.27修复npm install安装模块失败，增加一键安装脚本。
-2021.10.30修复由于错误的crontab定时任务导致运行脚本识别不到ck。
+手机安装v3面板教程，无需root，自动运行并更新我仓库脚本。[点击查看](/backUp/Termux.md)
+
 ___
 
 [环境变量合集](/backUp/githubAction.md)
