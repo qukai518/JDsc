@@ -47,9 +47,11 @@ exit
 
 ___
 
+### 手机运行:
+
 手机面具(magisk)刷入青龙面板，需root。 [点击查看](/backUp/magisk_qinglong.md)
 
-手机安装v3面板教程，无需root，自动运行并更新我仓库脚本。 [点击查看](/backUp/Termux.md)
+手机安装v3面板，无需root。 [点击查看](/backUp/Termux.md)
 
 ___
 
