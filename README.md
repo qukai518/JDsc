@@ -14,9 +14,9 @@
 
 如果你的青龙面板版本在2.10.0以上，那么在面板内找到依赖管理-添加
 
-nodejs那里添加jsdom和png-js
+nodejs那里添加`jsdom`和`png-js`
 
-py那里装requests
+py那里装`requests`
 
 安装成功就可以了
 
@@ -24,9 +24,11 @@ py那里装requests
 
 ssh连接你的服务器
 
-docker exec -it qinglong bash -c "cd /ql/scripts && npm install jsdom"
-docker exec -it qinglong bash -c "cd /ql/scripts && npm install png-js"
-docker exec -it qinglong bash -c "pip3 install requests"
+`docker exec -it qinglong bash -c "cd /ql/scripts && npm install jsdom"`
+
+`docker exec -it qinglong bash -c "cd /ql/scripts && npm install png-js"`
+
+`docker exec -it qinglong bash -c "pip3 install requests"`
   
 exit
 </details>
