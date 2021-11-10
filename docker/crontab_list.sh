@@ -71,6 +71,10 @@
 0-59/20 0,1 * * * node /scripts/jd_syj.js >> /scripts/logs/jd_syj.log 2>&1
 # 京东饭粒
 38 0,17 * * * node /scripts/jd_fanli.js >> /scripts/logs/jd_fanli.log 2>&1
+# 限时抢京豆
+23 1,7,9 * * * node /scripts/jd_xsqjd.js >> /scripts/logs/jd_xsqjd.log 2>&1
+# 双11巅峰红包
+8 0,10,20,22 * * * node /scripts/gua_RedEnvelope.js >> /scripts/logs/gua_RedEnvelope.log 2>&1
 
 
 
