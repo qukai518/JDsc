@@ -4,44 +4,26 @@
 
 定时规则`0 */4 * * *`
 
-### 模块安装
+### 依赖安装
 <details>
 <summary>查看</summary>
-一、青龙运行python脚本缺少requests模块，请按以下方式安装：
+一、青龙面板运行JD脚本必备的3个依赖:
 
-1、进入青龙容器：
+1、第一种方法:
+如果你的青龙面板版本在2.10.0以上，那么在面板内找到依赖管理-添加
+
+nodejs那里添加jsdom和png-js
+
+py那里装requests
    
-docker exec -it qinglong /bin/sh
+第二种方法:
 
-2、安装requests模块
+ssh连接你的服务器
 
-pip3 install requests
-
-3、安装完成，退出容器
-   
-exit
-
-二、青龙安装nodejs模块方法：
-
-1、进入青龙容器：
-   
-docker exec -it qinglong /bin/sh
-   
-2、进入/ql/scripts目录
-   
-cd scripts
- 
-4、安装png-js模块
+docker exec -it qinglong bash -c "cd /ql/scripts && npm install jsdom"
+docker exec -it qinglong bash -c "cd /ql/scripts && npm install png-js"
+docker exec -it qinglong bash -c "pip3 install requests"
   
-npm install -g png-js
-
-安装jsdom模块
-
-npm install -g jsdom
-
-   
-5、安装完成，退出容器
-   
 exit
 </details>
 
