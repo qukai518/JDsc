@@ -61,8 +61,6 @@
 48 0 * * * node /scripts/jd_sjjc.js >> /scripts/logs/jd_sjjc.log 2>&1
 # 星店长
 5 7,12,20 * * * node /scripts/jd_star.js >> /scripts/logs/jd_star.log 2>&1
-# 星推官
-22 3,4 * * * node /scripts/jd_xtg.js >> /scripts/logs/jd_xtg.log 2>&1
 # 双11红包
 0 10,12,20 * * * node /scripts/jd_jxred.js >> /scripts/logs/jd_jxred.log 2>&1
 # 京东电器盲盒
@@ -73,6 +71,8 @@
 0 2 1-11 11 * node /scripts/jd_travel_shop.js >> /scripts/logs/jd_travel_shop.log 2>&1
 # 赚京豆
 0-59/20 0,1 * * * node /scripts/jd_syj.js >> /scripts/logs/jd_syj.log 2>&1
+# 京东饭粒
+38 0,17 * * * node /scripts/jd_fanli.js >> /scripts/logs/jd_fanli.log 2>&1
 
 
 
