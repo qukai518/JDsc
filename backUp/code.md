@@ -1,6 +1,6 @@
+进入容器 `root/ql/repo/inoyna12_JDsc/activity/shell` 目录
 
-
-把code.sh和task_before.sh这两个文件放到容器内 root/ql/config目录下，权限变更为644
+把code.sh和task_before.sh这两个文件移动到 `root/ql/config`目录下，
 
 打开青龙面板添加:
 
