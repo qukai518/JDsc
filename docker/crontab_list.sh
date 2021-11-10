@@ -73,6 +73,8 @@
 23 1,7,9 * * * node /scripts/jd_xsqjd.js >> /scripts/logs/jd_xsqjd.log 2>&1
 # 双11巅峰红包
 8 0,10,20,22 * * * node /scripts/gua_RedEnvelope.js >> /scripts/logs/gua_RedEnvelope.log 2>&1
+# 牛牛福利
+1 0,9,19,23 * * * node /scripts/jd_nnfls.js >> /scripts/logs/jd_nnfls.log 2>&1
 
 
 
