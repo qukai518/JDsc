@@ -1,6 +1,6 @@
 /*
 双十一无门槛红包
-8 0,10,20,22 * * * gua_RedEnvelope.js
+3 0,10,20,22 * * * gua_RedEnvelope.js
 添加环境变量FLCODE 如需自己吃返利，请填写该变量（https://u.jd.com/后面的英文）
 * */
 const $ = new Env('双十一巅峰狂欢🧧');
