@@ -23,8 +23,9 @@ py那里装`requests`
 ##### 第二种方法:
 
 ssh连接你的服务器
-
-`docker exec -it qinglong bash -c "cd /ql/scripts && npm install jsdom"`
+```bash
+docker exec -it qinglong bash -c "cd /ql/scripts && npm install jsdom"
+```
 
 `docker exec -it qinglong bash -c "cd /ql/scripts && npm install png-js"`
 
