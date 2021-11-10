@@ -48,4 +48,6 @@ ___
 
 ___
 
+[青龙面板JD脚本互助文件](/backUp/code.md)
+
 [环境变量合集](/backUp/githubAction.md)
