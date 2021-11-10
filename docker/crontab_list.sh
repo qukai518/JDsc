@@ -25,8 +25,6 @@
 25 2,10 * * * node /scripts/jd_ddworld.js >> /scripts/logs/jd_ddworld.log 2>&1
 # 东东世界兑换
 35 0 * * * node /scripts/jd_ddworld_exchange.js >> /scripts/logs/jd_ddworld_exchange.log 2>&1
-# 粉丝互动
-34 5,18 * * * node /scripts/jd_fan.js >> /scripts/logs/jd_fan.log 2>&1
 # 特物Z
 30 0,19 * * * node /scripts/jd_productZ4Brand.js >> /scripts/logs/jd_productZ4Brand.log 2>&1
 # 小魔方
