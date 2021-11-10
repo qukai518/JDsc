@@ -8,30 +8,34 @@
 <details>
 <summary>查看</summary>
 
-#### 青龙面板运行JD脚本必备的3个依赖:
+### 青龙面板运行JD脚本必备的3个依赖:
 
-##### 第一种方法:
+#### 第一种方法:
 
 如果你的青龙面板版本在2.10.0以上，那么在面板内找到依赖管理-添加
 
 nodejs那里添加`jsdom`和`png-js`
 
-py那里装`requests`
+py那里添加`requests`
 
-安装成功就可以了
+安装成功就可以了。
 
-##### 第二种方法:
+#### 第二种方法:
 
-ssh连接你的服务器
+ssh连接你的服务器，输入以下指令安装
+
 ```bash
 docker exec -it qinglong bash -c "cd /ql/scripts && npm install jsdom"
 ```
 
-`docker exec -it qinglong bash -c "cd /ql/scripts && npm install png-js"`
+```bash
+docker exec -it qinglong bash -c "cd /ql/scripts && npm install png-js"
+```
 
-`docker exec -it qinglong bash -c "pip3 install requests"`
-  
-exit
+```bash
+docker exec -it qinglong bash -c "pip3 install requests"
+```
+
 </details>
 
 ___
