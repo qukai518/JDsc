@@ -1,6 +1,6 @@
 ### 青龙拉库命令:
 
-`ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|gua_|jddj_|getJDCookie" "activity|backUp" "^jd[^_]|USER|utils|function|ql"`
+`ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|gua_|jddj_|getJDCookie" "activity|backUp" "^jd[^_]|USER|sendnotify|utils|function|ql"`
 
 定时规则`0 */4 * * *`
 
