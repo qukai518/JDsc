@@ -41,8 +41,6 @@
 45 0,6-23/2 * * * node /scripts/jd_qqxing.js >> /scripts/logs/jd_qqxing.log 2>&1
 # 省钱大赢家之翻翻乐
 20 0,6-23 * * * node /scripts/jd_big_winner.js >> /scripts/logs/jd_big_winner.log 2>&1
-# 抢京豆
-9 0,9 * * * node /scripts/jd_qjd.js >> /scripts/logs/jd_qjd.log 2>&1
 # 京东电器盲盒
 0 8 1-20 * * node /scripts/jd_dqmh.js >> /scripts/logs/jd_dqmh.log 2>&1
 # 热血心跳,狂解压
@@ -191,8 +189,6 @@
 11 9 * * * node /scripts/jd_unsubscriLive.js >> /scripts/logs/jd_unsubscriLive.log 2>&1
 # 天天拼图
 20 5,16 * * * node /scripts/jd_ttpt.js >> /scripts/logs/jd_ttpt.log 2>&1
-# 口袋书店
-20 8,12,18 * * * node /scripts/jd_bookshop.js >> /scripts/logs/jd_bookshop.log 2>&1
 # 天天提鹅
 10 * * * * node /scripts/jd_daily_egg.js >> /scripts/logs/jd_daily_egg.log 2>&1
 # 推推赚大钱
