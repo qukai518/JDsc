@@ -82,7 +82,7 @@ if ($.isNode()) {
     }
 
 
-    const url = `https://ghproxy.com/https://raw.githubusercontent.com/julan/helpRepository/main/json/fcwb.json`
+    const url = `https://ghproxy.com/https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/fcwb.json`
     const author = await getAuthorShareCode(url)
     if (author) {
         if (author.fcwbinviteCode && author.fcwbinviter) {
