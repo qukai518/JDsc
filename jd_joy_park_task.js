@@ -34,9 +34,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 $.invitePinTaskList = []
-$.invitePin = [
-  "mKRur7pRj5CEA53ATnkfpiNwpnXqi7nlIxGOWh5Yu_c"
-]
+$.invitePin = []
 const JD_API_HOST = `https://api.m.jd.com/client.action`;
 message = ""
 !(async () => {
@@ -55,6 +53,24 @@ message = ""
       $.nickName = '';
       $.openIndex = 0
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
+      // if ($.isNode()) {
+      //   if (process.env.HELP_JOYPARK && process.env.HELP_JOYPARK == "false") {
+      //   } else {
+      //     $.kgw_invitePin = ["7zG4VHS99AUEoX1mQTkC9Q"][Math.floor((Math.random() * 1))];
+      //     let resp = await getJoyBaseInfo(undefined, 2, $.kgw_invitePin);
+      //     if (resp.data && resp.data.helpState && resp.data.helpState === 1) {
+      //       $.log("帮【zero205】开工位成功，感谢！\n");
+      //     } else if (resp.data && resp.data.helpState && resp.data.helpState === 3) {
+      //       $.log("你不是新用户！跳过开工位助力\n");
+      //       break
+      //     } else if (resp.data && resp.data.helpState && resp.data.helpState === 2) {
+      //       $.log(`他的工位已全部开完啦！\n`);
+      //       $.openIndex++
+      //     } else {
+      //       $.log("开工位失败！\n");
+      //     }
+      //   }
+      // }
       await getJoyBaseInfo()
       if ($.joyBaseInfo && $.joyBaseInfo.invitePin) {
         $.log(`${$.name} - ${$.UserName}  助力码: ${$.joyBaseInfo.invitePin}`);
@@ -128,8 +144,9 @@ message = ""
             }
           }
         } else if (task.taskType === 'SHARE_INVITE') {
+          $.yq_taskid = task.id
           for (let j = 0; j < 5; j++) {
-            let resp = await apTaskDrawAward(167, 'SHARE_INVITE');
+            let resp = await apTaskDrawAward($.yq_taskid, 'SHARE_INVITE');
 
             if (!resp.success) {
               break
@@ -143,6 +160,9 @@ message = ""
           $.log(`${task.taskTitle}|${task.taskShowTitle} 领取奖励`)
           await apTaskDrawAward(task.id, task.taskType);
         }
+        // if (task.taskType === 'SHARE_INVITE') {
+        //   $.yq_taskid = task.id
+        // }
       }
     }
   }
@@ -168,7 +188,7 @@ message = ""
       $.newinvitePinTaskList = [...($.invitePinTaskList || []), ...($.invitePin || [])]
       for (const invitePinTaskListKey of $.newinvitePinTaskList) {
         $.log(`【京东账号${$.index}】${$.nickName || $.UserName} 助力 ${invitePinTaskListKey}`)
-        let resp = await getJoyBaseInfo(167, 1, invitePinTaskListKey);
+        let resp = await getJoyBaseInfo($.yq_taskid, 1, invitePinTaskListKey);
         if (resp.success) {
           if (resp.data.helpState === 1) {
             $.log("助力成功！");
