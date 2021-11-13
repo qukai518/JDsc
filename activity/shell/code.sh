@@ -93,7 +93,6 @@ env_name=(
   BOOKSHOP_SHARECODES
   JD_CASH_SHARECODES
   JDSGMH_SHARECODES
-  JDCFD_SHARECODES
   JDHEALTH_SHARECODES
   JD818_SHARECODES
   CITY_SHARECODES
@@ -111,7 +110,6 @@ var_name=(
   ForOtherBookShop
   ForOtherCash
   ForOtherSgmh
-  ForOtherCfd
   ForOtherHealth
   ForOtherCarni
   ForOtherCity
@@ -133,7 +131,6 @@ name_js=(
   "$repo"_jd_bookshop
   "$repo"_jd_cash
   "$repo"_jd_sgmh
-  "$repo"_jd_cfd
   "$repo"_jd_health
   "$repo"_jd_carnivalcity
   "$repo"_jd_city
@@ -153,7 +150,6 @@ name_config=(
   BookShop
   Cash
   Sgmh
-  Cfd
   Health
   Carni
   City
@@ -173,7 +169,6 @@ name_chinese=(
   口袋书店
   签到领现金
   闪购盲盒
-  京喜财富岛
   东东健康社区
   京东手机狂欢城
   城城领现金
