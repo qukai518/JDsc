@@ -135,7 +135,6 @@ name_js=(
   "$repo"_jd_carnivalcity
   "$repo"_jd_city
   "$repo4"_jd_moneyTree_help
-  "$repo"_jd_cfd
 )
 
 name_config=(
