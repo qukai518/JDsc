@@ -81,7 +81,7 @@ $.userScore = 0;
     msg += `\n本次运行获得${$.jdCount}个京豆\n`;
     console.log(`\n本次运行获得${$.jdCount}个京豆\n`);
   }
-  await notify.sendNotify(`${$.name}`, msg);
+ // await notify.sendNotify(`${$.name}`, msg);
 })().catch((e) => { $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '') }).finally(() => { $.done(); });
 
 async function showMsg() {
