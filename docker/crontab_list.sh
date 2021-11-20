@@ -135,8 +135,6 @@
 10 6,21 * * * node /scripts/jd_ms.js >> /scripts/logs/jd_ms.log 2>&1
 # 美丽研究院
 41 7,12,19 * * * node /scripts/jd_beauty.js >> /scripts/logs/jd_beauty.log 2>&1
-# 京东保价
-41 0,23 * * * node /scripts/jd_work_price.js >> /scripts/logs/jd_work_price.jslog 2>&1
 # 京东极速版签到+赚现金任务
 21 1,8,17 * * * node /scripts/jd_speed_sign.js >> /scripts/logs/jd_speed_sign.log 2>&1
 # 京喜财富岛
