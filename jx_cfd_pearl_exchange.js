@@ -4,8 +4,8 @@
 * 59 * * * * m_jx_cfd_pearl_exchange.js
 * */
 // noinspection JSUnresolvedFunction
-const {Env} = require('./magic');
-const $ = new Env('M财富岛珍珠兑换');
+const {Env} = require('./utils/magic');
+const $ = new Env('财富岛珍珠兑换红包');
 let money = process.env.PEARL_MONEY ? process.env.PEARL_MONEY * 1 : 5
 $.logic = async function () {
     const {ddwVirHb, exchangeInfo} = await ExchangePearlState();
