@@ -3,8 +3,8 @@
 const axios = require('axios');
 const fs = require("fs");
 const moment = require("moment");
-const notify = require('./sendNotify');
-const jdCookieNode = require('./jdCookie.js');
+const notify = require('../sendNotify');
+const jdCookieNode = require('../jdCookie.js');
 const CryptoJS = require("crypto-js");
 let cookies = [];
 let testMode = process.env.TEST_MODE?.includes('on') ? true
