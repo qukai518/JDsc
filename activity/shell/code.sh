@@ -14,11 +14,12 @@ dir_shell=/ql/shell
 repo1='panghu999_jd_scripts'                       #预设的 panghu999 仓库
 repo2='JDHelloWorld_jd_scripts'                    #预设的 JDHelloWorld 仓库
 repo3='he1pu_JDHelp'                               #预设的 he1pu 仓库
-repo4='inoyna12_JDsc'                              #预设的 shufflewzc 仓库
+repo4='shufflewzc_faker2'                          #预设的 shufflewzc 仓库
 repo5='Wenmoux_scripts_wen_chinnkarahoi'           #预设的 Wenmoux 仓库，用于读取口袋书店互助码。需提前拉取温某人的仓库或口袋书店脚本并完整运行。
 repo6='Aaron-lv_sync_jd_scripts'                   #预设的 Aaron-lv 仓库
 repo7='smiek2221_scripts'                          #预设的 smiek2221 仓库
-repo=$repo4                                        #默认调用 shufflewzc_faker2 仓库脚本日志
+repo8='inoyna12_JDsc'                              #预设的 inoyna12 仓库
+repo=$repo8                                        #默认调用 inoyna12_JDsc 仓库脚本日志
 
 ## 调试模式开关，默认是0，表示关闭；设置为1，表示开启
 DEBUG="1"
@@ -27,9 +28,9 @@ DEBUG="1"
 proc_num="8"
 
 ## 备份配置文件开关，默认是1，表示开启；设置为0，表示关闭。备份路径 /ql/config/bak/
-BACKUP="0"
+BACKUP="1"
 ## 是否删除指定天数以前的备份文件开关，默认是1，表示开启；设置为0，表示关闭。删除路径 /ql/config/bak/
-CLEANBAK="0"
+CLEANBAK="1"
 ## 定义删除指定天数以前的备份文件
 CLEANBAK_DAYS="2"
 
@@ -79,7 +80,7 @@ BreakHelpNum="4 9-14 15~18 19_21"  ## 屏蔽账号序号或序号区间
 UpdateType="1"
 
 ## 定义是否自动安装或修复缺失的依赖，默认为1，表示自动修复；留空或其他数值表示不修复。
-FixDependType=""
+FixDependType="1"
 ## 定义监控修复的依赖名称
 package_name="canvas png-js date-fns axios crypto-js ts-md5 tslib @types/node dotenv typescript fs require tslib jsdom"
 
