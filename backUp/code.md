@@ -1,6 +1,6 @@
 进入容器 `ql/repo/inoyna12_JDsc/activity/shell` 目录
 
-把code.sh和task_before.sh这两个文件复制到 `root/ql/config`目录下
+把`code.sh`,`task_before.sh`,`jdCookie.js` 这三个文件复制到 `ql/config`目录下
 
 
 
