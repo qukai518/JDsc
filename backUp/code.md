@@ -1,6 +1,8 @@
-进入容器 `root/ql/repo/inoyna12_JDsc/activity/shell` 目录
+进入容器 `ql/repo/inoyna12_JDsc/activity/shell` 目录
 
 把code.sh和task_before.sh这两个文件复制到 `root/ql/config`目录下
+
+
 
 打开青龙面板添加:
 
@@ -8,7 +10,7 @@
 
 命令:`task /ql/config/code.sh`
 
-定时规则:`30 5 * * *`
+定时规则:`36 0-23/4 * * *`
 
 确定后手动运行一次
 
