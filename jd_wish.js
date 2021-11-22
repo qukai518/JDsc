@@ -25,8 +25,8 @@ let message = '', allMessage = '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let appIdArr = ['1E1NXxq0', '1FFRWxaY', '1FFVQyqw', '1FFdSxqw'];
-let appNameArr = ['众筹许愿池', '荣耀钞能力', '1111点心动', '焕新带电生活'];
+let appIdArr = ['1FFdSxqw','1FFRWwqg','1FFVQyqw','1FFRWxaY','1E1xZy6s','1E1NXxq0'];
+let appNameArr = ['焕新带电生活','心动电波','有1111点新动','送你超能力','PLUS生活特权','众筹许愿池'];
 let appId, appName;
 $.shareCode = [];
 if ($.isNode()) {
@@ -63,14 +63,10 @@ if ($.isNode()) {
       for (let j = 0; j < appIdArr.length; j++) {
         appId = appIdArr[j]
         appName = appNameArr[j]
-        console.log(`\n开始第${j + 1}个活动：${appName}\n`)
+        console.log(`开始第${j + 1}个活动：${appName}\n`)
         await jd_wish();
       }
     }
-  }
-  if (allMessage) {
-    if ($.isNode()) await notify.sendNotify($.name, allMessage);
-    $.msg($.name, '', allMessage)
   }
   let res = await getAuthorShareCode('https://raw.githubusercontent.com/Aaron-lv/updateTeam/master/shareCodes/wish.json')
   if (!res) {
@@ -126,9 +122,9 @@ async function jd_wish() {
     await $.wait(2000)
 
     if (forNum === 0) {
-      console.log(`没有抽奖机会\n`)
+      console.log(`没有抽奖机会\n\n`)
     } else {
-      console.log(`可以抽奖${forNum}次，去抽奖\n`)
+      console.log(`可以抽奖${forNum}次，去抽奖\n\n`)
     }
 
     $.canLottery = true
@@ -136,7 +132,6 @@ async function jd_wish() {
       await interact_template_getLotteryResult()
       await $.wait(2000)
     }
-    if (message) allMessage += `京东账号${$.index} ${$.nickName || $.UserName}\n${appName}\n${message}${$.index !== cookiesArr.length ? '\n\n' : ''}`
 
   } catch (e) {
     $.logErr(e)
@@ -161,7 +156,7 @@ async function healthyDay_getHomeData(type = true) {
                     console.log(`签到`)
                     await harmony_collectScore({"appId":appId,"taskToken":vo.simpleRecordInfoVo.taskToken,"taskId":vo.taskId,"actionType":"0"}, vo.taskType)
                   } else if (vo.taskType === 1) {
-                    $.complete = false;
+                  	 $.complete = false;
                     for (let key of Object.keys(vo.followShopVo)) {
                       let followShopVo = vo.followShopVo[key]
                       if (followShopVo.status !== 2) {
