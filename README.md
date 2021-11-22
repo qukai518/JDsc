@@ -12,11 +12,11 @@
 
 #### 第一种方法:
 
-如果你的青龙面板版本在2.10.0以上，那么在面板内找到依赖管理-添加
+如果你的青龙面板版本在2.10.0以上，那么在面板内找到依赖管理-添加依赖
 
 nodejs那里添加`jsdom`和`png-js`
 
-py那里添加`requests`
+python3那里添加`requests`
 
 安装成功就可以了。
 
@@ -35,6 +35,8 @@ docker exec -it qinglong bash -c "cd /ql/scripts && npm install png-js"
 ```bash
 docker exec -it qinglong bash -c "pip3 install requests"
 ```
+
+以上为JD脚本必须要用的依赖，其他依赖按照自己需求添加！！！
 
 </details>
 
