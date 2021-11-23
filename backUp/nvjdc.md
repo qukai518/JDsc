@@ -2,13 +2,13 @@
 
 测试系统:阿里云centos8.2，青龙面板2.10.8
 
+___
+
 1:放行端口和青龙面板添加应用
 
 服务器放行5800端口
 
-青龙面板-系统设置-应用设置-添加应用
-
-名称随意，权限选择环境变量，确定
+青龙面板-系统设置-应用设置-添加应用...名称随意，权限选择环境变量，确定
 
 1拉源码
 国内
@@ -51,6 +51,9 @@ wget -O Config.json  https://raw.githubusercontent.com/prajna0/nvjdc/main/Config
  ```
 wget -O Config.json   https://ghproxy.com/https://raw.githubusercontent.com/prajna0/nvjdc/main/Config.json
 ```
+
+配置文件在root/nolanjdc/config.json，进入后添加你的青龙地址以及创建应用的Client ID和Client Secret
+
 
 6 回到nolanjdc目录创建chromium文件夹并进入
 
@@ -95,3 +98,9 @@ docker logs -f nolanjdc
   
 
 出现 NETJDC  started 即可 
+___
+
+修改配置文件后需要重启
+```
+docker restart nolanjdc
+```
