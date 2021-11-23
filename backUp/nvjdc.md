@@ -4,7 +4,7 @@
 
 ___
 
-1:放行端口和青龙面板添加应用
+放行端口和青龙面板添加应用:
 
 服务器放行5800端口
 
@@ -52,7 +52,7 @@ wget -O Config.json  https://raw.githubusercontent.com/prajna0/nvjdc/main/Config
 wget -O Config.json   https://ghproxy.com/https://raw.githubusercontent.com/prajna0/nvjdc/main/Config.json
 ```
 
-配置文件在root/nolanjdc/config.json，进入后添加你的青龙地址以及创建应用的Client ID和Client Secret
+配置文件在root/nolanjdc/config.json，进入后添加你的青龙地址、应用的Client ID和Client Secret
 
 
 6 回到nolanjdc目录创建chromium文件夹并进入
