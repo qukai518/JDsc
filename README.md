@@ -46,8 +46,6 @@ ___
 
 手机面具(magisk)刷入青龙面板，需root。 [点击查看](/backUp/magisk_qinglong.md)
 
-手机安装v3面板，无需root。 [点击查看](/backUp/Termux.md)
-
 ___
 
 [青龙面板JD脚本互助文件](/backUp/code.md)
