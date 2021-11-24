@@ -47,8 +47,8 @@
 38 0,17 * * * node /scripts/jd_fanli.js >> /scripts/logs/jd_fanli.log 2>&1
 # 牛牛福利
 1 0,9,19,23 * * * node /scripts/jd_nnfls.js >> /scripts/logs/jd_nnfls.log 2>&1
-# 发财挖宝
-20 1,9,16 * * * node /scripts/jd_fcwb.js >> /scripts/logs/jd_fcwb.log 2>&1
+# 答题
+1 9 * * * node /scripts/jd_dt.js >> /scripts/logs/jd_dt.log 2>&1
 
 
 ##############长期活动##############
