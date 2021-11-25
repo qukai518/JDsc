@@ -49,6 +49,8 @@
 1 0,9,19,23 * * * node /scripts/jd_nnfls.js >> /scripts/logs/jd_nnfls.log 2>&1
 # 答题
 1 9 * * * node /scripts/jd_dt.js >> /scripts/logs/jd_dt.log 2>&1
+# 农场勋章
+36 7,16 * * * node /scripts/jd_medal.js >> /scripts/logs/jd_medal.log 2>&1
 
 
 ##############长期活动##############
