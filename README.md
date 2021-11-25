@@ -14,7 +14,7 @@
 
 如果你的青龙面板版本在2.10.0以上，那么在面板内找到依赖管理-添加依赖
 
-nodejs那里添加`jsdom`和`png-js`
+nodejs那里添加`jsdom`、`png-js`、`axios`、`moment`
 
 python3那里添加`requests`
 
@@ -30,6 +30,12 @@ docker exec -it qinglong bash -c "cd /ql/scripts && npm install jsdom"
 
 ```bash
 docker exec -it qinglong bash -c "cd /ql/scripts && npm install png-js"
+```
+```bash
+docker exec -it qinglong bash -c "cd /ql/scripts && npm install axios"
+```
+```bash
+docker exec -it qinglong bash -c "cd /ql/scripts && npm install moment"
 ```
 
 ```bash
