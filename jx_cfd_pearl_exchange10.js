@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedVariable
 
 /*
-0 */5 * * * jx_cfd_pearl_exchange10.js
+0 0-23/5 * * * jx_cfd_pearl_exchange10.js
 * */
 // noinspection JSUnresolvedFunction
 const {Env} = require('./magic');
