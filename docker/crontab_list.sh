@@ -178,7 +178,5 @@
 11 9 * * * node /scripts/jd_unsubscriLive.js >> /scripts/logs/jd_unsubscriLive.log 2>&1
 # 天天拼图
 20 5,16 * * * node /scripts/jd_ttpt.js >> /scripts/logs/jd_ttpt.log 2>&1
-# 天天提鹅
-10 * * * * node /scripts/jd_daily_egg.js >> /scripts/logs/jd_daily_egg.log 2>&1
 # 推推赚大钱
 10 0-23/4 * * * node /scripts/jd_tuitui.js >> /scripts/logs/jd_tuitui.log 2>&1
