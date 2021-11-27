@@ -51,6 +51,8 @@
 1 9 * * * node /scripts/jd_dt.js >> /scripts/logs/jd_dt.log 2>&1
 # 农场勋章
 36 7,16 * * * node /scripts/jd_medal.js >> /scripts/logs/jd_medal.log 2>&1
+# 过期京豆兑换喜豆
+36 12 * * * node /scripts/jd_exchangejxbeans.js >> /scripts/logs/jd_exchangejxbeans.log 2>&1
 
 
 ##############长期活动##############
