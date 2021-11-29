@@ -25,8 +25,8 @@ let message = '', allMessage = '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let appIdArr = ['1FFdSxqw','1FFRWwqg','1FFVQyqw','1FFRWxaY','1E1xZy6s','1E1NXxq0'];
-let appNameArr = ['焕新带电生活','心动电波','有1111点新动','送你超能力','PLUS生活特权','众筹许愿池'];
+let appIdArr = ['1FFVQyqw','1E1xZy6s','1E1NXxq0'];
+let appNameArr = ['有1111点新动','PLUS生活特权','众筹许愿池'];
 let appId, appName;
 $.shareCode = [];
 if ($.isNode()) {
