@@ -29,7 +29,7 @@ if ($.isNode()) {
     }
     UUID = getUUID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     for (let i = 0; i < cookiesArr.length; i++) {
-        UA = `jdapp;iPhone;10.1.6;13.5;${UUID};network/wifi;model/iPhone11,6;addressid/4596882376;appBuild/167841;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`;
+        UA = `jdapp;iPhone;10.2.4;14.6;${UUID};network/wifi;model/iPhone11,6;addressid/0;appBuild/167874;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`;
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
@@ -63,6 +63,7 @@ async function main() {
                 if ($.exchangeList) {
                     for (const vo of $.exchangeList.reverse()) {
                         $.log(`去兑换：${vo.name}`)
+                        await $.wait(5000);
                         await taskPost('do_exchange', `id=${vo.id}`);
                     }
                 } else {
