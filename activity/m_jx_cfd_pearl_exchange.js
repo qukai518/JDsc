@@ -2,7 +2,7 @@
 //问题反馈:https://t.me/Wall_E_Channel
 const {Env} = require('./magic');
 const $ = new Env('M财富岛珍珠兑换');
-let money = process.env.PEARL_MONEY ? process.env.PEARL_MONEY * 1 : 5
+let money = process.env.PEARL_MONEY ? process.env.PEARL_MONEY * 1 : 10
 $.logic = async function () {
     const {ddwVirHb, exchangeInfo} = await ExchangePearlState();
     if (ddwVirHb / 100 < money) {
