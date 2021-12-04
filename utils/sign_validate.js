@@ -1,8 +1,15 @@
 const navigator = {
-  userAgent: require('../USER_AGENTS').USER_AGENT,
+  userAgent: `jdapp;iPhone;10.2.4;14.6;${randomString(40)};network/wifi;model/iPhone12,1;addressid/0;appBuild/167874;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`,
   plugins: { length: 0 },
   language: "zh-CN",
 };
+function randomString(e) {
+  e = e || 32;
+  let t = "abcdef0123456789", a = t.length, n = "";
+  for (i = 0; i < e; i++)
+    n += t.charAt(Math.floor(Math.random() * a));
+  return n
+}
 const screen = {
   availHeight: 812,
   availWidth: 375,
