@@ -359,7 +359,7 @@ function goldCreatorDoTask(body) {
 }
 function taskUrl(function_id, body = {}) {
   return {
-    url: `${JD_API_HOST}?functionId=${function_id}&body=${escape(JSON.stringify(body))}&appid=content_ecology&clientVersion=10.2.4&client=wh5&eufv=false&uuid=${$.UUID}`,
+    url: `${JD_API_HOST}?functionId=${function_id}&body=${escape(JSON.stringify(body))}&appid=content_ecology&clientVersion=10.2.4&client=wh5&eufv=false&uuid=`,
     headers: {
       "Accept": "*/*",
       "Accept-Encoding": "gzip, deflate, br",
