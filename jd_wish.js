@@ -25,8 +25,8 @@ let message = '', allMessage = '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let appIdArr = ['1FFVQyqw','1E1xZy6s','1E1NXxq0'];
-let appNameArr = ['有1111点新动','PLUS生活特权','众筹许愿池'];
+let appIdArr = ['1EFVXxg','1FFVQyqw','1E1xZy6s','1E1NXxq0'];
+let appNameArr = ['金榜年终奖','有1111点新动','PLUS生活特权','众筹许愿池'];
 let appId, appName;
 $.shareCode = [];
 if ($.isNode()) {
@@ -63,17 +63,16 @@ if ($.isNode()) {
       for (let j = 0; j < appIdArr.length; j++) {
         appId = appIdArr[j]
         appName = appNameArr[j]
-        console.log(`开始第${j + 1}个活动：${appName}\n`)
+        console.log(`\n开始第${j + 1}个活动：${appName}\n`)
         await jd_wish();
       }
     }
   }
-  let res = await getAuthorShareCode('https://raw.githubusercontent.com/Aaron-lv/updateTeam/master/shareCodes/wish.json')
-  if (!res) {
-    $.http.get({url: 'https://purge.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/wish.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
-    await $.wait(1000)
-    res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/wish.json')
+  if (allMessage) {
+    if ($.isNode()) await notify.sendNotify($.name, allMessage);
+    $.msg($.name, '', allMessage)
   }
+  let res = await getAuthorShareCode('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/wish.json')
   $.shareCode = [...$.shareCode, ...(res || [])]
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
@@ -122,9 +121,9 @@ async function jd_wish() {
     await $.wait(2000)
 
     if (forNum === 0) {
-      console.log(`没有抽奖机会\n\n`)
+      console.log(`没有抽奖机会\n`)
     } else {
-      console.log(`可以抽奖${forNum}次，去抽奖\n\n`)
+      console.log(`可以抽奖${forNum}次，去抽奖\n`)
     }
 
     $.canLottery = true
@@ -132,6 +131,7 @@ async function jd_wish() {
       await interact_template_getLotteryResult()
       await $.wait(2000)
     }
+    if (message) allMessage += `京东账号${$.index} ${$.nickName || $.UserName}\n${appName}\n${message}${$.index !== cookiesArr.length ? '\n\n' : ''}`
 
   } catch (e) {
     $.logErr(e)
@@ -156,7 +156,7 @@ async function healthyDay_getHomeData(type = true) {
                     console.log(`签到`)
                     await harmony_collectScore({"appId":appId,"taskToken":vo.simpleRecordInfoVo.taskToken,"taskId":vo.taskId,"actionType":"0"}, vo.taskType)
                   } else if (vo.taskType === 1) {
-                  	 $.complete = false;
+                    $.complete = false;
                     for (let key of Object.keys(vo.followShopVo)) {
                       let followShopVo = vo.followShopVo[key]
                       if (followShopVo.status !== 2) {
@@ -191,7 +191,7 @@ async function healthyDay_getHomeData(type = true) {
                         if ($.complete) break;
                       }
                     }
-                  } else if (vo.taskType === 14) {
+                  } else if (vo.taskType === 14 || vo.taskType === 6) {
                     console.log(`【京东账号${$.index}（${$.UserName}）的${appName}好友互助码】${vo.assistTaskDetailVo.taskToken}\n`)
                     if (vo.times !== vo.maxTimes) {
                       $.shareCode.push({
@@ -258,7 +258,7 @@ function harmony_collectScore(body = {}, taskType = '') {
 }
 function interact_template_getLotteryResult() {
   return new Promise(resolve => {
-    $.post(taskUrl('interact_template_getLotteryResult', {"appId":appId}), (err, resp, data) => {
+    $.post(taskUrl(appId == '1EFVXxg' ? 'splitHongbao_getLotteryResult' : 'interact_template_getLotteryResult', {"appId":appId}), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
