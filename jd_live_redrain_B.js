@@ -1,21 +1,21 @@
 /*
-超级直播间红包雨B
+超级直播间红包雨
 更新时间：2021-06-24
 下一场超级直播间时间:06月25日  20:00，直播间地址：https://h5.m.jd.com/dev/3pbY8ZuCx4ML99uttZKLHC2QcAMn/live.html?id=4515551
 脚本兼容: Quantumult X, Surge, Loon, JSBox, Node.js
 ==============Quantumult X==============
 [task_local]
-#超级直播间红包雨B
-0,30 0-23/1 * * * jd_live_redrain.js, tag=超级直播间红包雨B, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+#超级直播间红包雨
+0,30 0-23/1 * * * jd_live_redrain.js, tag=超级直播间红包雨, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 ==============Loon==============
 [Script]
-cron "0,30 0-23/1 * * *" script-path=jd_live_redrain.js,tag=超级直播间红包雨B
+cron "0,30 0-23/1 * * *" script-path=jd_live_redrain.js,tag=超级直播间红包雨
 ================Surge===============
-超级直播间红包雨B = type=cron,cronexp="0,30 0-23/1 * * *",wake-system=1,timeout=3600,script-path=jd_live_redrain.js
+超级直播间红包雨 = type=cron,cronexp="0,30 0-23/1 * * *",wake-system=1,timeout=3600,script-path=jd_live_redrain.js
 ===============小火箭==========
-超级直播间红包雨B = type=cron,script-path=jd_live_redrain.js, cronexpr="0,30 0-23/1 * * *", timeout=3600, enable=true
+超级直播间红包雨 = type=cron,script-path=jd_live_redrain.js, cronexpr="0,30 0-23/1 * * *", timeout=3600, enable=true
 */
-const $ = new Env('超级直播间红包雨B');
+const $ = new Env('超级直播间红包雨');
 let allMessage = '', id = 'RRA2cUocg5uYEyuKpWNdh4qE4NW1bN2';
 let bodyList = {"6":{"url":"https://api.m.jd.com/client.action?functionId=liveActivityV946&uuid=8888888&client=apple&clientVersion=9.4.1&st=1625294597071&sign=55a8f9c9bc715d89fb3e4443b80d8f26&sv=111","body":"body=%7B%22liveId%22%3A%224586031%22%7D"}}
 let ids = {}
@@ -48,12 +48,10 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
 
   let nowTs = new Date().getTime()
   if (!($.st <= nowTs && nowTs < $.ed)) {
-    $.log(`\n远程红包雨配置获取错误，尝试从本地读取配置`);
-    // $.http.get({url: `https://purge.jsdelivr.net/gh/gitupdate/updateTeam@master/redrain.json`}).then((resp) => {}).catch((e) => $.log('刷新CDN异常', e));
-    // let hour = (new Date().getUTCHours() + 8) % 24;
-    // let redIds = await getRedRainIds();
-    // if (!redIds) redIds = await getRedRainIds('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/redrain.json');
-    $.newAcids = ["RRA3DTEaEEhpMCpHReXTZcWn7ejYbAV","RRA2ejfmREadAgZf85Lz75jCotx6dYR"];
+    let hour = (new Date().getUTCHours() + 8) % 24;
+    let redIds = await getRedRainIds('https://gitee.com/KingRan521/JD-Scripts/raw/master/shareCodes/redrain.json');
+    if (!redIds) redIds = await getRedRainIds('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/redrain.json');
+    $.newAcids = [...(redIds || [])];
     if ($.newAcids && $.newAcids.length) {
       $.log(`本地红包雨配置获取成功，ID为：${JSON.stringify($.newAcids)}\n`)
     } else {
@@ -97,6 +95,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
         // console.log(nowTs, $.startTime, $.endTime)
         // await showMsg();
         if (id) await receiveRedRain(id);
+        await $.wait(2000)
       }
     }
   }
@@ -149,10 +148,10 @@ function getRedRain() {
                 console.log(`下一场红包雨开始时间：${new Date($.st)}`)
                 console.log(`下一场红包雨结束时间：${new Date($.ed)}`)
               } else {
-                console.log(`\n暂无超级直播间红包雨B`)
+                console.log(`\n暂无超级直播间红包雨`)
               }
             } else {
-              console.log(`\n暂无超级直播间红包雨B`)
+              console.log(`\n暂无超级直播间红包雨`)
             }
           }
         }
@@ -185,7 +184,7 @@ function receiveRedRain(actId) {
               console.log(`领取失败：本场已领过`)
               message += `领取失败，本场已领过`;
             } else {
-              console.log(`返回信息：${JSON.stringify(data)}`)
+              console.log(`异常：${JSON.stringify(data)}`)
             }
           }
         }
