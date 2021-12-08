@@ -1,6 +1,9 @@
 ### 青龙拉库命令:
+包含开卡脚本(豆子多一点):
 
-`ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|gua_|getJDCookie" "activity|backUp" "^jd[^_]|USER|sendNotify|utils|function|ql|magic"`
+`ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|kk_|getJDCookie" "activity|backUp" "^jd[^_]|USER|sendNotify|utils|function|ql|magic"`
+
+不包含开卡脚本:
 
 定时规则`0 */4 * * *`
 
