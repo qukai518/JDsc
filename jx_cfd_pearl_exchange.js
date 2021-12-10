@@ -3,10 +3,10 @@
 /*
 [task_local]
 财富岛珍珠兑换
-59 * * * * jd_jx_cfd_pearl_exchange.js, tag=财富岛珍珠兑换, enabled=true
+0 0 13,16,20 * * * jx_cfd_pearl_exchange.js, tag=财富岛珍珠兑换, enabled=true
 ================Loon==============
 [Script]
-cron "59 * * * *" script-path=jd_jx_cfd_pearl_exchange.js,tag=财富岛珍珠兑换
+cron "0 0 13,16,20 * * *" script-path=jx_cfd_pearl_exchange.js,tag=财富岛珍珠兑换
 */
 // noinspection JSUnresolvedFunction
 const {Env} = require('./utils/magic');
