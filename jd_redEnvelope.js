@@ -4,7 +4,7 @@ cron:0 0,12,18,20 * * * jd_redEnvelope.js
 返利变量：gua_redEnvelope_rebateCodes，默认给脚本作者返利，若需要返利给自己，请自己修改返利变量gua_redEnvelope_rebateCodes
 例：
 export gua_redEnvelope_rebateCodes="你的返利code"
-https://u.jd.com/vdC1opi
+https://u.jd.com/vCiClFU
 */
 let rebateCodes = '' // 返利code
 
@@ -21,7 +21,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata("CookieJD"), $.getdata("CookieJD2"), ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
 rebateCodes = $.isNode() ? (process.env.gua_redEnvelope_rebateCodes ? process.env.gua_redEnvelope_rebateCodes : `${rebateCodes}`) : ($.getdata('gua_redEnvelope_rebateCodes') ? $.getdata('gua_redEnvelope_rebateCodes') : `${rebateCodes}`);
-let codeLsit = ['vdC1opi']
+let codeLsit = ['vCiClFU']
 if(rebateCodes){
   codeLsit = ['']
   codeLsit.push(rebateCodes)
@@ -65,6 +65,7 @@ async function main() {
   $.hotFlag = false;
   for (let i = 0; i < 1 && !$.max; i++) {
     $.newCookie = "";
+	 await $.wait(20000);
     $.url1 = "";
     $.url2 = "";
     $.eid = "";
@@ -89,7 +90,7 @@ async function main() {
       $.eid = -1
     }
     await getCoupons("");
-    await $.wait(2000);
+    await $.wait(20000);
   }
 }
 
