@@ -1,13 +1,13 @@
 ### 青龙拉库命令:
 包含开卡脚本(豆子多一点):
 
-```bash
+```
 ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|kk_|getJDCookie" "activity|backUp" "^jd[^_]|USER|sendNotify|utils|function|ql|magic"
 ```
 
 不包含开卡脚本:
 
-```bash
+```
 ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|getJDCookie" "activity|backUp" "^jd[^_]|USER|sendNotify|utils|function|ql|magic"
 ```
 
