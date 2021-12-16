@@ -29,3 +29,4 @@ if [ t0 == t\$ht ];then
 fi
 EOM
 echo "termux自启写入成功"
+fi
