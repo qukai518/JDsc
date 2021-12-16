@@ -2,13 +2,13 @@
 包含开卡脚本(豆子多一点):
 
 ```
-ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|kk_|getJDCookie" "activity|backUp" "^jd[^_]|USER|sendNotify|utils|function|ql|magic"
+ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|kk_|getJDCookie" "activity|backUp" "^jd[^_]|USER|sendNotify|JD_DailyBonus|utils|function|ql|magic"
 ```
 
 不包含开卡脚本:
 
 ```
-ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|getJDCookie" "activity|backUp" "^jd[^_]|USER|sendNotify|utils|function|ql|magic"
+ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|getJDCookie" "activity|backUp" "^jd[^_]|USER|sendNotify|JD_DailyBonus|utils|function|ql|magic"
 ```
 
 定时规则`0 */4 * * *`
