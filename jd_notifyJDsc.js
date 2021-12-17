@@ -1,7 +1,7 @@
 /*
 JDsc仓库通知
 
-cron "0 0,12 * * *" script-path=https://raw.githubusercontent.com/inoyna12/JDsc/main/jd_notifyJDsc.js,tag=JDsc仓库通知
+cron "0 7,21 * * *" script-path=https://raw.githubusercontent.com/inoyna12/JDsc/main/jd_notifyJDsc.js,tag=JDsc仓库通知
 
 */
 
