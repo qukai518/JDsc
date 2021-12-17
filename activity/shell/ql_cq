@@ -1,0 +1,9 @@
+nginx -s reload 2>/dev/null || nginx -c /etc/nginx/nginx.conf
+cd /ql
+nohup node ./build/app.js >> app.log 2>&1 &
+nohup node ./build/schedule.js >> schedule.log 2>&1 &
+crond
+sleep 3
+ps | grep crond
+sleep 1
+netstat -ntlp
