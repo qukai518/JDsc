@@ -7,7 +7,7 @@ IOS用户支持京东双账号,NodeJs用户支持N个京东账号
 feedCount:自定义 每次喂养数量; 等级只和喂养次数有关，与数量无关
 推荐每次投喂10个，积累狗粮，然后去玩聚宝盆赌
 Combine from Zero-S1/JD_tools(https://github.com/Zero-S1/JD_tools)
-==========Quantumult X==========
+==========Quantumult X=========
 [task_local]
 #京东宠汪汪
 15 0-23/2 * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_joy.js, tag=京东宠汪汪, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdcww.png, enabled=true
