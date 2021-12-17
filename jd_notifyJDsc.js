@@ -29,7 +29,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
     $.done();
   })
 
-function getParams(url='https://raw.githubusercontent.com/inoyna12/ccgo/master/notify.json') {
+function getParams(url='https://raw.fastgit.org/inoyna12/ccgo/master/notify.json') {
   return new Promise(async resolve => {
     const options = {
       url: `${url}?${new Date()}`, "timeout": 10000, headers: {
