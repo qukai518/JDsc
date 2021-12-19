@@ -395,7 +395,6 @@ function cashOut(id,poolBaseId,prizeGroupId,prizeBaseId,) {
 
 function invite2() {
   let inviterIdArr = [
-  let inviterId = [
     "Pj9PqVWuUzCEm7gt2eXdjC8hpNWAA6hz9OmxlR/srEw=",
     "M419FwNhHS3VVWYbwjo6Gw=="
   ]
