@@ -305,7 +305,7 @@ function task(function_id, body, isCommon = 0) {
                                             message += data.data.name + " "
                                         }
                                     } else {
-                                        await notify.sendNotify($.name, data.data.name, '', `\n`);
+                                       // await notify.sendNotify($.name, data.data.name, '', `\n`);
                                     }
                                     break
                                 default:
