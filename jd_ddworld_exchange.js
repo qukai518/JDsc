@@ -61,10 +61,16 @@ async function main() {
             await task('get_exchange');
             if (!$.hotFlag) {
                 if ($.exchangeList) {
-                    for (const vo of $.exchangeList.reverse()) {
-                        $.log(`去兑换：${vo.name}`)
-                        await $.wait(5000);
-                        await taskPost('do_exchange', `id=${vo.id}`);
+                    if (process.env.ddex) {
+                        $.log(`检测到ddex:${process.env.ddex}`)
+                        $.exchangeList = $.exchangeList.filter( vo => vo.name.includes(process.env.ddex))
+                    }
+                    for (const vo of $.exchangeList.sort((a,b)=> b.coins-a.coins)) {
+                        if (!vo.name.match(/红包\d*/)) {
+                            $.log(`去兑换：${vo.name}`)
+                            await taskPost('do_exchange', `id=${vo.id}`);
+                            await $.wait(3000)
+                        }
                     }
                 } else {
                     $.log("没有获取到兑换列表！")
