@@ -25,8 +25,8 @@ let message = '', allMessage = '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let appIdArr = ['1E1xZy6s','1E1NXxq0'];
-let appNameArr = ['PLUS生活特权','众筹许愿池'];
+let appIdArr = ['1GVFUx6g','1E1xZy6s','1E1NXxq0'];
+let appNameArr = ['joy的年味之旅','PLUS生活特权','众筹许愿池'];
 let appId, appName;
 $.shareCode = [];
 if ($.isNode()) {
@@ -68,7 +68,7 @@ if ($.isNode()) {
       }
     }
   }
-  let res = await getAuthorShareCode('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/wish.json')
+  let res = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/wish.json')
   $.shareCode = [...$.shareCode, ...(res || [])]
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
