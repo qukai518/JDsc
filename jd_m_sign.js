@@ -90,6 +90,8 @@ async function jdsign() {
     await getInfo("https://pro.m.jd.com/mall/active/3SC6rw5iBg66qrXPGmZMqFDwcyXi/index.html");//京东图书
     await $.wait(1000)
     await getInfo("https://prodev.m.jd.com/mall/active/4Vh5ybVr98nfJgros5GwvXbmTUpg/index.html");//手机签到
+    await $.wait(1000)
+    await getInfo("https://pro.m.jd.com/mall/active/3joSPpr7RgdHMbcuqoRQ8HbcPo9U/index.html");//生活特权签到
   } catch (e) {
     $.logErr(e)
   }
