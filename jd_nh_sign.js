@@ -30,6 +30,22 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
+const UA = `jdapp;iPhone;10.3.0;14.6;${randomWord(false,40,40)};network/wifi;JDEbook/openapp.jdreader;model/iPhone9,2;addressid/0;appBuild/167903;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16E158;supportJDSHWK/1`;
+function randomWord(randomFlag, min, max){
+  var str = "",
+    range = min,
+    arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+  // 随机产生
+  if(randomFlag){
+    range = Math.round(Math.random() * (max-min)) + min;
+  }
+  for(var i=0; i<range; i++){
+    pos = Math.round(Math.random() * (arr.length-1));
+    str += arr[pos];
+  }
+  return str;
+}
 !(async () => {
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
@@ -45,7 +61,6 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
       $.nickName = '';
       $.encryptProjectId = '';
       message = '';
-      $.sku = [], $.sku2 = [], $.adv = []
       await getInfo("https://prodev.m.jd.com/mall/active/fARfxZh3zdMqs4tkFBhpqaQKTGA/index.html");//集魔方首页
       await TotalBean();
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
@@ -83,16 +98,16 @@ async function queryInteractiveInfo(encryptProjectId, sourceCode) {
           if (data.code == '0') {
             for (let v of data.assignmentList) {
               if (new Date().getDate() == 9 && v.assignmentName == '9日大奖') {
-                await queryInteractiveRewardInfo($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215");
-                await doInteractiveAssignment($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215");
+                // await queryInteractiveRewardInfo($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215");
+                await doInteractiveAssignment($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215", 0);
               } else if (new Date().getDate() == 17 && v.assignmentName == '17日大奖') {
-                await queryInteractiveRewardInfo($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215");
-                await doInteractiveAssignment($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215");
+                // await queryInteractiveRewardInfo($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215");
+                await doInteractiveAssignment($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215", 0);
               } else if (new Date().getDate() == 24 && v.assignmentName == '24日大奖') {
-                await queryInteractiveRewardInfo($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215");
-                await doInteractiveAssignment($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215");
+                // await queryInteractiveRewardInfo($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215");
+                await doInteractiveAssignment($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215", 0);
               } else if (v.assignmentName == '签到') {
-                await queryInteractiveRewardInfo($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215");
+                // await queryInteractiveRewardInfo($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215", 0);
                 await doInteractiveAssignment($.encryptProjectId, v.encryptAssignmentId, "aceaceglqd20211215");
               }
             }
@@ -130,9 +145,11 @@ async function queryInteractiveRewardInfo(encryptProjectId, AssignmentId, source
 }
 
 // 兑换
-async function doInteractiveAssignment(encryptProjectId, AssignmentId, sourceCode) {
+async function doInteractiveAssignment(encryptProjectId, AssignmentId, sourceCode, type) {
+  body = { "encryptProjectId": encryptProjectId, "encryptAssignmentId": AssignmentId, "sourceCode": sourceCode, "completionFlag": true }
+  if (type === 0) { body = { "encryptProjectId": encryptProjectId, "encryptAssignmentId": AssignmentId, "sourceCode": sourceCode, "completionFlag": true, "ext": { "exchangeNum": 1 } } }
   return new Promise(async (resolve) => {
-    $.post(taskUrl("doInteractiveAssignment", { "encryptProjectId": encryptProjectId, "encryptAssignmentId": AssignmentId, "sourceCode": sourceCode, "completionFlag": true }), async (err, resp, data) => {
+    $.post(taskUrl("doInteractiveAssignment", body), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -165,7 +182,7 @@ function taskUrl(functionId, body = {}) {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Origin': 'https://prodev.m.jd.com',
       'Accept-Language': 'zh-cn',
-      'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+      'User-Agent': UA,
       'Referer': 'https://prodev.m.jd.com/mall/active/fARfxZh3zdMqs4tkFBhpqaQKTGA/index.html',
       'Accept-Encoding': 'gzip, deflate, br',
       'Cookie': cookie
@@ -179,7 +196,7 @@ function getInfo(url) {
       url,
       headers: {
         Cookie: cookie,
-        'User-Agent': 'JD4iPhone/167650 (iPhone; iOS 13.7; Scale/3.00)'
+        'User-Agent': 'JD4iPhone/167903 (iPhone; iOS 14.6; Scale/3.00)'
       }
     }, async (err, resp, data) => {
       try {
@@ -211,7 +228,7 @@ function TotalBean() {
         Accept: "*/*",
         Connection: "keep-alive",
         Cookie: cookie,
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+        "User-Agent": UA,
         "Accept-Language": "zh-cn",
         "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
         "Accept-Encoding": "gzip, deflate, br"
