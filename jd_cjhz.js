@@ -61,7 +61,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
       await main()
     }
     };
-    $.shareCoseList = [...new Set([...$.shareCoseList,'SeT5cz7JQIJNnv7xJ2IQKQ','gh1GN_ZhPLZ91YAlEKbQC-4N-VMeBv36iNnSKPaf8SE'])]
+    $.shareCoseList = [...new Set([...$.shareCoseList,'RGt6uz4ra38MlWK7-Aw37Z12-G2s1OWQRQsZoOjP9A0','aK8RxRNqrjmz_i8OKj0JNA'])]
     //去助力与开箱
     for (let i = 0; i < cookiesArr.length; i++) {
         cookie = cookiesArr[i];
