@@ -72,7 +72,7 @@ let inviteCodes = []
       await $.wait(1000)
     }
   }
-  inviteCodes = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/city.json')
+  inviteCodes = await getAuthorShareCode('https://gitee.com/seec/share-codes/raw/master/city.json')
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
