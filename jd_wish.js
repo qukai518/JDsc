@@ -68,7 +68,7 @@ if ($.isNode()) {
       }
     }
   }
-  let res = await getAuthorShareCode('http://cdn.boledao.com/shareCodes/wish.json')
+  let res = await getAuthorShareCode('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/wish.json')
   $.shareCode = [...$.shareCode, ...(res || [])]
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
