@@ -88,9 +88,9 @@ if ($.isNode()) {
       await $.wait(1500)
     }
   }
-  if ($.isNode() && allMessage) {
-    await notify.sendNotify(`${$.name}`, `${allMessage}`)
-  }
+ // if ($.isNode() && allMessage) {
+ //   await notify.sendNotify(`${$.name}`, `${allMessage}`)
+ // }
 })()
     .catch((e) => {
       $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
