@@ -1,11 +1,12 @@
-[Termux](https://189.ly93.cc/rYF3EfuErM3y/51455115306688308)
+[Termux](https://189.ly93.cc/rYF3EfuErM3y/51455115306688308)安装
 
 [青龙恢复包](https://189.ly93.cc/FNzMrqBf6rUf/41450115295623620)
 
-安装Termux
+#### 打开Termux获取文件储存权限
 
-获取文件储存访问权限
+```
 termux-setup-storage
+```
 
 把下载的青龙恢复包放到手机储存/xinhao/data目录下
 
@@ -13,13 +14,17 @@ termux-setup-storage
 
 切换到你创建的容器
 
-进入alpine
+#### 进入alpine
 
+```
 termux-alpine
+```
 
-启动青龙
+#### 启动青龙
 
+```
 bash /ql/ql.sh
+```
 
 
 
