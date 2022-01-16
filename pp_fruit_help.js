@@ -9,7 +9,7 @@
 一天只能帮助3个人。多出的助力码无效
 ==========================Quantumultx=========================
 [task_local]
-#jd免费水果
+#东东农场内部互助
 20 4,16 * * * jd_fruit_help.js, tag=东东农场内部互助, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdnc.png, enabled=true
 =========================Loon=============================
 [Script]
