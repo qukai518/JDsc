@@ -1,5 +1,28 @@
 [Termux](https://189.ly93.cc/rYF3EfuErM3y/51455115306688308)
 
-[青龙面板恢复包](https://189.ly93.cc/FNzMrqBf6rUf/41450115295623620)
+[青龙恢复包](https://189.ly93.cc/FNzMrqBf6rUf/41450115295623620)
+
+安装Termux
+
 获取文件储存访问权限
 termux-setup-storage
+
+把下载的青龙恢复包放到手机储存/xinhao/data目录下
+
+左侧滑动点击 备份/恢复，恢复
+
+切换到你创建的容器
+
+进入alpine
+
+termux-alpine
+
+启动青龙
+
+bash /ql/ql.sh
+
+
+
+浏览器打开12.0.0.1:5700进入青龙面板
+
+
