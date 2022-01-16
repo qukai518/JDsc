@@ -59,7 +59,7 @@ ___
 
 ### 手机运行:
 
-termux安装青龙面包，无需root。(2022/1/16) [点击查看](/backUp/termux_ql.md)
+termux安装青龙面板(2.10.13)，无需root。[点击查看](/backUp/termux_ql.md)
 
 ___
 
