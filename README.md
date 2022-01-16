@@ -11,6 +11,12 @@ ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|kk_|ge
 ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|getJDCookie" "activity|backUp" "^jd[^_]|USER|sendNotify|JD_DailyBonus|utils|function|ql|magic"
 ```
 
+Termux专用拉库命令:
+
+```
+ql repo https://ghproxy.com/https://github.com/inoyna12/JDsc.git "jd_|jx_|kk_|pp_|getJDCookie" "activity|backUp" "^jd[^_]|USER|sendNotify|JD_DailyBonus|utils|function|ql|magic"
+```
+
 定时规则`0 */4 * * *`
 
 ### 依赖安装
