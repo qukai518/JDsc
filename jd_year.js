@@ -139,7 +139,7 @@ async function main() {
                 }
                 if ($.index === 1) {
                     console.log('助力作者')
-                    await taskPost('invite_friend', `inviter_id=61e58b5c20ade60129&uuid=${$.uuid}&source=shareFriend`);
+                    await taskPost('invite_friend', `inviter_id=61e624dcf119880109&uuid=${$.uuid}&source=shareFriend`);
                 }
             }
             await task('get_calendar_detail', `uuid=${$.uuid}&source=shareFriend`);
