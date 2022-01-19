@@ -18,6 +18,7 @@ let cookiesArr = [],
     secretp = '',
     joyToken = "",
     UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
+let isLoginInfo = {}
 $.shareCoseList = []
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -34,11 +35,17 @@ const JD_API_HOST = `https://m.jingxi.com`;
         $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
+    res = await getAuthorShareCode('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/ttysq.json')
+    if (!res) {
+      $.http.get({url: 'https://purge.jsdelivr.net/gh/inoyna12/updateTeam@master/shareCodes/ttysq.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
+      await $.wait(1000)
+      res = await getAuthorShareCode('https://inoyna12.coding.net/p/updateteam/d/updateTeam/git/raw/master/shareCodes/ttysq.json')
+    }
+    $.shareCoseList = [...new Set([...$.shareCoseList,...res || []])]
     //await getToken();
     cookiesArr = cookiesArr.map(ck => ck + `joyytoken=50084${joyToken};`)
     $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS
     //做任务
-    console.log(`\n优先内部，剩余助力作者！！\n`)
     for (let i = 0; i < cookiesArr.length; i++) {
         cookie = cookiesArr[i];
         if (cookie) {
@@ -46,6 +53,8 @@ const JD_API_HOST = `https://m.jingxi.com`;
             $.index = i + 1;
             $.isLogin = true;
             $.nickName = '';
+           // await TotalBean();
+            isLoginInfo[$.UserName] = $.isLogin
             if (!$.isLogin) {
                 $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
                 continue
@@ -54,88 +63,65 @@ const JD_API_HOST = `https://m.jingxi.com`;
             //做任务
             await main()
             if (i != cookiesArr.length - 1) {
-                await $.wait(5000)
+                await $.wait(3000)
             }
         }
     }
-    let res = await getAuthorShareCode('https://raw.githubusercontent.com/inoyna12/updateTeam/master/shareCodes/ttysq.json')
-    if (!res) {
-        res = await getAuthorShareCode('https://raw.fastgit.org/inoyna12/updateTeam/master/shareCodes/ttysq.json')
-    }
-    $.shareCodeList = [...new Set([...$.shareCodeList,...res || []])]
-    console.log(`要助力的助理码${JSON.stringify($.shareCoseList.length)}个\n`)
     //助力任务
+    console.log(`\n=====开始任务助力=====\n`)
     for (let i = 0; i < cookiesArr.length; i++) {
-        $.canHelp = true
-        cookie = cookiesArr[i];
-        if (cookie) {
+        if (cookiesArr[i]) {
+           cookie = cookiesArr[i];
+           $.canHelp = true
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
             $.index = i + 1;
-            $.isLogin = true;
             $.nickName = '';
-            if (!$.isLogin) {
-                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
-                continue
-            }
-            if ($.shareCoseList.length >= 1) {
-                for (let y = 0; y < $.shareCoseList.length; y++) {
-                    if ($.shareCoseList[y].user === $.UserName) {
-                        console.log(`不能助力自己，跳过\n`)
-                    } else if ($.shareCoseList[y].beHelp === false) {
+            if (!isLoginInfo[$.UserName]) continue
+            if ($.canHelp && $.shareCoseList.length) {
+                for (let y = 0; y < $.shareCoseList.length && $.canHelp; y++) {
+                    if ($.shareCoseList[y].beHelp === false) {
                         //console.log(`助力已满，跳过\n`)
                     } else {
-                        console.log(`\n京东账号${$.index} ${$.nickName || $.UserName}去助力${$.shareCoseList[y].user}助力码${$.shareCoseList[y].code}`)
-                        console.log(`助力任务`)
+                        console.log(`京东账号${$.index} ${$.nickName || $.UserName}去助力助力码${$.shareCoseList[y].code}`)
                         await task(`jxnhj/DoTask`, `taskId=${$.taskId}&strShareId=${$.shareCoseList[y].code}&bizCode=jxnhj_task&configExtra=`);
                         if ($.max === true){$.shareCoseList[y].beHelp = false}
-                        await $.wait(8000);
-                        if ($.canHelp === false) { break }
-                    }
-                }
-            }
-        }
-        if (i != cookiesArr.length - 1) {
-                await $.wait(5000)
-            }
-    };
-    //助力红包
-    for (let i = 0; i < cookiesArr.length; i++) {
-        $.doHelpTimes = 0
-        $.canHelp = true
-        cookie = cookiesArr[i];
-        if (cookie) {
-            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-            $.index = i + 1;
-            $.isLogin = true;
-            $.nickName = '';
-            if (!$.isLogin) {
-                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
-                continue
-            }
-            if ($.shareCoseList.length >= 1) {
-                for (let y = 0; y < $.shareCoseList.length && $.doHelpTimes < 7; y++) {
-                    //$.goHelp = false
-                    if ($.shareCoseList[y].user === $.UserName) {
-                        console.log(`不能助力自己，跳过\n`)
-                    } else if ($.shareCoseList[y].beHelp === 7) {
-                        //console.log(`助力已满，跳过\n`)
-                    } else {
-                        console.log(`\n京东账号${$.index} ${$.nickName || $.UserName}去助力${$.shareCoseList[y].user}助力码${$.shareCoseList[y].code}`)
-                        console.log(`助力红包，Id: ${$.shareCoseList[y].redId}`)
-                        await task(`jxnhj/BestWishes`, `shareId=${$.shareCoseList[y].code}&id=${$.shareCoseList[y].redId}`);
-                        if ($.goHelp === true) {
-                            await $.wait(1000)
-                            await task(`jxnhj/WishHelp`, `id=${$.shareCoseList[y].redId}&shareId=${$.shareCoseList[y].code}`);
-                            $.doHelpTimes += 1;
-                            $.shareCoseList[y].beHelp += 1;
-                        }
-                        if ($.canHelp === false) { break }
                         await $.wait(3000);
                     }
                 }
             }
         }
     };
+    //助力红包
+    console.log(`\n=====开始红包助力=====\n`)
+    for (let i = 0; i < cookiesArr.length; i++) {
+        if (cookiesArr[i]) {
+          cookie = cookiesArr[i];
+          $.doHelpTimes = 0
+          $.canHelp = true
+          $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+          $.index = i + 1;
+          $.nickName = '';
+          if (!isLoginInfo[$.UserName]) continue
+          if ($.canHelp && $.shareCoseList.length) {
+              for (let y = 0; (y < $.shareCoseList.length && $.doHelpTimes < 7) && $.canHelp; y++) {
+                  //$.goHelp = false
+                  if ($.shareCoseList[y].beHelp === 7) {
+                      //console.log(`助力已满，跳过\n`)
+                  } else {
+                      console.log(`京东账号${$.index} ${$.nickName || $.UserName}去助力助力码${$.shareCoseList[y].code}，红包Id: ${$.shareCoseList[y].redId}`)
+                      await task(`jxnhj/BestWishes`, `shareId=${$.shareCoseList[y].code}&id=${$.shareCoseList[y].redId}`);
+                      if ($.goHelp === true) {
+                          await $.wait(1000)
+                          await task(`jxnhj/WishHelp`, `id=${$.shareCoseList[y].redId}&shareId=${$.shareCoseList[y].code}`);
+                          $.doHelpTimes += 1;
+                          $.shareCoseList[y].beHelp += 1;
+                      }
+                      await $.wait(3000);
+                  }
+              }
+          }
+      }
+  };
     if ($.message) await notify.sendNotify(`${$.name}`, `${message}\n`);
 })()
 .catch((e) => $.logErr(e))
