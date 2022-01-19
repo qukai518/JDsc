@@ -62,22 +62,7 @@ const JD_API_HOST = `https://m.jingxi.com`;
     if (!res) {
         res = await getAuthorShareCode('https://raw.fastgit.org/inoyna12/updateTeam/master/shareCodes/ttysq.json')
     }
-    if (res) {
-        authorCode = res.sort(() => 0.5 - Math.random())
-        if (authorCode.length > 3) {
-            authorCode = authorCode.splice(0, 3)
-        }
-        authorCode = authorCode.map(entity => {
-            return {
-                "user": "author",
-                "code": entity.code,
-                "redId": entity.rpids[Math.floor((Math.random() * entity.rpids.length))],
-                "beHelp": 0,
-                "helpId": $.taskId
-            }
-        })
-        $.shareCodeList = [...new Set([...$.shareCodeList,...res || []])]
-    }
+    $.shareCodeList = [...new Set([...$.shareCodeList,...res || []])]
     console.log(`要助力的助理码${JSON.stringify($.shareCoseList.length)}个\n`)
     //助力任务
     for (let i = 0; i < cookiesArr.length; i++) {
