@@ -7,7 +7,7 @@ IOS等用户直接用NobyDa的jd cookie
 ============Quantumultx===============
 [task_local]
 #组队分豆-蒙牛
-18 1,16 * * * kk_mengniu.js, tag=组队分豆-蒙牛, enabled=true
+10 1,16 * * * kk_mengniu.js, tag=组队分豆-蒙牛, enabled=true
 ================Loon==============
 [Script]
 cron "18 1,16 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_mengniu.js,tag=组队分豆-蒙牛
