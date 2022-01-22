@@ -1,5 +1,8 @@
-//59 * * * * m_jx_cfd_pearl_exchange.js
-//问题反馈:https://t.me/Wall_E_Channel
+/*
+[task_local]
+财富岛珍珠兑换
+0 0 * * * * jx_cfd_pearl_exchange1.js
+*/
 const {Env} = require('./utils/magic');
 const $ = new Env('M财富岛珍珠兑换');
 let money = process.env.PEARL_MONEY ? process.env.PEARL_MONEY * 1 : 5
