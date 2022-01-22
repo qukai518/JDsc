@@ -1,19 +1,8 @@
-// noinspection JSUnresolvedVariable
-
-/*
-[task_local]
-财富岛珍珠兑换
-0 0 * * * * jx_cfd_pearl_exchange1.js, tag=财富岛珍珠兑换, enabled=true
-================Loon==============
-[Script]
-cron "0 0 * * * *" script-path=jx_cfd_pearl_exchange.js,tag=财富岛珍珠兑换
-*/
-// noinspection JSUnresolvedFunction
-const {Env} = require('./utils/magic');
+//59 * * * * m_jx_cfd_pearl_exchange.js
+//问题反馈:https://t.me/Wall_E_Channel
+const {Env} = require('./magic');
 const $ = new Env('M财富岛珍珠兑换');
-let money = 0.2
-
-// $.log(`环境变量添加 PEARL_MONEY 设置兑换金额，不填默认5元`)
+let money = process.env.PEARL_MONEY ? process.env.PEARL_MONEY * 1 : 5
 $.logic = async function () {
     const {ddwVirHb, exchangeInfo} = await ExchangePearlState();
     if (ddwVirHb / 100 < money) {
@@ -26,35 +15,28 @@ $.logic = async function () {
         let prizeInfo = prizeInfos[i];
         let number = prizeInfo.strPrizeName.replace('元', '') * 1;
         if (money === number) {
-            $.log(`脚本将开始分别兑换0.2、1、5、10 元`)
-            for (let qq = 0; qq < 5; qq++) {
-                await ExchangePearlHb(2, 1000,prizeInfo.strPool)//10元
-                await ExchangePearlHb(3, 500,prizeInfo.strPool)//5元
-                await ExchangePearlHb(4, 100,prizeInfo.strPool)//1元
-                await ExchangePearlHb(5, 20,prizeInfo.strPool)//0.2元
-                await ExchangePearlHb(prizeInfo.dwLvl, prizeInfo.ddwVirHb,prizeInfo.strPool)//5元
+            $.log('将要兑换', prizeInfo.strPrizeName, '参数', prizeInfo.dwLvl,
+                prizeInfo.ddwVirHb, prizeInfo.strPool)
+            if (prizeInfo.dwState === 3) {
+                $.log('你已经换过了')
+                break;
             }
-            // if (prizeInfo.dwState === 3) {
-            //     $.log('你已经换过了\n')
-            //     break;
-            // }
-            // if (prizeInfo.dwState === 1) {
-            //     $.log('没货\n')
-            //     break;
-            // }
-            // $.log('将要兑换', prizeInfo.strPrizeName, '参数', prizeInfo.dwLvl,prizeInfo.ddwVirHb, prizeInfo.strPool)
+            if (prizeInfo.dwState === 1) {
+                $.log('没货')
+                break;
+            }
             for (let j = 0; j < 3; j++) {
                 if (await ExchangePearlHb(prizeInfo.dwLvl, prizeInfo.ddwVirHb,
                     prizeInfo.strPool)) {
                     break;
                 }
-                // await $.wait(1950, 2100)
+                await $.wait(1950, 2100)
             }
         }
     }
 }
-$.run({filename: __filename, wait: [30, 50]}).catch(
-    reason => console.log(0));
+$.run({filename: __filename, wait: [3000, 5000]}).catch(
+    reason => console.log(reason));
 
 /**
  * 游戏红包列表
@@ -121,7 +103,6 @@ async function ExchangePearlHb(dwLvl, ddwVirHb, strPoolName) {
         return true;
     }
     if (data?.iRet === 1003) {
-        $.log("1003")
         return false;
     }
     return false;
