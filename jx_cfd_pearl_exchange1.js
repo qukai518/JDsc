@@ -6,6 +6,7 @@
 const {Env} = require('./utils/magic');
 const $ = new Env('M财富岛珍珠兑换');
 let money = process.env.PEARL_MONEY ? process.env.PEARL_MONEY * 1 : 5
+$.log(`环境变量添加 PEARL_MONEY 设置兑换金额，不填默认5元`)
 $.logic = async function () {
     const {ddwVirHb, exchangeInfo} = await ExchangePearlState();
     if (ddwVirHb / 100 < money) {
