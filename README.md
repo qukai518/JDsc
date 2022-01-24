@@ -71,4 +71,6 @@ ___
 
 [青龙面板JD脚本互助文件](/backUp/code.md)
 
+[青龙面板常用指令](/backUp/zhiling_ql.md)
+
 [环境变量合集](/backUp/githubAction.md)
