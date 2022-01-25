@@ -154,8 +154,9 @@ let args_xh = {
     sendNum: process.env.JD_TRY_SENDNUM * 1 || 4,
 }
 //上面很重要，遇到问题请把上面注释看一遍再来问
-!(async() => {
-    await $.wait(500)
+!(async () => {
+  console.log("X1a0He留：遇到问题请把脚本内的注释看一遍再来问，谢谢")
+  await $.wait(500)
     // 如果你要运行京东试用这个脚本，麻烦你把环境变量 JD_TRY 设置为 true
     if(process.env.JD_TRY && process.env.JD_TRY === 'true'){
         await requireConfig()
@@ -247,7 +248,7 @@ let args_xh = {
             }
         }
     } else {
-        console.log(`\n您未设置运行【京东试用】脚本，结束运行！\n`)
+        console.log(`\n您未设置环境变量：JD_TRY，值填：true运行【京东试用】脚本，结束运行！\n`)
     }
 })().catch((e) => {
     console.error(`❗️ ${$.name} 运行错误！\n${e}`)
