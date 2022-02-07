@@ -10,7 +10,7 @@
 ============Quantumultx===============
 [task_local]
 #京东极速版
-0 3,12,19 * * * jd_speed_sign1.js
+0 3,12,19 * * * jd_speed_sign.js
 
 */
 const $ = new Env('京东极速版');
